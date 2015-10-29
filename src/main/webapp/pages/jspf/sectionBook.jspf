@@ -1,0 +1,86 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div class="col-md-3 row-height" style="position: relative;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title" style="text-align: left">
+                <b><fmt:message bundle="${rb}" key="panelSectionsBook.Title"/></b>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="<c:url value="/${currentPage}?bookSectionID=0&bookGenreID=0&currentTab=books&errorClear=true"/>">
+                    <fmt:message bundle="${rb}" key="all"/>
+                </a>
+            </h3>
+        </div>
+
+        <div class="panel-body row-height" style="padding: 5px;">
+
+            <div class="panel-group" id="accordion">
+
+                <c:forEach var="sectionBook" items="${listBookSection}" varStatus="statusSection">
+                    <div class="panel panel-default">
+                        <!-- Заголовок панели -->
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                   <c:choose>
+                                        <c:when test="${bookSectionID == sectionBook.getId().toString()}">
+                                            aria-expanded="true" class=""
+                                        </c:when>
+                                        <c:otherwise>
+                                            aria-expanded="false" class="collapsed"
+                                        </c:otherwise>
+                                   </c:choose>
+
+                                   href="#section${sectionBook.getId().toString()}">
+                                    <c:choose>
+                                        <c:when test="${currentLocale == 'en_us'}">
+                                            ${sectionBook.getNameEN()}
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${sectionBook.getNameRU()}
+                                        </c:otherwise>
+                                    </c:choose>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="section${sectionBook.getId().toString()}"
+                             <c:choose>
+                                 <c:when test="${bookSectionID == sectionBook.getId().toString()}">
+                                     aria-expanded="true" class="panel-collapse collapse in"
+                                 </c:when>
+                                 <c:otherwise>
+                                     aria-expanded="false" class="panel-collapse collapse"
+                                 </c:otherwise>
+                             </c:choose>
+                             >
+                            <!-- Содержимое панели -->
+                            <div class="panel-body">
+
+                                <c:forEach var="genreBook" items="${listBookGenre}" varStatus="statusGenre">
+                                    <c:if test="${genreBook.getBookSectionID() == sectionBook.getId()}">
+                                        <p>
+                                            <a
+                                               href=
+ "<c:url value="/${currentPage}?bookSectionID=${genreBook.getBookSectionID()}&bookGenreID=${genreBook.getId().toString()}&currentTab=books&errorClear=true"/>">
+                                                <c:choose>
+                                                    <c:when test="${currentLocale == 'en_us'}">
+                                                        ${genreBook.getNameEN()}
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${genreBook.getNameRU()}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </a>
+                                        </p>
+                                    </c:if>
+                                </c:forEach>
+
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
+
+            </div>
+        </div>
+    </div>
+</div>

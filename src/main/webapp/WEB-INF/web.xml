@@ -1,0 +1,53 @@
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd">
+
+    <description>BookLibrary</description>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <!--WebServlets-->
+    <servlet>
+        <display-name>MainServlet</display-name>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>com.epam.training.booklibrary.controllers.implementations.BaseServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/saveUserProfile</url-pattern>
+        <url-pattern>/registrationUser</url-pattern>
+        <url-pattern>/main</url-pattern>
+        <url-pattern>/localeChange</url-pattern>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/index</url-pattern>
+        <url-pattern>/getBookImage</url-pattern>
+        <url-pattern>/showCreateOrderForm</url-pattern>
+        <url-pattern>/showCloseOrderForm</url-pattern>
+        <url-pattern>/showSetWorkOrderForm</url-pattern>
+        <url-pattern>/createUserOrder</url-pattern>
+        <url-pattern>/showAddBookForm</url-pattern>
+        <url-pattern>/showEditBookForm</url-pattern>
+        <url-pattern>/saveBook</url-pattern>
+        <url-pattern>/showDeleteBookForm</url-pattern>
+        <url-pattern>/deleteBook</url-pattern>
+        <url-pattern>/showBlockUnBlockUserForm</url-pattern>
+        <url-pattern>/blockUnBlockUser</url-pattern>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>welcomePage.jsp</welcome-file>
+    </welcome-file-list>
+
+    <resource-ref>
+        <res-ref-name>jdbc/MySQLBookLibrary</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
+
+</web-app>

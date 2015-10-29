@@ -1,0 +1,59 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div class="panel-heading panel-form">
+    <form action="${currentPage}" method="post" class="navbar-form navbar-left" role="search" style="text-align: left;">
+
+        <input name="currentTab" type="hidden" value="books"/>
+        <input name="errorClear" type="hidden" value="true"/>
+
+        <b><fmt:message bundle="${rb}" key="panelSearchBook.labelTypeSearch"/></b>
+
+        <div class="btn-group">
+
+            <select class="btn btn-default dropdown-toggle btn-xs" name="typeSearchBook" style="border-radius: 4px;">
+                <option value="1"
+                    <c:if test="${typeSearchBook eq '1'}">
+                        selected
+                    </c:if>
+                >
+                    <fmt:message bundle="${rb}" key="panelSearchBook.comboItemByName"/>&nbsp;
+                </option>
+                <option value="2"
+                    <c:if test="${typeSearchBook eq '2'}">
+                        selected
+                    </c:if>
+                >
+                    <fmt:message bundle="${rb}" key="panelSearchBook.comboItemByAuthor"/>&nbsp;
+                </option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control"
+                   placeholder="<fmt:message bundle="${rb}" key="panelSearchBook.SearchText"/>"
+                   name="searchTextBook"
+                   value="${searchTextBook}"
+                   style="width: 400px; height: 23px; font-size: 11px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-xs">
+            <i class="glyphicon glyphicon-search"></i>
+        </button>
+
+        <c:choose>
+            <c:when test="${currentPage eq 'main' and bookGenreID > 0 and currentUser.isAuthorized() and currentUser.isFoundUserRoleByName('EMPLOYEE')}">
+                <button type="submit" formaction="showAddBookForm" formmethod="post"
+                        class="btn btn-primary btn-xs">
+                    <fmt:message bundle="${rb}" key="panelSearchBook.newBookButton"/>
+                </button>
+            </c:when>
+            <c:otherwise>
+            </c:otherwise>
+        </c:choose>
+
+    </form>
+</div>
+
+
+

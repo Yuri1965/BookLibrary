@@ -1,0 +1,82 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div class="panel-footer" style="position: absolute; bottom: 0; padding: 5px; width: 97.7%; margin-left: -1px; border: 1px solid #ddd; text-align: left;">
+    <div class="row">
+        <div class="col-md-12">
+            <b style="position: relative; top: 8px;">
+                <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.labelCountRecord"/>&nbsp;${countUsers}
+            </b>
+
+            <div class="btn-group navbar-right" role="group" aria-label="..." style="margin-right: 5px;">
+
+                <c:if test="${countUserPages > 0}">
+                    <%--На первую и предыдущую страницу--%>
+                    <c:if test="${countUserPages > 1 and pageUserNumber > 1 and pageUserNumber <= countUserPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageUserNumber=1&currentTab=workUsers&errorClear=true"/>">
+                        <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.buttonFirstPage"/>
+                        </a>
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageUserNumber=${pageUserNumber - 1}&currentTab=workUsers&errorClear=true"/>">
+                        <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.buttonPrevPage"/>
+                        </a>
+                    </c:if>
+                    <c:if test="${countUserPages >= 1 and pageUserNumber == 1}">
+                        <a class="btn btn-default disabled" href="#">
+                            <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.buttonFirstPage"/>
+                        </a>
+                        <a class="btn btn-default disabled" href="#">
+                            <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.buttonPrevPage"/>
+                        </a>
+                    </c:if>
+
+                    <%--Кнопки с номерами страниц--%>
+                    <c:if test="${countUserPages > 1 and (pageUserNumber - 2) > 0 and pageUserNumber <= countUserPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageUserNumber=${pageUserNumber - 2}&currentTab=workUsers&errorClear=true"/>">
+                        ${pageUserNumber - 2}
+                        </a>
+                    </c:if>
+
+                    <c:if test="${countUserPages > 1 and (pageUserNumber - 1) > 0 and pageUserNumber <= countUserPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageUserNumber=${pageUserNumber - 1}&currentTab=workUsers&errorClear=true"/>">
+                        ${pageUserNumber - 1}
+                        </a>
+                    </c:if>
+
+                    <c:if test="${countUserPages >= 1 and pageUserNumber > 0 and pageUserNumber <= countUserPages}">
+                        <a class="btn btn-default active" href="#">${pageUserNumber}</a>
+                    </c:if>
+
+                    <c:if test="${countUserPages >= 1 and (pageUserNumber + 1) <= countUserPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageUserNumber=${pageUserNumber + 1}&currentTab=workUsers&errorClear=true"/>">
+                        ${pageUserNumber + 1}
+                        </a>
+                    </c:if>
+
+                    <c:if test="${countUserPages >= 1 and (pageUserNumber + 2) <= countUserPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageUserNumber=${pageUserNumber + 2}&currentTab=workUsers&errorClear=true"/>">
+                        ${pageUserNumber + 2}
+                        </a>
+                    </c:if>
+
+                    <%--На последнюю и следующую страницу--%>
+                    <c:if test="${countUserPages > 1 and pageUserNumber < countUserPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageUserNumber=${pageUserNumber + 1}&currentTab=workUsers&errorClear=true"/>">
+                        <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.buttonNextPage"/>
+                        </a>
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageUserNumber=${countUserPages}&currentTab=workUsers&errorClear=true"/>">
+                        <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.buttonLastPage"/>
+                        </a>
+                    </c:if>
+                    <c:if test="${countUserPages >= 1 and pageUserNumber == countUserPages}">
+                        <a class="btn btn-default disabled" href="#">
+                            <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.buttonNextPage"/>
+                        </a>
+                        <a class="btn btn-default disabled" href="#">
+                            <fmt:message bundle="${rb}" key="panelPagingFooterWorkUsers.buttonLastPage"/>
+                        </a>
+                    </c:if>
+                </c:if>
+
+            </div>
+        </div>
+    </div>
+</div>

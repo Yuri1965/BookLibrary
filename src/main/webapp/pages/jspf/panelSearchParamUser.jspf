@@ -1,0 +1,83 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div class="panel-heading panel-form">
+    <form action="${currentPage}" method="post" class="navbar-form navbar-left" role="search" style="text-align: left;">
+
+        <input name="currentTab" type="hidden" value="workUsers"/>
+        <input name="errorClear" type="hidden" value="true"/>
+
+        <%--Статус пользователя--%>
+        <b><fmt:message bundle="${rb}" key="panelSearchUser.labelStatusUser"/></b>
+        <div class="btn-group">
+            <select class="btn btn-default dropdown-toggle btn-xs" name="statusUser" style="border-radius: 4px; text-align: left;">
+                <option value="2"
+                        <c:if test="${statusUser eq '2'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchUser.statusUserItem2"/>&nbsp;
+                </option>
+
+                <option value="0"
+                        <c:if test="${statusUser eq '0'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchUser.statusUserItem0"/>&nbsp;
+                </option>
+
+                <option value="1"
+                        <c:if test="${statusUser eq '1'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchUser.statusUserItem1"/>&nbsp;
+                </option>
+            </select>
+        </div>
+
+        <%--Вид поиска--%>
+        <b>&nbsp;&nbsp;<fmt:message bundle="${rb}" key="panelSearchUser.labelTypeSearch"/></b>
+        <div class="btn-group">
+            <select class="btn btn-default dropdown-toggle btn-xs" name="typeSearchUser" style="border-radius: 4px; text-align: left;">
+                <option value="1"
+                <c:if test="${typeSearchUser eq '1'}">
+                    selected
+                </c:if>
+                >
+                <fmt:message bundle="${rb}" key="panelSearchUser.comboItemByLogin"/>&nbsp;
+                </option>
+
+                <option value="2"
+                <c:if test="${typeSearchUser eq '2'}">
+                    selected
+                </c:if>
+                >
+                <fmt:message bundle="${rb}" key="panelSearchUser.comboItemByUserName"/>&nbsp;
+                </option>
+
+                <option value="3"
+                <c:if test="${typeSearchUser eq '3'}">
+                    selected
+                </c:if>
+                >
+                <fmt:message bundle="${rb}" key="panelSearchUser.comboItemByUserEmail"/>&nbsp;
+                </option>
+            </select>
+        </div>
+
+        <%--Строка поиска--%>
+        <div class="form-group">
+            <input type="text" class="form-control"
+                   placeholder="<fmt:message bundle="${rb}" key="panelSearchUser.SearchText"/>"
+            name="searchTextUser"
+            value="${searchTextUser}"
+            style="width: 400px; height: 23px; font-size: 11px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-xs">
+            <i class="glyphicon glyphicon-search"></i>
+        </button>
+
+    </form>
+</div>

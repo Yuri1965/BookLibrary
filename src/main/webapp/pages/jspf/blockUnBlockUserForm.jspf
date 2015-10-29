@@ -1,0 +1,110 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!-- Форма для диалога по блокировке или разблокировке пользователя-->
+<div id="formBlockUnBlockUser" class="modal fade" style="text-align: left; width: auto;">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #f8f7f5">
+
+            <form method="post" role="form" action="blockUnBlockUser">
+                <input name="userID" type="hidden" value="${userSelected.getId()}"/>
+                <input name="actionMode" type="hidden"
+                        <c:choose>
+                            <c:when test="${userSelected.isBlocked()}">
+                                value="setUnBlock"
+                            </c:when>
+                            <c:otherwise>
+                                value="setBlock"
+                            </c:otherwise>
+                        </c:choose>
+                />
+                <input name="currentPage" type="hidden" value="${currentPage}"/>
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">
+                        <c:choose>
+                            <c:when test="${userSelected.isBlocked()}">
+                                <fmt:message bundle="${rb}" key="formBlockUnBlockUser.unBlockTitle"/>
+                            </c:when>
+                            <c:otherwise>
+                                <fmt:message bundle="${rb}" key="formBlockUnBlockUser.blockTitle"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <p class="form-control-static">
+                        <strong>
+                            <fmt:message bundle="${rb}" key="formBlockUnBlockUser.labelNameUser"/>
+                        </strong>
+                        &nbsp;
+                        ${userSelected.getName_user()}
+                    </p>
+
+                    <p class="form-control-static">
+                        <strong>
+                            <fmt:message bundle="${rb}" key="formBlockUnBlockUser.labelName"/>
+                        </strong>
+                        &nbsp;
+                        ${userSelected.getLastName_user()} ${userSelected.getFirstName_user()}
+                    </p>
+
+                    <p class="form-control-static">
+                        <strong>
+                            <fmt:message bundle="${rb}" key="formBlockUnBlockUser.labelEmailUser"/>
+                        </strong>
+                        &nbsp;
+                        ${userSelected.getEmail_user()}
+                    </p>
+
+                    <p class="form-control-static">
+                        <strong><fmt:message bundle="${rb}" key="formBlockUnBlockUser.labelBlockedDescription"/></strong>
+                    </p>
+                    <fieldset>
+                        <c:choose>
+                            <c:when test="${userSelected.isBlocked()}">
+                                <textarea  name="blockedDescription" style="height: 140px; width: 570px;
+                                max-width: 570px; min-width: 570px;" readonly>${userSelected.getBlockedDescription()}</textarea>
+                            </c:when>
+                            <c:otherwise>
+                            <textarea name="blockedDescription" style="height: 140px; width: 570px; max-width: 570px; min-width: 570px;"
+                                      placeholder="<fmt:message bundle="${rb}" key="formBlockUnBlockUser.textBlockedDescription"/>"
+                                    ></textarea>
+                            </c:otherwise>
+                        </c:choose>
+                    </fieldset>
+                </div>
+
+                <c:if test="${(currentError.toString().length() > 0) and (autoShowModalForm.toString() eq '#formBlockUnBlockUser')}">
+                    <div class="alert alert-warning alert-dismissable" style="margin: 5px;">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>
+                            <fmt:message bundle="${rb}" key="labelError"/>!
+                        </strong>
+                        <p>${currentError.toString()}</p>
+                    </div>
+                </c:if>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <fmt:message bundle="${rb}" key="cancelButton"/>
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <c:choose>
+                            <c:when test="${userSelected.isBlocked()}">
+                                <fmt:message bundle="${rb}" key="formBlockUnBlockUser.unBlockButton"/>
+                            </c:when>
+                            <c:otherwise>
+                                <fmt:message bundle="${rb}" key="formBlockUnBlockUser.blockButton"/>
+                            </c:otherwise>
+                        </c:choose>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

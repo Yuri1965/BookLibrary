@@ -1,0 +1,231 @@
+/* ОБЩИЕ */
+body
+{
+	margin: 0;
+	font-family: "PT Sans",sans-serif; 
+	font-size: 11pt; /* размер шрифта */
+}
+
+.center {
+    /*display: block;*/
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.row-height {
+    display: block;
+    height: 100%;
+}
+
+.book-padding {
+    padding: 2px 0 0 5px;
+}
+
+.book-padding .col-md-12{
+    padding: 0 20px 0 0;
+}
+
+.book-padding .navbar-form{
+    width: 100%;
+}
+
+.panel-form{
+    height: 38px;
+}
+
+.panel-form .navbar-form{
+    margin-top: -3px;
+    width: 100%;
+}
+
+.aga-body
+{
+    margin: 0;
+    font-family: "PT Sans",sans-serif;
+    font-size: 11pt; /* размер шрифта */
+    background-color: #D3D9E0;
+    color: #3E4E62;
+    margin-top: 40px;
+    padding-top: 30px;
+    text-align: center;
+}
+
+.aga-page
+{
+/*	text-align: left;*/
+ 	width: 94%;
+ 	max-width: 1268px;
+	margin: 0 auto;
+	background-color: #FFF;
+	box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+	word-wrap: break-word;
+	color: #242424;
+	border: 0 none;
+	font-family: inherit;
+	line-height: inherit;
+	font-size-adjust: inherit;
+	font-stretch: inherit;
+	font-feature-settings: inherit;
+	font-language-override: inherit;
+	font-kerning: inherit;
+	font-synthesis: inherit;
+	font-variant: inherit;
+	font-size: 100%;
+	font-style: inherit;
+	font-weight: inherit;
+	outline: 0 none;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+.up_menu
+{
+	left: 0;
+	position: fixed;
+	text-align: center;
+	top: 0;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+	margin-bottom: 0
+	z-index: 999;
+}
+
+.down_menu
+{
+	left: 0;
+	position: fixed;
+	text-align: center;
+	bottom: 0;
+	width: 100%;
+	padding-left: 0;
+	padding-right: 0;
+	margin-bottom: 0
+	z-index: 999;
+}
+
+.block_up_menu{
+	margin: 0 auto;
+	height: auto;
+	width: 94%;
+	max-width: 1268px;
+	padding: 0 10px 0;
+	text-align: center;
+	font-size: 11pt;
+    z-index: 999;
+}
+
+
+.aflat{
+	margin: 0 auto;
+	width: 100%;	
+	padding: 0 20px;
+}
+
+p.no-indent{
+	text-indent: 0;
+}
+
+div.clear
+{
+	clear: both;
+	height: 0;
+	overflow: hidden;
+}
+
+/*ТАБЛИЦЫ*/
+.table-order td {
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    height: 40px;
+    padding: 10px 0 ;
+    text-align: center;
+}
+
+.left-td {
+    border-radius: 10px 0px 0px 0;
+}
+
+.right-td {
+    border-radius: 0px 10px 0px 0;
+
+}
+
+.header-order {
+    background: #337ab7;
+    color: #fff;
+    border: none !important;
+    border-right: 1px solid #2260a6 !important;
+}
+
+/*КНОПКИ*/
+a.close_button {
+	display: block; 
+	float: right;
+	text-decoration: none;
+}
+
+a.close_button:hover{
+	cursor: pointer; 
+}
+
+a.close_button img{
+	height: 24px;
+	width: 24px;
+}
+
+/* Кнопка с подсветкой текста при наведении */
+div.up_button
+{
+	height: 40px;
+	display: block; /* преобразуем в блочный элемент */
+	float: left; /* преобразуем в плавающий элемент */
+	padding-top: 10px;
+}
+
+
+a.up_button {
+	color: #fff; /* Цвет текста ссылки */
+	text-decoration: none; /* Убираем подчеркивание ссылки */
+	margin-right: 10px;
+}
+
+a.up_button:hover {
+	color: #27c4fd; /* Цвет текста ссылки */
+}
+
+/* Кнопка с подсветкой фона при наведении, фон более светлый */
+a.background_button {
+	font-size: 11pt; /* размер шрифта */
+	display: block; /* преобразуем в блочный элемент */
+	color: #fff; /* Цвет текста ссылки */
+	background-color: #1F84D4; /* Цвет фона ссылки */
+	text-decoration: none; /* Убираем подчеркивание ссылки */
+	height: 40px;
+	padding: 9px 30px;
+}
+
+a.background_button:hover {
+	background-color: #1aa2f2; /* Цвет фона ссылки */
+}
+
+/*ЦВЕТА*/
+/*#27589A*/
+/*#91C5F2 - голубой */
+/*#ecf4fd - голубой фон*/
+/*#79CC8C - зеленый*/
+/*#e8f7eb - зеленый фон*/
+/*#F2836B -красноватый*/
+/*#fdefec -красноватый фон*/
+/*#dee4eb - cветлая сталь*/
+/*#475a70 - темная сталь*/
+/*#b9c6d5 - сталь*/
+
+/*фон #D3D9E0*/
+/*синий #0085CF*/
+/*буквы #717171*/
+/*зеленый#03953F*/
+/*малиновый #ED217C*/
+/*темно серый#546A86*/
+/*желтый #F4E517*/

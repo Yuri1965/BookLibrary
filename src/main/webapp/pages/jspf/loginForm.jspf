@@ -1,0 +1,49 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!-- Форма ввода логина и пароля для входа в систему-->
+<div id="formLogin" class="modal fade" style="text-align: left">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="background-color: #f8f7f5">
+
+            <form action="login" method="post" role="form">
+                <input name="currentPage" type="hidden" value="${currentPage}"/>
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><fmt:message bundle="${rb}" key="loginFormTitle"/></h4>
+                </div>
+
+                <div class="modal-body">
+                    <div id="userName" class="form-group">
+                        <label for="txtLogin"><fmt:message bundle="${rb}" key="inputUserName"/>:</label>
+                        <input name="login" type="text" class="form-control" id="txtLogin"
+                               placeholder="<fmt:message bundle="${rb}" key="labelUserName"/>" required="true">
+                    </div>
+                    <div id="userPassword" class="form-group">
+                        <label for="txtPassword"><fmt:message bundle="${rb}" key="labelPassword"/>:</label>
+                        <input name="password" type="password" class="form-control" id="txtPassword"
+                               placeholder="<fmt:message bundle="${rb}" key="inputPassword"/>" required="true">
+                    </div>
+                </div>
+
+                <c:if test="${(currentError.toString().length() > 0) and (autoShowModalForm.toString() eq '#formLogin')}">
+                    <div class="alert alert-warning alert-dismissable" style="margin: 5px;">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>
+                            <fmt:message bundle="${rb}" key="labelError"/>!
+                        </strong>
+                        <p>${currentError.toString()}</p>
+                    </div>
+                </c:if>
+
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" id="btnLogin"
+                           value="<fmt:message bundle="${rb}" key="loginButton"/>"/>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

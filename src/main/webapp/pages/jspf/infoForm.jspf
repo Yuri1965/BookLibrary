@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!-- Форма вывода сообщений-->
+<div id="formInfo" class="modal fade" style="text-align: left; width: auto">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #f8f7f5">
+
+            <form role="form">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"><fmt:message bundle="${rb}" key="infoFormTitle"/></h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>${messageFormInfo.toString()}</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <fmt:message bundle="${rb}" key="closeButton"/>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

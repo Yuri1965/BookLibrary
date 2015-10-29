@@ -1,0 +1,134 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div class="panel-body row-height" style="padding: 0 0 15px 0; height: 495px;">
+
+    <div class="row-height" style="overflow-y: auto; overflow-x: hidden; width:100%; padding: 10px;">
+        <c:if test="${countBooks == 0}">
+            <fmt:message bundle="${rb}" key="panelListBook.labelRecordNotFound"/>&nbsp;
+        </c:if>
+
+        <c:if test="${countBooks > 0}">
+        <div class="row">
+            <c:forEach var="itemBook" items="${listBookPage}" varStatus="statusBook">
+                <div class="col-md-4">
+                    <div class="panel panel-info">
+                        <div class="panel-body" style="text-align: left; height: 405px;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="media-left">
+                                        <a
+                                            <c:choose>
+                                                <c:when test="${itemBook.getCoverImage() != null}">
+                                                    <%--href="${pageContext.request.contextPath}/getBookImage?bookID=${itemBook.getId()}"                                                </c:when>--%>
+                                                    href="${pageContext.request.contextPath}/getBookImage?bookIndex=${statusBook.count - 1}"                                                </c:when>
+                                                <c:otherwise>
+                                                    href="#"
+                                                </c:otherwise>
+                                            </c:choose>
+                                            >
+                                            <img class="media-object"
+                                                <c:choose>
+                                                    <c:when test="${itemBook.getCoverImage() != null}">
+                                                        <%--src="${pageContext.request.contextPath}/getBookImage?bookID=${itemBook.getId()}"--%>
+                                                        src="${pageContext.request.contextPath}/getBookImage?bookIndex=${statusBook.count - 1}"
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        src="images/library_png.png"
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                height="100" width="80" alt="...">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <p style="height: auto; color:#378de5; width: 100%; font-weight: bold; font-size: 12px;
+                                                padding: 0; margin: 0px; text-decoration: none;">
+                                            ${itemBook.getName()}
+                                        </p>
+                                        <p style="width: 100%; padding: 2px; margin: 0px;">
+                                            <strong><fmt:message bundle="${rb}" key="panelListBook.labelAuthor"/></strong>
+                                            &nbsp;
+                                            <c:choose>
+                                                <c:when test="${currentLocale == 'en_us'}">
+                                                    ${itemBook.getBookAuthor().getFioEN()}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    ${itemBook.getBookAuthor().getFioRU()}
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </p>
+                                    </div>
+
+                                    <p style="width: 100%; padding: 2px; margin: 0px;">
+                                        <strong><fmt:message bundle="${rb}" key="panelListBook.labelPublisher"/></strong>
+                                        &nbsp;
+                                        <c:choose>
+                                            <c:when test="${currentLocale == 'en_us'}">
+                                                ${itemBook.getBookPublisher().getNameEN()}
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${itemBook.getBookPublisher().getNameRU()}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </p>
+                                    <p style="width: 100%; padding: 2px; margin: 0px;">
+                                        <strong><fmt:message bundle="${rb}" key="panelListBook.labelPublishYear"/></strong>&nbsp;${itemBook.getPublishYear()}
+                                    </p>
+                                    <p style="width: 100%; padding: 2px; margin: 0px;">
+                                        <strong>ISBN:</strong>&nbsp;${itemBook.getIsbn()}
+                                    </p>
+                                    <p style="width: 100%; padding: 2px; margin: 0px;">
+                                        <strong><fmt:message bundle="${rb}" key="panelListBook.labelDescription"/></strong>
+                                    </p>
+                                    <textarea style="height: 180px; width: 255px;
+                                                max-width: 255px; min-width: 255px;
+                                                max-height: 180px; min-height: 180px;"
+                                              rows="5" cols="20" readonly>${itemBook.getShortDescription()}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer book-padding">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form class="navbar-form navbar-left" role="form">
+                                        <input type="hidden" name="bookID" value="${itemBook.getId()}">
+                                        <input type="hidden" name="errorClear" value="true">
+                                        <c:choose>
+                                            <c:when test="${currentPage eq 'index'}">
+                                                <a href="#formLogin" data-toggle="modal"
+                                                   class="btn btn-primary btn-xs navbar-left" role="button">
+                                                   <fmt:message bundle="${rb}" key="panelListBook.buttonOrder"/>
+                                                </a>
+                                            </c:when>
+                                            <c:when test="${currentPage eq 'main' and currentUser.isAuthorized() and currentUser.isFoundUserRoleByName('READER')}">
+                                                <button type="submit" formaction="showCreateOrderForm" formmethod="post"
+                                                        class="btn btn-primary btn-xs navbar-left">
+                                                    <fmt:message bundle="${rb}" key="panelListBook.buttonOrder"/>
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                        <c:if test="${currentPage eq 'main' and currentUser.isAuthorized() and currentUser.isFoundUserRoleByName('EMPLOYEE')}">
+                                            <button type="submit" formaction="showDeleteBookForm" formmethod="post"
+                                                    class="btn btn-danger btn-xs navbar-right">
+                                                <i class="glyphicon glyphicon-remove"></i>
+                                            </button>
+                                            <button type="submit" formaction="showEditBookForm" formmethod="post"
+                                                    class="btn btn-success btn-xs navbar-right" style="margin-right: 5px;">
+                                                <i class="glyphicon glyphicon-edit"></i>
+                                            </button>
+                                        </c:if>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </c:forEach>
+
+        </div>
+        </c:if>
+    </div>
+</div>

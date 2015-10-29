@@ -1,0 +1,82 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div class="panel-footer" style="position: absolute; bottom: 0; padding: 5px; width: 97.7%; margin-left: -1px; border: 1px solid #ddd; text-align: left;">
+    <div class="row">
+        <div class="col-md-12">
+            <b style="position: relative; top: 8px;">
+                <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.labelCountRecord"/>&nbsp;${countOrders}
+            </b>
+
+            <div class="btn-group navbar-right" role="group" aria-label="..." style="margin-right: 5px;">
+
+                <c:if test="${countOrderPages > 0}">
+                    <%--На первую и предыдущую страницу--%>
+                    <c:if test="${countOrderPages > 1 and pageOrderNumber > 1 and pageOrderNumber <= countOrderPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageOrderNumber=1&currentTab=workOrders&errorClear=true"/>">
+                        <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.buttonFirstPage"/>
+                        </a>
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageOrderNumber=${pageOrderNumber - 1}&currentTab=workOrders&errorClear=true"/>">
+                        <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.buttonPrevPage"/>
+                        </a>
+                    </c:if>
+                    <c:if test="${countOrderPages >= 1 and pageOrderNumber == 1}">
+                        <a class="btn btn-default disabled" href="#">
+                            <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.buttonFirstPage"/>
+                        </a>
+                        <a class="btn btn-default disabled" href="#">
+                            <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.buttonPrevPage"/>
+                        </a>
+                    </c:if>
+
+                    <%--Кнопки с номерами страниц--%>
+                    <c:if test="${countOrderPages > 1 and (pageOrderNumber - 2) > 0 and pageOrderNumber <= countOrderPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageOrderNumber=${pageOrderNumber - 2}&currentTab=workOrders&errorClear=true"/>">
+                        ${pageOrderNumber - 2}
+                        </a>
+                    </c:if>
+
+                    <c:if test="${countOrderPages > 1 and (pageOrderNumber - 1) > 0 and pageOrderNumber <= countOrderPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageOrderNumber=${pageOrderNumber - 1}&currentTab=workOrders&errorClear=true"/>">
+                        ${pageOrderNumber - 1}
+                        </a>
+                    </c:if>
+
+                    <c:if test="${countOrderPages >= 1 and pageOrderNumber > 0 and pageOrderNumber <= countOrderPages}">
+                        <a class="btn btn-default active" href="#">${pageOrderNumber}</a>
+                    </c:if>
+
+                    <c:if test="${countOrderPages >= 1 and (pageOrderNumber + 1) <= countOrderPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageOrderNumber=${pageOrderNumber + 1}&currentTab=workOrders&errorClear=true"/>">
+                        ${pageOrderNumber + 1}
+                        </a>
+                    </c:if>
+
+                    <c:if test="${countOrderPages >= 1 and (pageOrderNumber + 2) <= countOrderPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageOrderNumber=${pageOrderNumber + 2}&currentTab=workOrders&errorClear=true"/>">
+                        ${pageOrderNumber + 2}
+                        </a>
+                    </c:if>
+
+                    <%--На последнюю и следующую страницу--%>
+                    <c:if test="${countOrderPages > 1 and pageOrderNumber < countOrderPages}">
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageOrderNumber=${pageOrderNumber + 1}&currentTab=workOrders&errorClear=true"/>">
+                        <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.buttonNextPage"/>
+                        </a>
+                        <a class="btn btn-default" href="<c:url value="/${currentPage}?pageOrderNumber=${countOrderPages}&currentTab=workOrders&errorClear=true"/>">
+                        <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.buttonLastPage"/>
+                        </a>
+                    </c:if>
+                    <c:if test="${countOrderPages >= 1 and pageOrderNumber == countOrderPages}">
+                        <a class="btn btn-default disabled" href="#">
+                            <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.buttonNextPage"/>
+                        </a>
+                        <a class="btn btn-default disabled" href="#">
+                            <fmt:message bundle="${rb}" key="panelPagingFooterWorkOrders.buttonLastPage"/>
+                        </a>
+                    </c:if>
+                </c:if>
+
+            </div>
+        </div>
+    </div>
+</div>

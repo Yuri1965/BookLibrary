@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context path="/LibraryBook" docBase="LibraryBook" reloadable="true" privileged="true">
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+    <!--  настройка соединения с БД для сервера приложений Tomcat (пул соединений) -->
+    <Resource name="jdbc/MySQLBookLibrary"
+        auth="Container"
+        type="javax.sql.DataSource"
+        testWhileIdle="true"
+        testOnBorrow="true"
+        testOnReturn="false"
+        validationQuery="SELECT 1"
+        validationQueryTimeout = "30"
+        timeBetweenEvictionRunsMillis="30000"
+        maxTotal="100"
+        maxIdle="100"
+        minIdle="10"
+        maxWaitMillis="10000"
+        initialSize="10"
+        removeAbandonedTimeout="60"
+        removeAbandonedOnBorrow="true"
+        logAbandoned="true"
+        minEvictableIdleTimeMillis="30000"
+        defaultQueryTimeout="600"
+        username="library_admin"
+        password="zghbitk777"
+        driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://127.0.0.1:3306/booklibrary"/>
+</Context>

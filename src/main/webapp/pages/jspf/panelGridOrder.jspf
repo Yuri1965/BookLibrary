@@ -1,0 +1,140 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div class="panel-body row-height" style="padding: 0 0 25px 0; height: 495px;">
+
+    <div class="row-height" style="overflow-y: auto; overflow-x: hidden; width:100%; padding: 10px;">
+        <c:if test="${countOrders == 0}">
+            <fmt:message bundle="${rb}" key="panelGridOrder.labelRecordNotFound"/>&nbsp;
+        </c:if>
+
+        <c:if test="${countOrders > 0}">
+
+            <table style="width: 100%;" class="table-order">
+                <tr>
+                    <td class="header-order left-td"><fmt:message bundle="${rb}" key="panelGridOrder.columnUser"/></td>
+                    <td class="header-order"><fmt:message bundle="${rb}" key="panelGridOrder.columnDateOrderPrev"/></td>
+                    <td class="header-order"><fmt:message bundle="${rb}" key="panelGridOrder.columnBookName"/></td>
+                    <td class="header-order"><fmt:message bundle="${rb}" key="panelGridOrder.columnStatusOrder"/></td>
+                    <td class="header-order"><fmt:message bundle="${rb}" key="panelGridOrder.columnTypeOrder"/></td>
+                    <td class="header-order"><fmt:message bundle="${rb}" key="panelGridOrder.columnDateBegOrder"/></td>
+                    <td class="header-order"><fmt:message bundle="${rb}" key="panelGridOrder.columnDateEndOrder"/></td>
+                    <td class="header-order right-td" style="border: none !important;">
+                        <fmt:message bundle="${rb}" key="panelGridOrder.columnAction"/>
+                    </td>
+                </tr>
+
+                <c:forEach var="itemOrder" items="${listOrderPage}" varStatus="stOrder">
+                    <tr>
+                        <td style="text-align: left; padding-left: 5px;">${itemOrder.getUserID()} ${itemOrder.getLastNameUser()} ${itemOrder.getFirstNameUser()}</td>
+                        <td style="text-align: left; padding-left: 5px;">${itemOrder.getOrderPreDateByLocale(currentLocale)}</td>
+                        <td style="text-align: left; padding-left: 5px;">${itemOrder.getBookName()}&nbsp;
+                            <c:choose>
+                                <c:when test="${currentLocale == 'en_us'}">
+                                    (${itemOrder.getBookAuthorNameEN()})
+                                </c:when>
+                                <c:otherwise>
+                                    (${itemOrder.getBookAuthorNameRU()})
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td style="text-align: left; padding-left: 5px;">
+                            <c:choose>
+                                <c:when test="${not empty itemOrder.getPreOrderDateTime()
+                                                and empty itemOrder.getBeginOrderDateTime()
+                                                and empty itemOrder.getEndOrderDateTime()
+                                                and !itemOrder.isCloseOrder()}">
+                                    <fmt:message bundle="${rb}" key="panelGridOrder.statusOrder1"/>
+                                </c:when>
+                                <c:when test="${not empty itemOrder.getPreOrderDateTime()
+                                                and not empty itemOrder.getBeginOrderDateTime()
+                                                and empty itemOrder.getEndOrderDateTime()
+                                                and !itemOrder.isCloseOrder()}">
+                                    <fmt:message bundle="${rb}" key="panelGridOrder.statusOrder2"/>
+                                </c:when>
+                                <c:when test="${not empty itemOrder.getPreOrderDateTime()
+                                                and not empty itemOrder.getBeginOrderDateTime()
+                                                and not empty itemOrder.getEndOrderDateTime()
+                                                and itemOrder.isCloseOrder()}">
+                                    <fmt:message bundle="${rb}" key="panelGridOrder.statusOrder3"/>
+                                </c:when>
+                                <c:otherwise>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td style="text-align: left; padding-left: 5px;">
+                            <c:choose>
+                                <c:when test="${currentLocale == 'en_us'}">
+                                    ${itemOrder.getOrderTypeNameEN()}
+                                </c:when>
+                                <c:otherwise>
+                                    ${itemOrder.getOrderTypeNameRU()}
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td style="text-align: left; padding-left: 5px;">
+                            <c:choose>
+                                <c:when test="${empty itemOrder.getBeginOrderDateTime()}">
+                                </c:when>
+                                <c:otherwise>
+                                    ${itemOrder.getOrderBeginDateByLocale(currentLocale)}
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td style="text-align: left; padding-left: 5px;">
+                            <c:choose>
+                                <c:when test="${empty itemOrder.getEndOrderDateTime()}">
+                                </c:when>
+                                <c:otherwise>
+                                    ${itemOrder.getOrderEndDateByLocale(currentLocale)}
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+
+                        <td >
+                            <div class="btn-group" role="group" aria-label="...">
+                                <form role="form">
+                                    <input type="hidden" name="orderID" value="${itemOrder.getId()}">
+                                    <c:choose>
+                                        <c:when test="${not empty itemOrder.getPreOrderDateTime()
+                                                and empty itemOrder.getBeginOrderDateTime()
+                                                and empty itemOrder.getEndOrderDateTime()
+                                                and !itemOrder.isCloseOrder()}">
+
+                                            <button type="submit" formaction="showSetWorkOrderForm" formmethod="post"
+                                                    class="btn btn-success btn-xs">
+                                                <i class="glyphicon glyphicon-paperclip"></i>
+                                            </button>
+
+                                            <button type="submit" formaction="showCloseOrderForm" formmethod="post"
+                                                    class="btn btn-success btn-xs">
+                                                <i class="glyphicon glyphicon-check"></i>
+                                            </button>
+                                        </c:when>
+                                        <c:when test="${not empty itemOrder.getPreOrderDateTime()
+                                                and not empty itemOrder.getBeginOrderDateTime()
+                                                and empty itemOrder.getEndOrderDateTime()
+                                                and !itemOrder.isCloseOrder()}">
+
+                                            <button type="submit" formaction="showCloseOrderForm" formmethod="post"
+                                                    class="btn btn-success btn-xs">
+                                                <i class="glyphicon glyphicon-check"></i>
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                </form>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                </c:forEach>
+
+            </table>
+
+        </c:if>
+
+    </div>
+</div>

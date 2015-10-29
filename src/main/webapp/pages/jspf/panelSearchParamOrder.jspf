@@ -1,0 +1,126 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div class="panel-heading panel-form">
+    <form action="${currentPage}" method="post" class="navbar-form navbar-left" role="search" style="text-align: left;">
+
+        <input name="currentTab" type="hidden" value="workOrders"/>
+        <input name="errorClear" type="hidden" value="true"/>
+
+        <%--Статус заказа--%>
+        <b><fmt:message bundle="${rb}" key="panelSearchOrder.labelStatusOrder"/></b>
+        <div class="btn-group">
+            <select class="btn btn-default dropdown-toggle btn-xs" name="statusOrder" style="border-radius: 4px; text-align: left;">
+                <option value="0"
+                        <c:if test="${statusOrder eq '0'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchOrder.statusOrderItem1"/>&nbsp;
+                </option>
+
+                <option value="1"
+                        <c:if test="${statusOrder eq '1'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchOrder.statusOrderItem2"/>&nbsp;
+                </option>
+
+                <option value="2"
+                        <c:if test="${statusOrder eq '2'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchOrder.statusOrderItem3"/>&nbsp;
+                </option>
+
+                <option value="3"
+                        <c:if test="${statusOrder eq '3'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchOrder.statusOrderItem4"/>&nbsp;
+                </option>
+            </select>
+        </div>
+
+        <%--Тип заказа--%>
+        <b>&nbsp;&nbsp;<fmt:message bundle="${rb}" key="panelSearchOrder.labelTypeOrder"/></b>
+        <div class="btn-group">
+            <select class="btn btn-default dropdown-toggle btn-xs" name="typeOrderID" style="border-radius: 4px; text-align: left;">
+                <option value="0"
+                        <c:if test="${typeOrderID eq '0'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchOrder.comboItemByAll"/>&nbsp;
+                </option>
+
+                <c:forEach var="typeOrder" items="${listTypeOrder}" varStatus="statusTypeOrder">
+                    <option value="${typeOrder.getId().toString()}"
+                            <c:if test="${typeOrderID eq typeOrder.getId().toString()}">
+                                selected
+                            </c:if>
+                            >
+                        <c:choose>
+                            <c:when test="${currentLocale == 'en_us'}">
+                                ${typeOrder.getNameEN()}
+                            </c:when>
+                            <c:otherwise>
+                                ${typeOrder.getNameRU()}
+                            </c:otherwise>
+                        </c:choose>
+                        &nbsp;
+                    </option>
+                </c:forEach>
+            </select>
+        </div>
+
+        <%--Вид поиска--%>
+        <b>&nbsp;&nbsp;<fmt:message bundle="${rb}" key="panelSearchOrder.labelTypeSearch"/></b>
+        <div class="btn-group">
+            <select class="btn btn-default dropdown-toggle btn-xs" name="typeSearchOrder" style="border-radius: 4px; text-align: left;">
+                <option value="1"
+                <c:if test="${typeSearchOrder eq '1'}">
+                    selected
+                </c:if>
+                >
+                <fmt:message bundle="${rb}" key="panelSearchOrder.comboItemByUserID"/>&nbsp;
+                </option>
+
+                <option value="2"
+                <c:if test="${typeSearchOrder eq '2'}">
+                    selected
+                </c:if>
+                >
+                <fmt:message bundle="${rb}" key="panelSearchOrder.comboItemByBookName"/>&nbsp;
+                </option>
+
+                <option value="3"
+                        <c:if test="${typeSearchOrder eq '3'}">
+                            selected
+                        </c:if>
+                        >
+                    <fmt:message bundle="${rb}" key="panelSearchOrder.comboItemByBookAuthor"/>&nbsp;
+                </option>
+            </select>
+        </div>
+
+        <%--Строка поиска--%>
+        <div class="form-group">
+            <input type="text" class="form-control"
+                   placeholder="<fmt:message bundle="${rb}" key="panelSearchOrder.SearchText"/>"
+            name="searchTextOrder"
+            value="${searchTextOrder}"
+            style="width: 330px; height: 23px; font-size: 11px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-xs">
+            <i class="glyphicon glyphicon-search"></i>
+        </button>
+
+    </form>
+</div>
+
+
+

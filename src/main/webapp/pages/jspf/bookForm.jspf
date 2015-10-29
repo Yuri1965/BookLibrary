@@ -2,86 +2,101 @@
 <div id="formBook" class="modal fade" style="text-align: left; width: auto;">
     <div class="modal-dialog">
         <div class="modal-content" style="background-color: #f8f7f5">
-            <form class="form-horizontal" role="form" action="saveBook" method="post">
-                <input name="actionModeBookForm" type="hidden" value="${actionModeBookForm}"/>
-                <c:choose>
-                    <c:when test="${actionModeBookForm eq 'addBook'}">
-                        <input name="bookGenreID" type="hidden" value="${bookGenreID}"/>
-                    </c:when>
-                    <c:otherwise>
-                        <input name="bookGenreID" type="hidden" value="${bookSelected.getGenreID()}"/>
-                    </c:otherwise>
-                </c:choose>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <c:choose>
+                        <c:when test="${actionModeBookForm eq 'addBook'}">
+                            <fmt:message bundle="${rb}" key="bookFormTitle.addBook"/>
+                        </c:when>
+                        <c:otherwise>
+                            <fmt:message bundle="${rb}" key="bookFormTitle.editBook"/>
+                        </c:otherwise>
+                    </c:choose>
+                </h4>
+            </div>
 
-                <c:choose>
-                    <c:when test="${actionModeBookForm eq 'addBook'}">
-                        <input name="bookID" type="hidden" value="0"/>
-                    </c:when>
-                    <c:otherwise>
-                        <input name="bookID" type="hidden" value="${bookSelected.getId()}"/>
-                    </c:otherwise>
-                </c:choose>
+            <div class="modal-body">
+                <form class="form-horizontal" enctype="multipart/form-data" role="form"
+                      action="saveBook" method="post">
+                    <input name="actionModeBookForm" type="hidden" value="${actionModeBookForm}"/>
+                    <c:choose>
+                        <c:when test="${actionModeBookForm eq 'addBook'}">
+                            <input name="bookGenreID" type="hidden" value="${bookGenreID}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <input name="bookGenreID" type="hidden" value="${bookSelected.getGenreID()}"/>
+                        </c:otherwise>
+                    </c:choose>
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">
-                        <c:choose>
-                            <c:when test="${actionModeBookForm eq 'addBook'}">
-                                <fmt:message bundle="${rb}" key="bookFormTitle.addBook"/>
-                            </c:when>
-                            <c:otherwise>
-                                <fmt:message bundle="${rb}" key="bookFormTitle.editBook"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </h4>
-                </div>
+                    <c:choose>
+                        <c:when test="${actionModeBookForm eq 'addBook'}">
+                            <input name="bookID" type="hidden" value="0"/>
+                        </c:when>
+                        <c:otherwise>
+                            <input name="bookID" type="hidden" value="${bookSelected.getId()}"/>
+                        </c:otherwise>
+                    </c:choose>
 
-                <div class="modal-body">
                     <div class="form-group">
-                        <%--Жанр книги--%>
-                        <p class="form-control-static" style="margin-left: 18px;">
-                            <strong>
-                                <fmt:message bundle="${rb}" key="bookForm.labelBookGenre"/>
-                            </strong>
+                        <div class="col-sm-12">
+                            ${bookSelected.getId()}
+                            <input id="book-image" name="bookImage" type="file" class="file"
+                                   data-language="${bookSelected.getId()}"
+                                   <c:if test="${not empty bookSelected.getId()}">data-initial-preview="<img src='${pageContext.request.contextPath}/getBookImage?bookID=${bookSelected.getId()}' class='file-preview-image' alt='Desert' title='Desert'>"</c:if>
+                                   data-browse-label=""
+                                   data-show-upload="false"
+                                   data-preview-file-type="text">
+                        </div>
+                    </div>
+
+                    <%--Жанр книги--%>
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelBookGenre"/>
+                        </label>
+                        <div class="col-sm-7">
                             &nbsp;
                             ${bookGenreName}
-                        </p>
+                        </div>
+                    </div>
 
-                        <%--Наименование книги--%>
-                        <div class="row" style="padding-bottom: 5px; margin-left: 1px">
-                        <label style="margin-left: 18px;">
-                            * <fmt:message bundle="${rb}" key="bookForm.labelBookName"/>&nbsp;
+                    <%--Наименование книги--%>
+                    <div class="form-group required">
+
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelBookName"/>&nbsp;
                         </label>
-                        <div class="btn-group">
+                        <div class="col-sm-7">
                             <input name="bookName" type="text" class="form-control"
-                                   style="width: 380px;"
                                    placeholder="<fmt:message bundle='${rb}' key="bookForm.inputBookName"/>"
-                                    <c:choose>
-                                        <c:when test="${actionModeBookForm eq 'addBook'}">
-                                        </c:when>
-                                        <c:otherwise>
-                                               value="${bookSelected.getName()}"
-                                        </c:otherwise>
-                                    </c:choose>
+                            <c:choose>
+                            <c:when test="${actionModeBookForm eq 'addBook'}">
+                            </c:when>
+                            <c:otherwise>
+                                   value="${bookSelected.getName()}"
+                            </c:otherwise>
+                            </c:choose>
                                    required="true">
                         </div>
-                        </div>
+                    </div>
 
-                        <%--Автор книги--%>
-                        <div class="row" style="padding-bottom: 5px; margin-left: 1px">
-                        <label style="margin-left: 18px;">
-                            * <fmt:message bundle="${rb}" key="bookForm.labelBookAuthor"/>&nbsp;
+                    <%--Автор книги--%>
+                    <div class="form-group required">
+
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelBookAuthor"/>&nbsp;
                         </label>
-                        <div class="btn-group">
+                        <div class="col-sm-7">
                             <select class="btn btn-default dropdown-toggle btn-xs" name="bookAuthorID"
                                     style="border-radius: 4px; text-align: left;">
                                 <c:forEach var="bookAuthor" items="${listAuthors}" varStatus="statusAuthor">
 
                                     <c:choose>
                                         <c:when test="${actionModeBookForm eq 'addBook'}">
-                                            <option value="${bookAuthor.getId().toString()}" >
+                                            <option value="${bookAuthor.getId().toString()}">
                                                 <c:choose>
                                                     <c:when test="${currentLocale == 'en_us'}">
                                                         ${bookAuthor.getFioEN()}
@@ -115,21 +130,22 @@
                                 </c:forEach>
                             </select>
                         </div>
-                        </div>
+                    </div>
 
-                        <%--Издательство--%>
-                        <div class="row" style="padding-bottom: 5px; margin-left: 1px">
-                        <label style="margin-left: 18px;">
-                            * <fmt:message bundle="${rb}" key="bookForm.labelBookPublisher"/>&nbsp;
+                    <%--Издательство--%>
+                    <div class="form-group required">
+
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelBookPublisher"/>&nbsp;
                         </label>
-                        <div class="btn-group">
+                        <div class="col-sm-7">
                             <select class="btn btn-default dropdown-toggle btn-xs" name="bookPublisherID"
                                     style="border-radius: 4px; text-align: left;">
-                                <c:forEach var="bookPublisher" items="${listPublishers}" varStatus="statusPublisher">
-
+                                <c:forEach var="bookPublisher" items="${listPublishers}"
+                                           varStatus="statusPublisher">
                                     <c:choose>
                                         <c:when test="${actionModeBookForm eq 'addBook'}">
-                                            <option value="${bookPublisher.getId().toString()}" >
+                                            <option value="${bookPublisher.getId().toString()}">
                                                 <c:choose>
                                                     <c:when test="${currentLocale == 'en_us'}">
                                                         ${bookPublisher.getNameEN()}
@@ -159,118 +175,122 @@
                                             </option>
                                         </c:otherwise>
                                     </c:choose>
-
                                 </c:forEach>
                             </select>
                         </div>
-                        </div>
+                    </div>
 
-                        <%--Год выпуска книги--%>
-                        <div class="row" style="padding-bottom: 5px; margin-left: 1px">
-                        <label style="margin-left: 18px;">
-                            * <fmt:message bundle="${rb}" key="bookForm.labelPublishYear"/>&nbsp;
+                    <%--Год выпуска книги--%>
+                    <div class="form-group required">
+
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelPublishYear"/>&nbsp;
                         </label>
-                        <div class="btn-group">
+                        <div class="col-sm-7">
                             <input name="bookPublishYear" type="number" class="form-control"
-                                   style="width: 150px;" min="1000"
+                                   min="1000"
                                    placeholder="<fmt:message bundle='${rb}' key="bookForm.inputPublishYear"/>"
-                                    <c:choose>
-                                        <c:when test="${actionModeBookForm eq 'addBook'}">
-                                            value="${currentYear}"
-                                        </c:when>
-                                        <c:otherwise>
-                                            value="${bookSelected.getPublishYear()}"
-                                        </c:otherwise>
-                                    </c:choose>
+                            <c:choose>
+                            <c:when test="${actionModeBookForm eq 'addBook'}">
+                                   value="${currentYear}"
+                            </c:when>
+                            <c:otherwise>
+                                   value="${bookSelected.getPublishYear()}"
+                            </c:otherwise>
+                            </c:choose>
                                    required="true">
                         </div>
+                    </div>
+
+                    <%--ISBN--%>
+                    <div class="form-group required">
+
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelISBN"/>&nbsp;
+                        </label>
+                        <div class="col-sm-7">
+                            <input name="bookISBN" type="text" class="form-control"
+                                   placeholder="<fmt:message bundle='${rb}' key="bookForm.inputISBN"/>"
+                            <c:choose>
+                            <c:when test="${actionModeBookForm eq 'addBook'}">
+                            </c:when>
+                            <c:otherwise>
+                                   value="${bookSelected.getIsbn()}"
+                            </c:otherwise>
+                            </c:choose>
+                                   required="true">
                         </div>
+                    </div>
 
-                        <%--ISBN--%>
-                        <div class="row" style="padding-bottom: 5px; margin-left: 1px">
-                                <label style="margin-left: 18px;">
-                                    * <fmt:message bundle="${rb}" key="bookForm.labelISBN"/>&nbsp;
-                                </label>
-                                <div class="btn-group">
-                                    <input name="bookISBN" type="text" class="form-control"
-                                           style="width: 480px;"
-                                           placeholder="<fmt:message bundle='${rb}' key="bookForm.inputISBN"/>"
-                                            <c:choose>
-                                                <c:when test="${actionModeBookForm eq 'addBook'}">
-                                                </c:when>
-                                                <c:otherwise>
-                                                    value="${bookSelected.getIsbn()}"
-                                                </c:otherwise>
-                                            </c:choose>
-                                           required="true">
-                                </div>
+                    <%--Число копий--%>
+                    <div class="form-group required">
+
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelNumberCopies"/>&nbsp;
+                        </label>
+                        <div class="col-sm-7">
+                            <input name="bookNumberCopies" type="number" class="form-control"
+                                   min="1" max="100"
+                                   placeholder="<fmt:message bundle='${rb}' key="bookForm.inputNumberCopies"/>"
+                            <c:choose>
+                            <c:when test="${actionModeBookForm eq 'addBook'}">
+                                   value="1"
+                            </c:when>
+                            <c:otherwise>
+                                   value="${bookSelected.getNumberCopies()}"
+                            </c:otherwise>
+                            </c:choose>
+                                   required="true">
                         </div>
+                    </div>
 
-                        <%--Число копий--%>
-                        <div class="row" style="padding-bottom: 5px; margin-left: 1px">
-                                <label style="margin-left: 18px;">
-                                    * <fmt:message bundle="${rb}" key="bookForm.labelNumberCopies"/>&nbsp;
-                                </label>
-                                <div class="btn-group">
-                                <input name="bookNumberCopies" type="number" class="form-control"
-                                       min="1" max="100" style="width: 150px;"
-                                       placeholder="<fmt:message bundle='${rb}' key="bookForm.inputNumberCopies"/>"
-                                        <c:choose>
-                                            <c:when test="${actionModeBookForm eq 'addBook'}">
-                                                value="1"
-                                            </c:when>
-                                            <c:otherwise>
-                                                value="${bookSelected.getNumberCopies()}"
-                                            </c:otherwise>
-                                        </c:choose>
-                                       required="true">
-                                 </div>
-                        </div>
+                    <%--Краткое описание--%>
+                    <div class="form-group required">
 
-                        <%--Краткое описание--%>
-                        <p class="form-control-static" style="margin-left: 18px;">
-                            <strong>* <fmt:message bundle="${rb}" key="bookForm.labelShortDescription"/></strong>
-                        </p>
-
-                        <fieldset>
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelShortDescription"/>
+                        </label>
+                        <div class="col-sm-7"></div>
+                        <div class="col-sm-12">
                             <c:choose>
                                 <c:when test="${actionModeBookForm eq 'addBook'}">
-                                    <textarea name="bookShortDescription" style="height: 75px; width: 550px; margin-left: 18px; max-width: 550px; min-width: 550px;"
-                                              placeholder="<fmt:message bundle="${rb}" key="bookForm.textShortDescription"/>"
-                                              ></textarea>
+                                    <textarea name="bookShortDescription"
+                                              style="width: 100%; height: 75px; resize: vertical;"
+                                              placeholder="<fmt:message bundle="${rb}" key="bookForm.textShortDescription"/>"></textarea>
                                 </c:when>
                                 <c:otherwise>
                                     <textarea name="bookShortDescription"
-                                              style="height: 75px; width: 550px; margin-left: 18px; max-width: 550px; min-width: 550px;">${bookSelected.getShortDescription()}</textarea>
+                                              style="width: 100%; height: 75px; resize: vertical;">${bookSelected.getShortDescription()}</textarea>
                                 </c:otherwise>
                             </c:choose>
-                        </fieldset>
+                        </div>
                     </div>
 
                     <p class="text-warning" style="text-align: center">
                         <small><fmt:message bundle="${rb}" key="warningInputObligationField"/></small>
                     </p>
-                </div>
 
-                <c:if test="${(currentError.toString().length() > 0) and (autoShowModalForm.toString() eq '#formBook')}">
-                    <div class="alert alert-warning alert-dismissable" style="margin: 5px;">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <strong>
-                            <fmt:message bundle="${rb}" key="labelError"/>!
-                        </strong>
-                        <p>${currentError.toString()}</p>
+                    <c:if test="${(currentError.toString().length() > 0) and (autoShowModalForm.toString() eq '#formBook')}">
+                        <div class="alert alert-warning alert-dismissable" style="margin: 5px;">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <strong>
+                                <fmt:message bundle="${rb}" key="labelError"/>!
+                            </strong>
+
+                            <p>${currentError.toString()}</p>
+                        </div>
+                    </c:if>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <fmt:message bundle="${rb}" key="cancelButton"/>
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <fmt:message bundle="${rb}" key="saveButton"/>
+                        </button>
                     </div>
-                </c:if>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        <fmt:message bundle="${rb}" key="cancelButton"/>
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        <fmt:message bundle="${rb}" key="saveButton"/>
-                    </button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -210,6 +210,15 @@ a.background_button:hover {
 	background-color: #1aa2f2; /* Цвет фона ссылки */
 }
 
+.form-group.required label:after {
+    content: "*";
+    color: red;
+}
+
+#formBook select {
+    width: 100%;
+}
+
 /*ЦВЕТА*/
 /*#27589A*/
 /*#91C5F2 - голубой */

@@ -61,6 +61,8 @@
     <!-- CSS виджета "Bootstrap datetimepicker" -->
     <link rel="stylesheet" type="text/css" href="css/bootstrap-datetimepicker.min.css"/>
 
+    <link rel="stylesheet" type="text/css" href="css/fileinput.min.css" />
+
     <!-- CSS шрифты" -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
 
@@ -229,6 +231,8 @@
 <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="js/fileinput.min.js"></script>
+<script type="text/javascript" src="js/fileinput_locale_ru.js"></script>
 
 <c:if test="${autoShowModalForm.toString().length() > 0}">
     <script type="text/javascript">
@@ -241,13 +245,14 @@
 <script type="text/javascript">
     $(function () {
         $('#datePrevOrder').datetimepicker(
-                <c:choose>
-                <c:when test="${currentLocale == 'en_us'}">
+            {locale: 'ru'}
+        <c:choose>
+            <c:when test="${currentLocale == 'en_us'}">
                 {locale: 'en'}
-        </c:when>
-        <c:otherwise>
-        {locale: 'ru'}
-        </c:otherwise>
+            </c:when>
+            <c:otherwise>
+                {locale: 'ru'}
+            </c:otherwise>
         </c:choose>
         );
     });

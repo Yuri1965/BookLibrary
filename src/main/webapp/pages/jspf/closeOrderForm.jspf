@@ -1,73 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!-- Форма ввода данных для закрытия заказа на книгу-->
-<div id="formCloseOrder" class="modal fade" style="text-align: left; width: auto">
+<div id="formCreateOrder" class="modal fade" style="text-align: left; width: auto">
     <div class="modal-dialog">
         <div class="modal-content" style="background-color: #f8f7f5">
 
-            <form action="closeUserOrder" method="post" role="form">
-                <input name="orderID" type="hidden" value="${orderSelected.getId()}"/>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><fmt:message bundle="${rb}" key="formCloseOrder.Title"/></h4>
+            </div>
+
+            <form class="form-horizontal" action="createUserOrder" method="post" role="form">
+                <input name="bookID" type="hidden" value="${bookSelected.getId()}"/>
                 <input name="currentPage" type="hidden" value="${currentPage}"/>
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <%--<h4 class="modal-title"><fmt:message bundle="${rb}" key="formCloseOrder.Title"/></h4>--%>
-                </div>
-
                 <div class="modal-body">
-                    <p style="height: auto; width: 100%; font-weight: bold; font-size: 12px;
-                              padding: 0; margin: 0px; text-decoration: none;"
-                       class="form-control-static">${bookSelected.getName()}</p>
-                    <p class="form-control-static">
-                        <strong><fmt:message bundle="${rb}" key="formCreateOrder.labelAuthor"/></strong>
-                        &nbsp;
-                        <c:choose>
-                            <c:when test="${currentLocale == 'en_us'}">
-                                ${bookSelected.getBookAuthor().getFioEN()}
-                            </c:when>
-                            <c:otherwise>
-                                ${bookSelected.getBookAuthor().getFioRU()}
-                            </c:otherwise>
-                        </c:choose>
-                    </p>
 
                     <div class="form-group">
-                        <label for="datePrevOrder"><fmt:message bundle="${rb}" key="formCreateOrder.datePrevOrder"/>:</label>
-
-                        <div class="input-group date" id="datePrevOrder">
-                            <input type="text" class="form-control" name="datePrev" required="true"/>
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="bookForm.labelBookName"/>
+                        </label>
+                        <div class="col-sm-7">
+                            ${bookSelected.getName()}
                         </div>
                     </div>
 
-                    <label for="typeOrderID"><fmt:message bundle="${rb}" key="formCreateOrder.labelTypeOrder"/>:</label>
-                    <div class="btn-group">
-                        <select class="btn btn-default dropdown-toggle btn-xs" id="typeOrderID" name="typeOrderID"
-                                style="border-radius: 4px; text-align: left;" required="true">
-                            <c:forEach var="typeOrder" items="${listTypeOrder}" varStatus="statusTypeOrder">
-                                <option value="${typeOrder.getId().toString()}"
-                                <c:if test="${typeOrderID eq typeOrder.getId().toString()}">
-                                    selected
-                                </c:if>
-                                >
-                                <c:choose>
-                                    <c:when test="${currentLocale == 'en_us'}">
-                                        ${typeOrder.getNameEN()}
-                                    </c:when>
-                                    <c:otherwise>
-                                        ${typeOrder.getNameRU()}
-                                    </c:otherwise>
-                                </c:choose>
-                                &nbsp;
-                                </option>
-                            </c:forEach>
-                        </select>
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="formCreateOrder.labelAuthor"/>
+                        </label>
+                        <div class="col-sm-7">
+                            <c:choose>
+                                <c:when test="${currentLocale == 'en_us'}">
+                                    ${bookSelected.getBookAuthor().getFioEN()}
+                                </c:when>
+                                <c:otherwise>
+                                    ${bookSelected.getBookAuthor().getFioRU()}
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
                     </div>
 
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="formCreateOrder.datePrevOrder"/>
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="input-group date" id="datePrevOrder">
+                                <input type="text" class="form-control" name="datePrev" required="true"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="formCreateOrder.labelTypeOrder"/>
+                        </label>
+                        <div class="col-sm-7">
+                            <select class="btn btn-default dropdown-toggle btn-xs" name="typeOrderID"
+                                    style="border-radius: 4px; text-align: left;" required="true">
+                                <c:forEach var="typeOrder" items="${listTypeOrder}" varStatus="statusTypeOrder">
+                                    <option value="${typeOrder.getId().toString()}"
+                                    <c:if test="${typeOrderID eq typeOrder.getId().toString()}">
+                                        selected
+                                    </c:if>
+                                    >
+                                    <c:choose>
+                                        <c:when test="${currentLocale == 'en_us'}">
+                                            ${typeOrder.getNameEN()}
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${typeOrder.getNameRU()}
+                                        </c:otherwise>
+                                    </c:choose>
+                                    &nbsp;
+                                    </option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <c:if test="${(currentError.toString().length() > 0) and (autoShowModalForm.toString() eq '#formCreateOrder')}">

@@ -18,8 +18,7 @@
                                     <div class="media-left">
                                         <a
                                             <c:choose>
-                                                <c:when test="${itemBook.getCoverImage() != null}">
-                                                    <%--href="${pageContext.request.contextPath}/getBookImage?bookID=${itemBook.getId()}"                                                </c:when>--%>
+                                                <c:when test="${not empty itemBook.getCoverImage()}">
                                                     href="${pageContext.request.contextPath}/getBookImage?bookIndex=${statusBook.count - 1}"                                                </c:when>
                                                 <c:otherwise>
                                                     href="#"
@@ -28,8 +27,7 @@
                                             >
                                             <img class="media-object"
                                                 <c:choose>
-                                                    <c:when test="${itemBook.getCoverImage() != null}">
-                                                        <%--src="${pageContext.request.contextPath}/getBookImage?bookID=${itemBook.getId()}"--%>
+                                                    <c:when test="${not empty itemBook.getCoverImage()}">
                                                         src="${pageContext.request.contextPath}/getBookImage?bookIndex=${statusBook.count - 1}"
                                                     </c:when>
                                                     <c:otherwise>
@@ -79,9 +77,7 @@
                                     <p style="width: 100%; padding: 2px; margin: 0px;">
                                         <strong><fmt:message bundle="${rb}" key="panelListBook.labelDescription"/></strong>
                                     </p>
-                                    <textarea style="height: 180px; width: 255px;
-                                                max-width: 255px; min-width: 255px;
-                                                max-height: 180px; min-height: 180px;"
+                                    <textarea style="height: 180px; width: 255px; resize: none;"
                                               rows="5" cols="20" readonly>${itemBook.getShortDescription()}</textarea>
                                 </div>
                             </div>
@@ -99,7 +95,7 @@
                                                    <fmt:message bundle="${rb}" key="panelListBook.buttonOrder"/>
                                                 </a>
                                             </c:when>
-                                            <c:when test="${currentPage eq 'main' and currentUser.isAuthorized() and currentUser.isFoundUserRoleByName('READER')}">
+                                            <c:when test="${currentPage eq 'main' and sessionUser.isAuthorized() and sessionUser.isFoundUserRoleByName('READER')}">
                                                 <button type="submit" formaction="showCreateOrderForm" formmethod="post"
                                                         class="btn btn-primary btn-xs navbar-left">
                                                     <fmt:message bundle="${rb}" key="panelListBook.buttonOrder"/>
@@ -109,7 +105,7 @@
                                             </c:otherwise>
                                         </c:choose>
 
-                                        <c:if test="${currentPage eq 'main' and currentUser.isAuthorized() and currentUser.isFoundUserRoleByName('EMPLOYEE')}">
+                                        <c:if test="${currentPage eq 'main' and sessionUser.isAuthorized() and sessionUser.isFoundUserRoleByName('EMPLOYEE')}">
                                             <button type="submit" formaction="showDeleteBookForm" formmethod="post"
                                                     class="btn btn-danger btn-xs navbar-right">
                                                 <i class="glyphicon glyphicon-remove"></i>

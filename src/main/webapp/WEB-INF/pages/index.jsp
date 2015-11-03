@@ -3,22 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:set var="currentPage" value = "index"/>
-<c:set var="currentLocale" value = "${pageContext.session.getAttribute('currentLocale')}"/>
-<c:set var="currentUser" value = "${pageContext.session.getAttribute('sessionUser')}"/>
-
-<c:set var="typeSearchBook" value = "${pageContext.session.getAttribute('typeSearchBook')}"/>
-<c:set var="searchTextBook" value = "${pageContext.session.getAttribute('searchTextBook')}"/>
-<c:set var="bookSectionID" value = "${pageContext.session.getAttribute('bookSectionID')}"/>
-<c:set var="bookGenreID" value = "${pageContext.session.getAttribute('bookGenreID')}"/>
-<c:set var="pageBookNumber" value = "${pageContext.session.getAttribute('pageBookNumber')}"/>
-
-<c:set var="countBooks" value = "${pageContext.session.getAttribute('countBooks')}"/>
-<c:set var="countBookPages" value = "${pageContext.session.getAttribute('countBookPages')}"/>
-<c:set var="listBookPage" value = "${pageContext.session.getAttribute('listBookPage')}"/>
-<c:set var="listBookSection" value = "${pageContext.session.getAttribute('listBookSection')}"/>
-<c:set var="listBookGenre" value = "${pageContext.session.getAttribute('listBookGenre')}"/>
-
 <fmt:setLocale value="${currentLocale}" scope="session"/>
 <fmt:setBundle basename="messages" scope="session" var="rb"/>
 
@@ -48,7 +32,7 @@
 
     <div class="aga-page" style="margin-top: 30px;">
         <%--header include--%>
-        <%@include file="/pages/jspf/headerPage.jspf"%>
+        <%@include file="/WEB-INF/pages/jspf/headerPage.jspf"%>
 
         <section id="steps" style="margin-bottom: 5px; padding: 5px; display: block;">
             <div class="center">
@@ -56,18 +40,18 @@
                     <div class="row row-height">
 
                         <%--sectionBook include--%>
-                        <%@include file="/pages/jspf/sectionBook.jspf"%>
+                        <%@include file="/WEB-INF/pages/jspf/sectionBook.jspf"%>
 
                         <div class="col-md-9 row-height" style="position: relative;">
                             <div class="panel panel-default">
                                 <%--searchParamBook include--%>
-                                <%@include file="/pages/jspf/panelSearchParamBook.jspf"%>
+                                <%@include file="/WEB-INF/pages/jspf/panelSearchParamBook.jspf"%>
 
                                 <%--panelListBook include--%>
-                                <%@include file="/pages/jspf/panelListBook.jspf"%>
+                                <%@include file="/WEB-INF/pages/jspf/panelListBook.jspf"%>
 
                                 <%--panelPagingFooterBook include--%>
-                                <%@include file="/pages/jspf/panelPagingFooterBooks.jspf"%>
+                                <%@include file="/WEB-INF/pages/jspf/panelPagingFooterBooks.jspf"%>
                             </div>
                         </div>
 
@@ -79,17 +63,17 @@
         </section>
 
         <%--footer include--%>
-        <%@include file="/pages/jspf/footerPage.jspf"%>
+        <%@include file="/WEB-INF/pages/jspf/footerPage.jspf"%>
     </div>
 
     <%--modal loginForm include--%>
-    <%@include file="/pages/jspf/loginForm.jspf"%>
+    <%@include file="/WEB-INF/pages/jspf/loginForm.jspf"%>
 
     <%--modal registrationForm include--%>
-    <%@include file="/pages/jspf/registrationForm.jspf" %>
+    <%@include file="/WEB-INF/pages/jspf/registrationForm.jspf" %>
 
     <%--modal infoForm include--%>
-    <%@include file="/pages/jspf/infoForm.jspf"%>
+    <%@include file="/WEB-INF/pages/jspf/infoForm.jspf"%>
 
 </body>
 

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Locale;
 
-
+/**
+ * The basic filter for work with inquiries of the client
+ */
 @WebFilter(filterName = "PagesBaseFilter", urlPatterns = { "/*" },
   dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.INCLUDE },
   initParams = {
@@ -25,22 +27,38 @@ public class PagesBaseFilter implements Filter {
     private String contentTypePage;
     private String defaultLocale;
 
+    /**
+     * Method of initialization of a class
+     * @param fConfig configuration parameters for initialization of parameters of the filter (type of FilterConfig)
+     * @throws ServletException
+     */
     public void init(FilterConfig fConfig) throws ServletException {
         encodingPage = fConfig.getInitParameter("encodingPage");
         contentTypePage = fConfig.getInitParameter("contentTypePage");
         defaultLocale = fConfig.getInitParameter("defaultLocale");
     }
 
+    /**
+     * Method of destruction of a class
+     */
     public void destroy() {
         encodingPage = null;
         contentTypePage = null;
         defaultLocale = null;
     }
 
+    /**
+     * Method of processing of inquiry of the client filter
+     * @param req ServletRequest request
+     * @param resp ServletResponse response
+     * @param chain FilterChain the list of filters for processing of inquiries
+     * @throws ServletException
+     * @throws IOException
+     */
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         HttpSession session = ((HttpServletRequest) req).getSession();
 
-        // установка кодировки страниц
+        // installation of the coding of pages
         if (req.getCharacterEncoding() != encodingPage) {
             req.setCharacterEncoding(encodingPage);
         }
@@ -50,7 +68,7 @@ public class PagesBaseFilter implements Filter {
             resp.setContentType(contentTypePage);
         }
 
-        // установка локали
+        // localization installation
         Locale currentLocale = (Locale) session.getAttribute("currentLocale");
 
         if (currentLocale == null) {
@@ -58,9 +76,10 @@ public class PagesBaseFilter implements Filter {
             session.setAttribute("currentLocale", currentLocale);
         }
 
-        // если еще не логинились, то пользователь = null. Заполним его для сессии с правами и именем GUEST (Гость)
+        // if didn't log in yet, the user = null. We will fill it for session
+        // with the rights and the name GUEST (Guest)
         if (session.getAttribute("sessionUser") == null) {
-            IDAOUser daoUser = new DAOUser("Guest", "Guest");
+            DAOUser daoUser = new DAOUser("Guest", "Guest");
             session.setAttribute("sessionUser", daoUser);
         }
 

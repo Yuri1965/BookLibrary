@@ -1,54 +1,62 @@
 package com.epam.training.booklibrary.controllers.commands.implementations;
 
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
-import com.epam.training.booklibrary.controllers.utils.DataManager;
+import com.epam.training.booklibrary.datamodels.DataManager;
 import com.epam.training.booklibrary.controllers.utils.GeneralUtils;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
 import com.epam.training.booklibrary.dao.implementations.DAOUser;
+import com.epam.training.booklibrary.entity.UserOrder;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 import com.epam.training.booklibrary.utils.LocaleMessageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by URA on 28.10.2015.
+ * Class for processing of the createUserOrder team
  */
-public class CreateUserOrder implements ICommand {
-    private Logger logger = LogManager.getLogger(CreateUserOrder.class.getName());
+public class CreateUserOrderCommand implements ICommand {
+    private Logger logger = LogManager.getLogger(CreateUserOrderCommand.class.getName());
 
     private static final String MAIN_PAGE = "/main";
 
+    /**
+     * Method handler of inquiry of the client
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return returns a resource for formation of the answer to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        //извлечение локали из сессии
+        //extraction of localization from session
         Locale locale = (Locale) session.getAttribute("currentLocale");
 
         String redirectPage = request.getContextPath();
 
-        // очищаем предыдущие атрибуты запроса если они были
+        //we clear the previous attributes of inquiry if they were
         session.removeAttribute("currentError");
         session.removeAttribute("autoShowModalForm");
 
-        //извлечение из запроса параметров
+        //extraction from inquiry of parameters
         String bookID = request.getParameter("bookID");
         String typeOrderID = request.getParameter("typeOrderID");
         String datePrev = request.getParameter("datePrev");
         int userID = ((DAOUser) session.getAttribute("sessionUser")).getCurrentUser().getId();
 
-        //проверка параметров запроса
+        //validation of parameters of inquiry
         boolean errorCheckFound = false;
         StringBuilder errorString = new StringBuilder();
 
@@ -62,7 +70,7 @@ public class CreateUserOrder implements ICommand {
             errorCheckFound = true;
         }
 
-        // если есть ошибки то показываем их
+        //if there are mistakes that show them
         if (errorCheckFound) {
             session.setAttribute("currentError", errorString);
             session.setAttribute("autoShowModalForm", "#formCreateOrder");
@@ -73,7 +81,7 @@ public class CreateUserOrder implements ICommand {
         }
 
         try {
-            // конвертация и проверка даты и времени
+            //converting and check of date and time
             Date currentDateTime = new Date();
             Date datePrevToDate = GeneralUtils.getDateFormatterByLocale(locale, false).parse(datePrev);
 
@@ -81,17 +89,18 @@ public class CreateUserOrder implements ICommand {
                 throw MainExceptions.getMainErrorException("errorBeforeDate");
             }
 
-            // сохраняем заказ
-            DataManager.createOrder(Integer.valueOf(bookID), Integer.valueOf(userID), Integer.valueOf(typeOrderID), datePrevToDate);
+            //we keep the order for the book
+            UserOrder userOrder = DataManager.createOrder(Integer.valueOf(bookID), Integer.valueOf(userID), Integer.valueOf(typeOrderID), datePrevToDate);
+
+            //we log action of the user
+            String fromIP = "Client IP: " + request.getRemoteAddr();
+            String userName = ((DAOUser) session.getAttribute("sessionUser")).getUserName();
+            logger.info(fromIP + "\nThe user of " + userName + " created the order for the book " +
+                    userOrder.getBookName() + " on " + userOrder.getOrderPreDateByLocale(Locale.US));
 
             session.removeAttribute("bookSelected");
             redirectPage = redirectPage + MAIN_PAGE;
             response.sendRedirect(redirectPage);
-
-        } catch (SQLException ex) {
-            logger.error(ex.getMessage());
-        } catch (NamingException ex) {
-            logger.error(ex.getMessage());
         } catch (ParseException ex) {
             logger.error(ex.getMessage());
 
@@ -110,6 +119,7 @@ public class CreateUserOrder implements ICommand {
             response.sendRedirect(redirectPage);
         } catch (Exception ex){
             logger.error(ex.getMessage());
+            throw new ServletException(ex);
         } finally {
         }
 

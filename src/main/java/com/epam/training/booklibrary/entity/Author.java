@@ -4,19 +4,28 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by URA on 30.09.2015.
+ * Class the Author of the book contains realization for objects
  */
 public class Author implements Serializable {
     private static final long serialVersionUID = 04L;
 
+    // record identifier
     private int id;
+    // Name of the author in Russian
     private String fioRU;
+    // Name of the author in English
     private String fioEN;
+    // Date of birth of the author
     private Date birthDay;
 
+
+    /**
+     * Constructor of a class by default
+     */
     public Author() {
     }
 
+    // getters and setters
     public int getId() {
         return id;
     }

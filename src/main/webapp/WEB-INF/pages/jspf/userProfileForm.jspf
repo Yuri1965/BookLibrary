@@ -21,7 +21,7 @@
                             <label class="col-sm-3 control-label"><fmt:message bundle="${rb}" key="labelUserID"/>:
                             </label>
                             <div class="col-sm-8">
-                                <p class="form-control-static">${currentUser.getCurrentUser().getId()}</p>
+                                <p class="form-control-static">${sessionUser.getCurrentUser().getId()}</p>
                             </div>
                         </div>
 
@@ -29,7 +29,7 @@
                             <label class="col-sm-3 control-label"><fmt:message bundle="${rb}" key="labelUserName"/>:
                             </label>
                             <div class="col-sm-8">
-                                <p class="form-control-static">${currentUser.getCurrentUser().getName_user()}</p>
+                                <p class="form-control-static">${sessionUser.getCurrentUser().getName_user()}</p>
                             </div>
                         </div>
 
@@ -51,7 +51,7 @@
                             </label>
                             <div class="col-sm-8">
                                 <input name="emailUser" type="email" class="form-control" id="profEmail"
-                                       value="${currentUser.getCurrentUser().getEmail_user()}"
+                                       value="${sessionUser.getCurrentUser().getEmail_user()}"
                                        placeholder="<fmt:message bundle="${rb}" key="inputEmail"/>"
                                 required="true">
                             </div>
@@ -63,7 +63,7 @@
                             </label>
                             <div class="col-sm-8">
                                 <input name="firstNameUser" type="text" class="form-control" id="profFirstName"
-                                       value="${currentUser.getCurrentUser().getFirstName_user()}"
+                                       value="${sessionUser.getCurrentUser().getFirstName_user()}"
                                        placeholder="<fmt:message bundle="${rb}" key="inputFirstName"/>"
                                 required="true">
                             </div>
@@ -75,7 +75,7 @@
                             </label>
                             <div class="col-sm-8">
                                 <input name="lastNameUser" type="text" class="form-control" id="profLastName"
-                                       value="${currentUser.getCurrentUser().getLastName_user()}"
+                                       value="${sessionUser.getCurrentUser().getLastName_user()}"
                                        placeholder="<fmt:message bundle="${rb}" key="inputLastName"/>"
                                 required="false">
                             </div>

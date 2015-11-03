@@ -52,7 +52,6 @@
                                     <fmt:message bundle="${rb}" key="panelGridOrder.statusOrder2"/>
                                 </c:when>
                                 <c:when test="${not empty itemOrder.getPreOrderDateTime()
-                                                and not empty itemOrder.getBeginOrderDateTime()
                                                 and not empty itemOrder.getEndOrderDateTime()
                                                 and itemOrder.isCloseOrder()}">
                                     <fmt:message bundle="${rb}" key="panelGridOrder.statusOrder3"/>

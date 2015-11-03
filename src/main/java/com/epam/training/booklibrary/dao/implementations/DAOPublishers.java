@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by URA on 30.09.2015.
+ * The class contains methods for work with the list of Publishing houses
  */
 public class DAOPublishers implements IDAOPublishers {
     private static final String SQL_GET_PUBLISHERS = "SELECT id, name_ru, name_en FROM publishers ORDER BY name_ru ASC;";
@@ -19,9 +19,19 @@ public class DAOPublishers implements IDAOPublishers {
     private static final String SQL_CREATE_PUBLISHER = "{ call insertPublisher(?, ?) }";
     private static final String SQL_UPDATE_PUBLISHER = "{ call updatePublisher(?, ?, ?) }";
 
+    /**
+     * Constructor of a class by default
+     */
     public DAOPublishers() {
     }
 
+    /**
+     * The method returns Publishing house from a DB on the specified identifier
+     * @param publisherID record identifier
+     * @return publishing house (type of Publisher)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public Publisher getPublisher(int publisherID) throws SQLException, NamingException {
         Publisher publisher = null;
@@ -58,6 +68,14 @@ public class DAOPublishers implements IDAOPublishers {
         }
     }
 
+    /**
+     * The method creates the new record Publishing house in a DB
+     * @param nameRU the name of publishing house in Russian
+     * @param nameEN the name of publishing house in English
+     * @return publishing house (type of Publisher)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public Publisher createPublisher(String nameRU, String nameEN) throws SQLException, NamingException {
         Publisher publisher = null;
@@ -95,6 +113,15 @@ public class DAOPublishers implements IDAOPublishers {
         }
     }
 
+    /**
+     * The method changes data of publishing house in a DB on the specified identifier
+     * @param publisherID record identifier
+     * @param nameRU the name of publishing house in Russian
+     * @param nameEN the name of publishing house in English
+     * @return publishing house (type of Publisher)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public Publisher updatePublisher(int publisherID, String nameRU, String nameEN) throws SQLException, NamingException {
         Publisher publisher = null;
@@ -133,6 +160,12 @@ public class DAOPublishers implements IDAOPublishers {
         }
     }
 
+    /**
+     * The method returns the list of publishing houses from a DB
+     * @return list of publishing houses (type of List<Publisher>)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public List<Publisher> getPublishers() throws SQLException, NamingException {
         List<Publisher> publishers = new ArrayList<Publisher>();

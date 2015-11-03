@@ -10,17 +10,15 @@ import com.epam.training.booklibrary.utils.LocaleMessageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Locale;
 
 /**
- * Created by URA on 12.10.2015.
+ * Class for processing of the main team
  */
 public class SaveUserProfileCommand implements ICommand {
     private Logger logger = LogManager.getLogger(SaveUserProfileCommand.class.getName());
@@ -28,26 +26,35 @@ public class SaveUserProfileCommand implements ICommand {
     private static final String DEFAULT_PASSWORD_VALUE = "password";
     private static final String MAIN_PAGE = "/main";
 
+    /**
+     * Method handler of inquiry of the client
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return returns a resource for formation of the answer to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        //извлечение локали из сессии
+        //extraction of localization from session
         Locale locale = (Locale) session.getAttribute("currentLocale");
 
         String redirectPage = request.getContextPath();
 
-        // очищаем предыдущие атрибуты запроса если они были
+        //we clear the previous attributes of inquiry if they were
         session.removeAttribute("currentError");
         session.removeAttribute("autoShowModalForm");
 
-        //извлечение из запроса параметров
+        //extraction from inquiry of parameters
         String password = request.getParameter("passwordUser");
         String email = request.getParameter("emailUser");
         String firstName = request.getParameter("firstNameUser");
         String lastName = request.getParameter("lastNameUser");
 
-        // проверка на обязательность заполнения полей
+        //check on obligation of filling of fields
         if (email == null || email.isEmpty() || firstName == null || firstName.isEmpty()) {
             session.setAttribute("currentError", LocaleMessageManager.getMessageValue("errorInputObligationField", locale));
             session.setAttribute("autoShowModalForm", "#formUserProfile");
@@ -57,12 +64,12 @@ public class SaveUserProfileCommand implements ICommand {
             return null;
         }
 
+        //validation of parameters of inquiry
         boolean errorCheckFound = false;
         StringBuilder errorString = new StringBuilder();
 
         if (lastName == null) { lastName = ""; }
 
-        // валидация по параметрам
         if ((password != null || !password.isEmpty()) && (!password.equalsIgnoreCase(DEFAULT_PASSWORD_VALUE))) {
             if (!RequestParamValidator.checkSymbolsPassword(password) || !RequestParamValidator.checkLengthPassword(password)) {
                 errorString.append(String.format(LocaleMessageManager.getMessageValue("errorPasswordLength", locale),
@@ -96,7 +103,7 @@ public class SaveUserProfileCommand implements ICommand {
             }
         }
 
-        // если есть ошибки то показываем их
+        //if there are mistakes that show them
         if (errorCheckFound) {
             session.setAttribute("currentError", errorString.toString());
             session.setAttribute("autoShowModalForm", "#formUserProfile");
@@ -106,23 +113,25 @@ public class SaveUserProfileCommand implements ICommand {
             return null;
         }
 
-        IDAOUser daoUser = (DAOUser) session.getAttribute("sessionUser");
+        DAOUser daoUser = (DAOUser) session.getAttribute("sessionUser");
 
         try {
+            //processing of inquiry and preparation of data for the user
             if (password == null || password.isEmpty() || password.equalsIgnoreCase(DEFAULT_PASSWORD_VALUE)) {
                 password = "";
             }
 
             daoUser.updateUser(password, email, firstName, lastName);
+
+            //we log action of the user
+            String fromIP = "Client IP: " + request.getRemoteAddr();
+            String userName = daoUser.getUserName();
+            logger.info(fromIP + "\nThe user of " + userName + " changed the data of a profile in system");
+
             session.setAttribute("sessionUser", daoUser);
 
             redirectPage = redirectPage + MAIN_PAGE;
             response.sendRedirect(redirectPage);
-
-        } catch (SQLException ex) {
-            logger.error(ex.getMessage());
-        } catch (NamingException ex) {
-            logger.error(ex.getMessage());
         } catch (MainExceptions.MainErrorException ex) {
             logger.error(LocaleMessageManager.getMessageValue(ex.getMessage(), Locale.US));
 
@@ -131,6 +140,9 @@ public class SaveUserProfileCommand implements ICommand {
 
             redirectPage = redirectPage + MAIN_PAGE;
             response.sendRedirect(redirectPage);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+            throw new ServletException(ex);
         } finally {
         }
 

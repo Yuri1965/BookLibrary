@@ -219,6 +219,10 @@ a.background_button:hover {
     width: 100%;
 }
 
+#formCreateOrder select {
+    width: 100%;
+}
+
 /*ЦВЕТА*/
 /*#27589A*/
 /*#91C5F2 - голубой */

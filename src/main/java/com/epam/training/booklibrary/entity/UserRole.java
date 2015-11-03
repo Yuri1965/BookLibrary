@@ -5,30 +5,29 @@ import com.epam.training.booklibrary.enums.Roles;
 import java.io.Serializable;
 
 /**
- * Класс Роль пользователя в системе
- * Created by URA on 13.09.2015.
+ * The class Role of the User in system
  */
 public class UserRole implements Serializable {
     private static final long serialVersionUID = 03L;
 
-    // Идентификатор роли пользователя
+    // Identifier of a role of the user
     private int id;
-    // Идентификатор пользователя
+    // user ID
     private int userID;
-    // Роль пользователя - объект класса Role
+    // Role of the user - object of the class Role
     private Role role;
 
     /**
-     * Конструктор класса по умолчанию
+     * Constructor of a class by default
      */
     public UserRole() {
     }
 
     /**
-     * Конструктор класса
-     * @param id Идентификатор роли пользователя
-     * @param userID Идентификатор пользователя
-     * @param roleID Идентификатор роли
+     * Constructor of a class
+     * @param id Identifier of a role of the user
+     * @param userID user ID
+     * @param roleID Role identifier
      */
     public UserRole(int id, int userID, int roleID) {
         this.id = id;
@@ -36,7 +35,7 @@ public class UserRole implements Serializable {
         this.role = new Role(roleID, Roles.getRoleByIndex(roleID));
     }
 
-    // геттеры и сеттеры
+    // getters and setters
     public Role getRole() {
         return role;
     }

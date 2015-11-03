@@ -27,15 +27,19 @@ public class RequestHelper extends AbstractRequestHelper {
         commands.replace("showAddBookForm", new ShowAddBookForm());
         commands.replace("saveBook", new SaveBookCommand());
         commands.replace("showDeleteBookForm", new ShowDeleteBookForm());
-        commands.replace("deleteBook", new DeleteBook());
+        commands.replace("deleteBook", new DeleteBookCommand());
 
         commands.replace("showCreateOrderForm", new ShowCreateOrderForm());
-        commands.replace("createUserOrder", new CreateUserOrder());
+        commands.replace("createUserOrder", new CreateUserOrderCommand());
         commands.replace("showCloseOrderForm", new ShowCloseOrderForm());
+        commands.replace("closeUserOrder", new CloseUserOrderCommand());
         commands.replace("showSetWorkOrderForm", new ShowSetWorkOrderForm());
+        commands.replace("setWorkUserOrder", new SetWorkUserOrderCommand());
 
         commands.replace("showBlockUnBlockUserForm", new ShowBlockUnBlockUserForm());
-        commands.replace("blockUnBlockUser", new BlockUnBlockUser());
+        commands.replace("blockUnBlockUser", new BlockUnBlockUserCommand());
+
+        commands.replace("showErrorPage", new ShowErrorPage());
     }
 
     //создание единственного объекта по шаблону Singleton

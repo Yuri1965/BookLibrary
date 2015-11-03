@@ -6,9 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by URA on 01.10.2015.
+ * Class factory which contains methods for filling of DAO of objects with the data obtained from a DB
  */
 public class DAOUtils {
+    /**
+     * The method fills with data from a DB object of the class UserOrder
+     * @param rs (type of ResultSet) object which contains data from a DB
+     * @return object of a class UserOrder
+     * @throws SQLException
+     */
     public static UserOrder setOrder(ResultSet rs) throws SQLException {
         UserOrder userOrder = new UserOrder();
 
@@ -35,6 +41,12 @@ public class DAOUtils {
         return userOrder;
     }
 
+    /**
+     * The method fills with data from a DB object of the class UserExt
+     * @param rs (type of ResultSet) object which contains data from a DB
+     * @return object of a class UserExt
+     * @throws SQLException
+     */
     public static UserExt setUserExt(ResultSet rs) throws SQLException {
         UserExt userExt = new UserExt();
 
@@ -56,6 +68,12 @@ public class DAOUtils {
         return userExt;
     }
 
+    /**
+     * The method fills with data from a DB object of the class Author
+     * @param rs (type of ResultSet) object which contains data from a DB
+     * @return object of a class Author
+     * @throws SQLException
+     */
     public static Author setAuthor(ResultSet rs) throws SQLException {
         Author author = new Author();
 
@@ -67,6 +85,12 @@ public class DAOUtils {
         return author;
     }
 
+    /**
+     * The method fills with data from a DB object of the class Book
+     * @param rs (type of ResultSet) object which contains data from a DB
+     * @return object of a class Book
+     * @throws SQLException
+     */
     public static Book setBook(ResultSet rs) throws SQLException {
         Book book = new Book();
 
@@ -112,6 +136,12 @@ public class DAOUtils {
         return book;
     }
 
+    /**
+     * The method fills with data from a DB object of the class BookGenre
+     * @param rs (type of ResultSet) object which contains data from a DB
+     * @return object of a class BookGenre
+     * @throws SQLException
+     */
     public static BookGenre setBookGenre(ResultSet rs) throws SQLException {
         BookGenre bookGenre = new BookGenre();
 
@@ -130,6 +160,12 @@ public class DAOUtils {
         return bookGenre;
     }
 
+    /**
+     * The method fills with data from a DB object of the class BookSection
+     * @param rs (type of ResultSet) object which contains data from a DB
+     * @return object of a class BookSection
+     * @throws SQLException
+     */
     public static BookSection setBookSection(ResultSet rs) throws SQLException {
         BookSection bookSection = new BookSection();
 
@@ -140,6 +176,12 @@ public class DAOUtils {
         return bookSection;
     }
 
+    /**
+     * The method fills with data from a DB object of the class OrderType
+     * @param rs (type of ResultSet) object which contains data from a DB
+     * @return object of a class OrderType
+     * @throws SQLException
+     */
     public static OrderType setOrderType(ResultSet rs) throws SQLException {
         OrderType orderType = new OrderType();
 
@@ -150,6 +192,12 @@ public class DAOUtils {
         return orderType;
     }
 
+    /**
+     * The method fills with data from a DB object of the class Publisher
+     * @param rs (type of ResultSet) object which contains data from a DB
+     * @return object of a class Publisher
+     * @throws SQLException
+     */
     public static Publisher setPublisher(ResultSet rs) throws SQLException {
         Publisher publisher = new Publisher();
 

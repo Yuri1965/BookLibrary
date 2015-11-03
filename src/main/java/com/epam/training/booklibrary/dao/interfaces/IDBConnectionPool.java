@@ -5,13 +5,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Created by URA on 25.09.2015.
- * Interface for implements in classes
+ * Interface for implements in classes DBConnectionPool
  */
 public interface IDBConnectionPool {
     /**
      * Method getConnection() for implements classes.
      * @return The link to object of the class Connection from a pool of connections from database.
+     * @throws SQLException
+     * @throws NamingException
      */
     Connection getConnection() throws SQLException, NamingException;
 }

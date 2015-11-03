@@ -42,7 +42,7 @@
         </button>
 
         <c:choose>
-            <c:when test="${currentPage eq 'main' and bookGenreID > 0 and currentUser.isAuthorized() and currentUser.isFoundUserRoleByName('EMPLOYEE')}">
+            <c:when test="${currentPage eq 'main' and bookGenreID > 0 and sessionUser.isAuthorized() and sessionUser.isFoundUserRoleByName('EMPLOYEE')}">
                 <button type="submit" formaction="showAddBookForm" formmethod="post"
                         class="btn btn-primary btn-xs">
                     <fmt:message bundle="${rb}" key="panelSearchBook.newBookButton"/>

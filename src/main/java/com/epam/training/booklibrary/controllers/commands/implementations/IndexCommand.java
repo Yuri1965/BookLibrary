@@ -1,7 +1,7 @@
 package com.epam.training.booklibrary.controllers.commands.implementations;
 
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
-import com.epam.training.booklibrary.controllers.utils.DataManager;
+import com.epam.training.booklibrary.datamodels.DataManager;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
 import com.epam.training.booklibrary.dao.implementations.DAOSearchBookCriteria;
 import com.epam.training.booklibrary.entity.Book;
@@ -11,46 +11,53 @@ import com.epam.training.booklibrary.utils.ApplicationConfigManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by URA on 15.10.2015.
+ * Class for processing of the index team
  */
 public class IndexCommand implements ICommand {
     private Logger logger = LogManager.getLogger(IndexCommand.class.getName());
-    private static final String INDEX_PAGE = "/pages/index.jsp";
+    private static final String INDEX_PAGE = "/WEB-INF/pages/index.jsp";
 
-    // для подсчета кол-ва записей и страниц
+    // for calculation of number of records and pages
     private static final int COUNT_RECORD_PAGE = 0;
     private static final int COUNT_PAGE = 0;
 
-    // кол-во записей на странице
+    // number of records on the page
     private static final int RECORD_PAGE = Integer.valueOf(ApplicationConfigManager.getConfigValue("recordsBookPage", "6"));
     // активная страница по умолчанию
     private static final String DEFAULT_PAGE = "1";
 
-    // вид поиска
+    // type of search
     private static final String TYPE_SEARCH_BY_NAME = "1";
     private static final String TYPE_SEARCH_BY_AUTHOR = "2";
 
-    // раздел литературы по умолчанию (все разделы)
+    // section of literature by default (all sections)
     private static final String DEFAULT_BOOK_SECTION = "0";
-    // жанр книг по умолчанию (все жанры)
+    // genre of books by default (all genres)
     private static final String DEFAULT_BOOK_GENRE = "0";
 
+    /**
+     * Method handler of inquiry of the client
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return returns a resource for formation of the answer to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
         try {
-            //извлечение из запроса параметров
+            //extraction from inquiry of parameters
             String paramErrorClear = request.getParameter("errorClear");
 
             String paramTypeSearchBook = request.getParameter("typeSearchBook");
@@ -59,7 +66,7 @@ public class IndexCommand implements ICommand {
             String paramBookGenreID = request.getParameter("bookGenreID");
             String paramBookPageNumber = request.getParameter("pageBookNumber");
 
-            //извлечение атрибутов из сессии
+            //extraction of attributes from session
             String attrTypeSearchBook = (String) session.getAttribute("typeSearchBook");
             String attrSearchTextBook = (String) session.getAttribute("searchTextBook");
             String attrBookSectionID = (String) session.getAttribute("bookSectionID");
@@ -71,7 +78,7 @@ public class IndexCommand implements ICommand {
                 session.removeAttribute("autoShowModalForm");
             }
 
-            //Номер страницы
+            //Number of the page
             if (paramBookPageNumber != null && !paramBookPageNumber.isEmpty()) {
                 if (!RequestParamValidator.checkSymbolsNumbers(paramBookPageNumber)) {
                     paramBookPageNumber = DEFAULT_PAGE;
@@ -85,7 +92,7 @@ public class IndexCommand implements ICommand {
             }
             paramBookPageNumber = (String) session.getAttribute("pageBookNumber");
 
-            //Вид поиска
+            //Type of search
             if (paramTypeSearchBook != null && !paramTypeSearchBook.isEmpty()) {
                 if (!paramTypeSearchBook.equals(TYPE_SEARCH_BY_NAME) && !paramTypeSearchBook.equals(TYPE_SEARCH_BY_AUTHOR)) {
                     session.setAttribute("typeSearchBook", TYPE_SEARCH_BY_NAME);
@@ -99,7 +106,7 @@ public class IndexCommand implements ICommand {
             }
             paramTypeSearchBook = (String) session.getAttribute("typeSearchBook");
 
-            //Текст поиска
+            //Text of search
             if (paramSearchTextBook != null) {
                 session.setAttribute("searchTextBook", paramSearchTextBook);
             } else {
@@ -109,7 +116,7 @@ public class IndexCommand implements ICommand {
             }
             paramSearchTextBook = (String) session.getAttribute("searchTextBook");
 
-            //Раздел литературы
+            //Section of literature
             if (paramBookGenreID != null && !paramBookGenreID.isEmpty()) {
                 if (!RequestParamValidator.checkSymbolsNumbers(paramBookGenreID)) {
                     paramBookGenreID = DEFAULT_BOOK_GENRE;
@@ -123,7 +130,7 @@ public class IndexCommand implements ICommand {
             }
             paramBookGenreID = (String) session.getAttribute("bookGenreID");
 
-            //Жанр книги
+            //Book genre
             if (paramBookSectionID != null && !paramBookSectionID.isEmpty()) {
                 if (!RequestParamValidator.checkSymbolsNumbers(paramBookSectionID)) {
                     paramBookSectionID = DEFAULT_BOOK_SECTION;
@@ -137,16 +144,17 @@ public class IndexCommand implements ICommand {
             }
             paramBookSectionID = (String) session.getAttribute("bookSectionID");
 
+            //we receive object with criteria of search depending on the transferred inquiry parameters
             DAOSearchBookCriteria bookSearchCriteriaByPager =
                     new DAOSearchBookCriteria(Integer.valueOf(paramTypeSearchBook), paramSearchTextBook,
                             Integer.valueOf(paramBookSectionID), Integer.valueOf(paramBookGenreID),
                             COUNT_RECORD_PAGE, COUNT_PAGE);
 
-            // получаем кол-во найденных книг
+            // we receive number of the found books
             int countBooks = DataManager.getCountBooks(bookSearchCriteriaByPager);
             session.setAttribute("countBooks", countBooks);
 
-            // получаем кол-во страниц с найденными книгами
+            // we receive number of pages with the found books
             int countBookPages = COUNT_PAGE;
             if (countBooks > 0) {
                 bookSearchCriteriaByPager.setRecordCountPage(RECORD_PAGE);
@@ -164,7 +172,7 @@ public class IndexCommand implements ICommand {
                 session.setAttribute("pageBookNumber", paramBookPageNumber);
             }
 
-            // получаем список книг для указанной страницы
+            // we receive the list of books for the specified page
             DAOSearchBookCriteria bookSearchCriteriaByListBook =
                     new DAOSearchBookCriteria(Integer.valueOf(paramTypeSearchBook), paramSearchTextBook,
                             Integer.valueOf(paramBookSectionID), Integer.valueOf(paramBookGenreID),
@@ -172,25 +180,21 @@ public class IndexCommand implements ICommand {
             List<Book> listBookPage = DataManager.getListBooks(bookSearchCriteriaByListBook);
             session.setAttribute("listBookPage", listBookPage);
 
-            // получение списка разделов литературы
+            // obtaining list of sections of literature
             List<BookSection> listBookSection = DataManager.getBookSections();
             session.setAttribute("listBookSection", listBookSection);
 
-            // получение списка жанров книг
+            // obtaining list of genres of books
             List<BookGenre> listBookGenre = DataManager.getBookGenres();
             session.setAttribute("listBookGenre", listBookGenre);
 
-        } catch (SQLException ex) {
+            session.setAttribute("currentPage", "index");
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
-        } catch (NamingException ex) {
-            logger.error(ex.getMessage());
+            throw new ServletException(ex);
         } finally {
         }
 
-//        String redirectPage = INDEX_PAGE;
-//        response.sendRedirect(redirectPage);
-
-//        return null;
         return INDEX_PAGE;
     }
 }

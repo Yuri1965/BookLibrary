@@ -3,29 +3,49 @@ package com.epam.training.booklibrary.entity;
 import java.io.Serializable;
 
 /**
- * Created by URA on 30.09.2015.
+ * Class the Book contains realization for objects
  */
 public class Book implements Serializable {
     private static final long serialVersionUID = 012L;
 
+    // record identifier
     private int id;
+    // identifier of the author of the book
     private int authorID;
+    // author of the book
     private Author bookAuthor;
+    // book genre identifier
     private int genreID;
+    // book genre
     private BookGenre bookGenre;
+    // identifier of publishing house
     private int publisherID;
+    // publishing house
     private Publisher bookPublisher;
+    // year of the edition
     private int publishYear;
+    // ISBN code
     private String isbn;
+    // name of the book
     private String name;
+    // short description of the book
     private String shortDescription;
+    // number of copies of the book
     private int numberCopies;
+    // book cover
     private byte[] coverImage;
+    // sign of the remove book
     private boolean isDeleted;
 
+    /**
+     * Constructor of a class by default
+     */
     public Book() {
     }
 
+    /**
+     * Constructor of a class
+     */
     public Book(int id, int authorID, Author bookAuthor, int genreID, BookGenre bookGenre, int publisherID,
                 Publisher bookPublisher, int publishYear, String isbn, String name,
                 int numberCopies, boolean isDeleted) {
@@ -43,6 +63,7 @@ public class Book implements Serializable {
         this.isDeleted = isDeleted;
     }
 
+    // getters and setters
     public int getId() {
         return id;
     }

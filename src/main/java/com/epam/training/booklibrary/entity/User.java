@@ -4,50 +4,51 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by URA on 13.09.2015.
- * Класс пользователь системы
+ * Class User of System
  */
 public class User implements Serializable {
     private static final long serialVersionUID = 02L;
 
-    // Идентификатор пользователя
+    // user ID
     private int id;
-    // UUID пользователя
+    // User's UUID
     private String uuid_user;
-    // Имя (Login) пользователя
+    // Name (Login) of the user
     private String name_user;
-    // Пароль пользователя
+    // User password
     private String pass_user;
-    // Email пользователя
+    // E-mail of the user
     private String email_user;
-    // Дата и время регистрации пользователя
+    // Date and time of registration of the user
     private Date reg_Date;
-    // Имя пользователя
+    // User first name
     private String firstName_user;
-    // Фамилия пользователя
+    // Surname of the user
     private String lastName_user;
 
+    // Sign of blocking of the user
     private boolean isBlocked;
+    // Blocking reason
     private String blockedDescription;
 
     /**
-     * Конструктор класса по умолчанию
+     * Constructor of a class by default
      */
     public User() {
     }
 
     /**
-     * Конструктор класса
-     * @param id Идентификатор пользователя
-     * @param uuid_user UUID пользователя
-     * @param name_user Имя (Login) пользователя
-     * @param pass_user Пароль пользователя
-     * @param email_user Email пользователя
-     * @param reg_Date Дата и время регистрации пользователя
-     * @param firstName_user Имя пользователя
-     * @param lastName_user Фамилия пользователя
-     * @param isBlocked Признак блокировки пользователя
-     * @param blockedDescription Описание причины блокировки пользователя
+     * Constructor of a class
+     * @param id user ID
+     * @param uuid_user User's UUID
+     * @param name_user Name (Login) of the user
+     * @param pass_user User password
+     * @param email_user E-mail of the user
+     * @param reg_Date Date and time of registration of the user
+     * @param firstName_user User first name
+     * @param lastName_user Surname of the user
+     * @param isBlocked Sign of blocking of the user
+     * @param blockedDescription Blocking reason
      */
     public User(int id, String uuid_user, String name_user, String pass_user, String email_user,
                 Date reg_Date, String firstName_user, String lastName_user, boolean isBlocked,
@@ -64,7 +65,7 @@ public class User implements Serializable {
         this.blockedDescription = blockedDescription;
     }
 
-    // геттеры и сеттеры
+    // getters and setters
     public int getId() {
         return id;
     }

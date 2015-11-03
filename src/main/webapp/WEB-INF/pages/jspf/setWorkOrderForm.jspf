@@ -1,0 +1,119 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!-- Форма ввода данных для выдачи книги по заказу-->
+<div id="formSetWorkOrder" class="modal fade" style="text-align: left; width: auto">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #f8f7f5">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"><fmt:message bundle="${rb}" key="formSetWorkOrder.Title"/></h4>
+            </div>
+
+            <form class="form-horizontal" action="setWorkUserOrder" method="post" role="form">
+                <input name="orderID" type="hidden" value="${orderSelected.getId()}"/>
+                <input name="currentPage" type="hidden" value="${currentPage}"/>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="panelGridOrder.columnUser"/>
+                        </label>
+                        <div class="col-sm-7">
+                            ${orderSelected.getUserID()} ${orderSelected.getLastNameUser()} ${orderSelected.getFirstNameUser()}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="panelGridOrder.columnDateOrderPrev"/>
+                        </label>
+                        <div class="col-sm-7">
+                            ${orderSelected.getOrderPreDateByLocale(currentLocale)}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="panelGridOrder.columnBookName"/>
+                        </label>
+                        <div class="col-sm-7">
+                            ${orderSelected.getBookName()}&nbsp;
+                            <c:choose>
+                                <c:when test="${currentLocale == 'en_us'}">
+                                    (${orderSelected.getBookAuthorNameEN()})
+                                </c:when>
+                                <c:otherwise>
+                                    (${orderSelected.getBookAuthorNameRU()})
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="formSetWorkOrder.freeBookCount"/>
+                        </label>
+                        <div class="col-sm-7">
+                            ${freeBookCount}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="panelGridOrder.columnTypeOrder"/>
+                        </label>
+                        <div class="col-sm-7">
+                            <c:choose>
+                                <c:when test="${currentLocale == 'en_us'}">
+                                    ${orderSelected.getOrderTypeNameEN()}
+                                </c:when>
+                                <c:otherwise>
+                                    ${orderSelected.getOrderTypeNameRU()}
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5">
+                            <fmt:message bundle="${rb}" key="panelGridOrder.columnDateBegOrder"/>
+                        </label>
+                        <div class="col-sm-7">
+                            <div class="input-group date" id="dateBeginOrder">
+                                <input type="text" class="form-control" name="dateBeginOrder" required="true"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <c:if test="${(currentError.toString().length() > 0) and (autoShowModalForm.toString() eq '#formSetWorkOrder')}">
+                    <div class="alert alert-warning alert-dismissable" style="margin: 5px;">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <strong>
+                            <fmt:message bundle="${rb}" key="labelError"/>!
+                        </strong>
+                        <p>${currentError.toString()}</p>
+                    </div>
+                </c:if>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <fmt:message bundle="${rb}" key="cancelButton"/>
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <fmt:message bundle="${rb}" key="saveButton"/>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

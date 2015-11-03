@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Created by URA on 13.09.2015.
  * Singleton class. Pool of connections with a DB of library under MySQL
  */
 public class DBConnectionPool extends AbstractDBConnectionPool implements IDBConnectionPool {

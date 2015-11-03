@@ -12,12 +12,11 @@ import java.sql.*;
 import java.util.*;
 
 /**
- * Created by URA on 13.09.2015.
- * Класс для работы с авторизованным пользователем
+ * The class contains methods for work with the authorized user
  */
 public final class DAOUser implements IDAOUser {
     /**
-     * константы для запросов в БД
+     * constants for inquiries in a DB
      */
     private static final String SQL_GET_AUTHORIZATION = "{ call authorization(?, ?) }";
 
@@ -32,85 +31,98 @@ public final class DAOUser implements IDAOUser {
     private static final String SQL_CREATE_USER = "{ call insertUser(?, ?, ?, ?, ?, ?) }";
 
     /**
-     * Признак был ли пользователь авторизован
+     * Whether the sign the user was authorized
      */
     private boolean isAuthorized = false;
 
     /**
-     * Имя (Login) пользователя для авторизации
+     * Name (Login) of the user for authorization
      */
     private String userName;
 
     /**
-     * Пароль пользователя для авторизации
+     * The password of the user for authorization
      */
     private String userPass;
 
     /**
-     * Роль пользователя по умолчанию (для не авторизованных GUEST)
+     * Role of the user by default (for not authorized GUEST)
      */
     private String userDefaultRole = Roles.GUEST_LIBRARY.getName();
 
     /**
-     * Авторизованный пользователь
+     * authorized user
      */
     private User currentUser = null;
 
     /**
-     * Список ролей авторизованного пользователя
+     * The list of roles of the authorized user
      */
     private List<UserRole> currentRolesUser = null;
 
     /**
-     * Конструктор для объекта Авторизованный пользователь
-     * @param userName Имя(Login) пользователя
-     * @param userPass Пароль пользователя
+     * The constructor of a class for object the Authorized user
+     * @param userName Name (Login) of the user
+     * @param userPass user password
      */
     public DAOUser(String userName, String userPass) {
         this.userName = userName;
         this.userPass = userPass;
     }
 
+    /**
+     * The method returns the user's Login
+     * @return user's Login
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * The method returns a role of the user by default
+     * @return role of the user by default
+     */
     public String getUserDefaultRole() {
         return userDefaultRole;
     }
 
     /**
-     * Метод возвращает был ли текущий пользователь авторизован
-     * @return true - если авторизован, false - если не авторизован
+     * Whether the method is returned by the current user was authorized
+     * @return true - if is authorized, false - if isn't authorized
      */
     public boolean isAuthorized() {
         return isAuthorized;
     }
 
     /**
-     * Метод возвращает текущего авторизованного пользователя
-     * @return Текущий авторизованный пользователь
+     * The method returns the current authorized user
+     * @return The current authorized user (type of User)
      */
     public User getCurrentUser() {
         return currentUser;
     }
 
     /**
-     * Метод возвращает список ролей текущего авторизованного пользователя
-     * @return Список ролей текущего авторизованного пользователя
+     * The method returns the list of roles of the current authorized user
+     * @return The list of roles of the current authorized user (type of List<UserRole>)
      */
     public List<UserRole> getCurrentRolesUser() {
         return currentRolesUser;
     }
 
     /**
-     * Метод регистрации нового пользователя
-     * @param name_user Login пользователя
-     * @param pass_user Пароль пользователя
-     * @param email_user Email пользователя
-     * @param firstName_user Имя пользователя
-     * @param lastName_user Фамилия пользователя
-     * @return Пользователь, который был зарегистрирован
+     * Method for realization in classes on work with the authorized user who has to allow
+     * registration of the new user
+     * @param name_user user login
+     * @param pass_user user password
+     * @param email_user User's E-mail
+     * @param firstName_user user name
+     * @param lastName_user Surname of the user
+     * @param roleName Role of the user
+     * @return The user who was registered (type of User)
+     * @throws SQLException
+     * @throws NamingException
+     * @throws MainExceptions.MainErrorException
      */
     @Override
     public User createUser(String name_user, String pass_user, String email_user,
@@ -160,8 +172,11 @@ public final class DAOUser implements IDAOUser {
     }
 
     /**
-     * Метод авторизации пользователя
-     * @return Пользователь, который был авторизован (если авторизация закончилась неудачей, то возвращается null )
+     * Method of authorization of the user in system
+     * @return The user authorized in system (type of User)
+     * @throws SQLException
+     * @throws NamingException
+     * @throws MainExceptions.MainErrorException
      */
     @Override
     public User getAuthorization() throws SQLException, NamingException, MainExceptions.MainErrorException {
@@ -210,8 +225,12 @@ public final class DAOUser implements IDAOUser {
     }
 
     /**
-     * Метод получает из БД роли текущего авторизованного пользователя
-     * @return Список ролей текущего авторизованного пользователя (если роли отсутствуют, то возвращается null)
+     * Method for realization in classes on work with the authorized user who has to receive the list
+     * of roles of the authorized user from a DB
+     * @return The list of roles of the authorized user (type of List<UserRole>)
+     * @throws SQLException
+     * @throws NamingException
+     * @throws MainExceptions.MainErrorException
      */
     @Override
     public List<UserRole> getUserRoles() throws SQLException, NamingException, MainExceptions.MainErrorException {
@@ -261,12 +280,16 @@ public final class DAOUser implements IDAOUser {
     }
 
     /**
-     * Метод изменяет данные текущего авторизованного пользователя
-     * @param pass_user Пароль пользователя
-     * @param email_user Email пользователя
-     * @param firstName_user Имя пользователя
-     * @param lastName_user Фамилия пользователя
-     * @return Пользователь данные, которого были изменены в БД (в случае неудачи возвращается null)
+     * Method for realization in classes on work with the authorized user who has to allow to change data
+     * of the authorized user
+     * @param pass_user user password
+     * @param email_user User's E-mail
+     * @param firstName_user user name
+     * @param lastName_user Surname of the user
+     * @return The authorized user which data were changed (type of User)
+     * @throws SQLException
+     * @throws NamingException
+     * @throws MainExceptions.MainErrorException
      */
     @Override
     public User updateUser(String pass_user, String email_user, String firstName_user, String lastName_user)
@@ -321,9 +344,9 @@ public final class DAOUser implements IDAOUser {
     }
 
     /**
-     * Приватный метод заполняет данными, полученными из БД объект User
-     * @param rs ResultSet, в котором находятся данные полученные из БД
-     * @throws SQLException ошибка в случае неудачи
+     * The private method fills with the data obtained from a DB object of User
+     * @param rs ResultSet in which there are data obtained from a DB
+     * @throws SQLException
      */
     private User setUser(ResultSet rs) throws SQLException {
         User user = new User();
@@ -343,9 +366,9 @@ public final class DAOUser implements IDAOUser {
     }
 
     /**
-     * Реализация метода интерфейса IDAOUser. Ищет в списке ролей и возвращает роль пользователя
-     * @param role
-     * @return Роль пользователя
+     * The method looks for in the list of roles and returns a role of the user on her name
+     * @param role (type of Roles)
+     * @return Role of the user (type of UserRole)
      */
     @Override
     public UserRole getUserRoleByName(Roles role) {
@@ -363,6 +386,11 @@ public final class DAOUser implements IDAOUser {
         return result;
     }
 
+    /**
+     * Whether the method checks there is for the user a specified role
+     * @param roleName role name
+     * @return if = true that is available for the user such role
+     */
     public boolean isFoundUserRoleByName(String roleName) {
         boolean result = false;
         Roles role = Roles.getRoleByName(roleName);

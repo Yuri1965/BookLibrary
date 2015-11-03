@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by URA on 30.09.2015.
+ * The class contains methods for work with genres of books
  */
 public class DAOBookGenres implements IDAOBookGenres {
     private static final String SQL_GET_BOOK_GENRE =
@@ -38,9 +38,19 @@ public class DAOBookGenres implements IDAOBookGenres {
     private static final String SQL_CREATE_BOOK_GENRE = "{ call insertBookGenre(?, ?) }";
     private static final String SQL_UPDATE_BOOK_GENRE = "{ call updateBookGenre(?, ?, ?, ?) }";
 
+    /**
+     * Constructor of a class by default
+     */
     public DAOBookGenres() {
     }
 
+    /**
+     * The method returns object of the class BookGenre on its identifier
+     * @param bookGenreID the book genre identifier in a DB
+     * @return Book genre (type of BookGenre)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public BookGenre getBookGenre(int bookGenreID) throws SQLException, NamingException {
         BookGenre bookGenre = null;
@@ -77,6 +87,15 @@ public class DAOBookGenres implements IDAOBookGenres {
         }
     }
 
+    /**
+     * The method creates new record of a genre of the book in a DB
+     * @param nameRU the name of a genre of the book in Russian
+     * @param nameEN the name of a genre of the book in English
+     * @param bookSectionID identifier of the section of literature
+     * @return Book genre (type of BookGenre)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public BookGenre createBookGenre(String nameRU, String nameEN, int bookSectionID) throws SQLException, NamingException {
         BookGenre bookGenre = null;
@@ -115,6 +134,16 @@ public class DAOBookGenres implements IDAOBookGenres {
         }
     }
 
+    /**
+     * The method changes data of a genre of the book in a DB on its identifier
+     * @param bookGenreID the record identifier in a DB
+     * @param nameRU the name of a genre of the book in Russian
+     * @param nameEN the name of a genre of the book in English
+     * @param bookSectionID identifier of the section of literature
+     * @return Book genre (type of BookGenre)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public BookGenre updateBookGenre(int bookGenreID, String nameRU, String nameEN, int bookSectionID) throws SQLException, NamingException {
         BookGenre bookGenre = null;
@@ -154,6 +183,13 @@ public class DAOBookGenres implements IDAOBookGenres {
         }
     }
 
+    /**
+     * The method returns the list of genres of books which contain in the section of literature from a DB
+     * @param bookSectionID identifier of the section of literature
+     * @return The list of genres of books which belong to the specified section of literature (type of List<BookGenre>)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public List<BookGenre> getBookGenresBySectionID(int bookSectionID) throws SQLException, NamingException {
         List<BookGenre> bookGenres = new ArrayList<BookGenre>();
@@ -192,6 +228,12 @@ public class DAOBookGenres implements IDAOBookGenres {
         }
     }
 
+    /**
+     * The method returns the list of genres of books from a DB
+     * @return List of genres of books (type of List<BookGenre>)
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public List<BookGenre> getBookGenres() throws SQLException, NamingException {
         List<BookGenre> bookGenres = new ArrayList<BookGenre>();

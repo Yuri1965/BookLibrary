@@ -2,6 +2,7 @@ package com.epam.training.booklibrary.controllers.commands.implementations;
 
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
+import com.epam.training.booklibrary.dao.implementations.DAOUser;
 import com.epam.training.booklibrary.dao.interfaces.IDAOUser;
 import com.epam.training.booklibrary.entity.User;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
@@ -10,44 +11,50 @@ import com.epam.training.booklibrary.utils.LocaleMessageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Locale;
 
 /**
- * Created by URA on 09.10.2015.
+ * Class for processing of the registrationUser team
  */
 public class RegistrationUserCommand implements ICommand {
     private Logger logger = LogManager.getLogger(RegistrationUserCommand.class.getName());
 
     private static final String INDEX_PAGE = "/index";
 
+    /**
+     * Method handler of inquiry of the client
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return returns a resource for formation of the answer to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        //извлечение локали из сессии
+        //extraction of localization from session
         Locale locale = (Locale) session.getAttribute("currentLocale");
 
         String redirectPage = request.getContextPath();
 
-        // очищаем предыдущие атрибуты запроса если они были
+        //we clear the previous attributes of inquiry if they were
         session.removeAttribute("currentError");
         session.removeAttribute("autoShowModalForm");
 
-        //извлечение из запроса параметров
+        //extraction from inquiry of parameters
         String login = request.getParameter("loginUser");
         String password = request.getParameter("passwordUser");
         String email = request.getParameter("emailUser");
         String firstName = request.getParameter("firstNameUser");
         String lastName = request.getParameter("lastNameUser");
 
-        // проверка на обязательность заполнения полей
+        //check on obligation of filling of fields
         if (login == null || login.isEmpty()
             || password == null || password.isEmpty()
             || email == null || email.isEmpty()
@@ -61,12 +68,12 @@ public class RegistrationUserCommand implements ICommand {
             return null;
         }
 
+        //validation of parameters of inquiry
         boolean errorCheckFound = false;
         StringBuilder errorString = new StringBuilder();
 
         if (lastName == null) { lastName = ""; }
 
-        // валидация по параметрам
         if (!RequestParamValidator.checkSymbolsLogin(login) || !RequestParamValidator.checkLengthLogin(login)) {
             errorString.append(String.format(LocaleMessageManager.getMessageValue("errorLoginLength", locale),
                     ApplicationConfigManager.getConfigValue("loginMinLength", RequestParamValidator.MIN_LENGTH_LOGIN),
@@ -106,7 +113,7 @@ public class RegistrationUserCommand implements ICommand {
             }
         }
 
-        // если есть ошибки то показываем их
+        //if there are mistakes that show them
         if (errorCheckFound) {
             session.setAttribute("currentError", errorString);
             session.setAttribute("autoShowModalForm", "#formRegistration");
@@ -119,7 +126,13 @@ public class RegistrationUserCommand implements ICommand {
         IDAOUser daoUser = (IDAOUser) session.getAttribute("sessionUser");
 
         try {
+            //processing of inquiry and preparation of data for the user
             User user = daoUser.createUser(login, password, email, firstName, lastName, "READER");
+
+            //we log action of the user
+            String fromIP = "Client IP: " + request.getRemoteAddr();
+            String userName = user.getName_user();
+            logger.info(fromIP + "\nThe user of " + userName + " was registered in system");
 
             StringBuilder registerMessage = new StringBuilder();
             registerMessage.append(String.format(LocaleMessageManager.getMessageValue("registrationOKMessage", locale),
@@ -130,11 +143,6 @@ public class RegistrationUserCommand implements ICommand {
 
             redirectPage = redirectPage + INDEX_PAGE;
             response.sendRedirect(redirectPage);
-
-        } catch (SQLException ex) {
-            logger.error(ex.getMessage());
-        } catch (NamingException ex) {
-            logger.error(ex.getMessage());
         } catch (MainExceptions.MainErrorException ex) {
             logger.error(LocaleMessageManager.getMessageValue(ex.getMessage(), Locale.US));
 
@@ -143,6 +151,9 @@ public class RegistrationUserCommand implements ICommand {
 
             redirectPage = redirectPage + INDEX_PAGE;
             response.sendRedirect(redirectPage);
+        } catch (Exception ex){
+            logger.error(ex.getMessage());
+            throw new ServletException(ex);
         } finally {
         }
 

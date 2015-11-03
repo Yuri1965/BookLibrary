@@ -7,31 +7,57 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by URA on 30.09.2015.
+ * Class which contains realization of object - the Order of the user for the book
  */
 public class UserOrder implements Serializable {
     private static final long serialVersionUID = 013L;
 
+    // Order ID
     private int id;
+    // User data
     private int userID;
     private String firstNameUser;
     private String lastNameUser;
+    // Type order data
     private int orderTypeID;
     private String orderTypeNameRU;
     private String orderTypeNameEN;
+    // Book data
     private int bookID;
     private String bookName;
     private String bookAuthorNameRU;
     private String bookAuthorNameEN;
 
+    // Order Dates
     private Date preOrderDateTime;
     private Date beginOrderDateTime;
     private Date endOrderDateTime;
     private boolean isCloseOrder;
 
+    /**
+     * Constructor of a class by default
+     */
     public UserOrder() {
     }
 
+    /**
+     * Constructor of a class
+     * @param id
+     * @param userID
+     * @param firstNameUser
+     * @param lastNameUser
+     * @param orderTypeID
+     * @param orderTypeNameRU
+     * @param orderTypeNameEN
+     * @param bookID
+     * @param bookName
+     * @param bookAuthorNameRU
+     * @param bookAuthorNameEN
+     * @param preOrderDateTime
+     * @param beginOrderDateTime
+     * @param endOrderDateTime
+     * @param isCloseOrder
+     */
     public UserOrder(int id, int userID, String firstNameUser, String lastNameUser, int orderTypeID,
                      String orderTypeNameRU, String orderTypeNameEN, int bookID, String bookName,
                      String bookAuthorNameRU, String bookAuthorNameEN, Date preOrderDateTime,
@@ -53,6 +79,7 @@ public class UserOrder implements Serializable {
         this.isCloseOrder = isCloseOrder;
     }
 
+    // getters and setters
     public int getId() {
         return id;
     }
@@ -172,6 +199,8 @@ public class UserOrder implements Serializable {
     public void setCloseOrder(boolean isCloseOrder) {
         this.isCloseOrder = isCloseOrder;
     }
+
+    // office methods for receiving dates of the order depending on localization
 
     public String getOrderEndDateByLocale(Locale locale) {
         return GeneralUtils.getDateFormatterByLocale(locale, true).format(getEndOrderDateTime());

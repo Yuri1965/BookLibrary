@@ -18,9 +18,9 @@
                 </h4>
             </div>
 
-            <div class="modal-body">
-                <form class="form-horizontal" enctype="multipart/form-data" role="form"
-                      action="saveBook" method="post">
+            <form class="form-horizontal" enctype="multipart/form-data" role="form"
+                  action="saveBook" method="post">
+                <div class="modal-body">
                     <input name="actionModeBookForm" type="hidden" value="${actionModeBookForm}"/>
                     <c:choose>
                         <c:when test="${actionModeBookForm eq 'addBook'}">
@@ -42,13 +42,30 @@
 
                     <div class="form-group">
                         <div class="col-sm-12">
-                            ${bookSelected.getId()}
-                            <input id="book-image" name="bookImage" type="file" class="file"
-                                   data-language="${bookSelected.getId()}"
-                                   <c:if test="${not empty bookSelected.getId()}">data-initial-preview="<img src='${pageContext.request.contextPath}/getBookImage?bookID=${bookSelected.getId()}' class='file-preview-image' alt='Desert' title='Desert'>"</c:if>
-                                   data-browse-label=""
-                                   data-show-upload="false"
-                                   data-preview-file-type="text">
+                            <input id="book-image" name="bookImage" type="file" class="file" accept="image/*"
+                                <c:choose>
+                                <c:when test="${currentLocale == 'en_us'}">
+                                       data-language="en"
+                                </c:when>
+                                <c:otherwise>
+                                       data-language="ru"
+                                </c:otherwise>
+                                </c:choose>
+
+                                <c:choose>
+                                <c:when test="${actionModeBookForm eq 'addBook'}">
+                                </c:when>
+                                <c:otherwise>
+                                       <c:if test="${bookSelected.getCoverImage() != null}">
+                                           data-initial-preview="<img src='${pageContext.request.contextPath}/getBookImage?bookIndex=-1'
+                                                                class='file-preview-image'>"
+                                       </c:if>
+                                </c:otherwise>
+                                </c:choose>
+                                       data-max-file-size ="128"
+                                       data-max-file-count ="1"
+                                       data-show-upload="false"
+                                       data-preview-file-type="text">
                         </div>
                     </div>
 
@@ -280,17 +297,17 @@
                             <p>${currentError.toString()}</p>
                         </div>
                     </c:if>
+                </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <fmt:message bundle="${rb}" key="cancelButton"/>
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <fmt:message bundle="${rb}" key="saveButton"/>
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <fmt:message bundle="${rb}" key="cancelButton"/>
+                    </button>
+                    <button type="submit" class="btn btn-primary" formmethod="post" formaction="saveBook">
+                        <fmt:message bundle="${rb}" key="saveButton"/>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

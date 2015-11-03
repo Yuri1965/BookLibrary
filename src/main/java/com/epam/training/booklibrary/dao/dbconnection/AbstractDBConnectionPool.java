@@ -2,25 +2,22 @@ package com.epam.training.booklibrary.dao.dbconnection;
 
 import com.epam.training.booklibrary.dao.interfaces.IDBConnectionPool;
 
-import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Created by URA on 25.09.2015.
  * Abstract class for realization of the IDBConnectionPool interface in classes successors
  */
 public abstract class AbstractDBConnectionPool implements IDBConnectionPool {
-
     // JNDI resource name
     private String jdbcDataSourceName;
     // Pool of connections with a DB
     protected DataSource dataSource;
 
     /**
-     * Constructor
+     * Constructor of class
      */
     public AbstractDBConnectionPool(String jdbcDataSourceName) {
         this.jdbcDataSourceName = jdbcDataSourceName;

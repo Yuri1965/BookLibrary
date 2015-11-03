@@ -3,18 +3,25 @@ package com.epam.training.booklibrary.entity;
 import java.io.Serializable;
 
 /**
- * Created by URA on 30.09.2015.
+ * The class contains realization for object Publishing house
  */
 public class Publisher implements Serializable {
     private static final long serialVersionUID = 05L;
 
+    // Identifier of publishing house
     private int id;
+    // The name of publishing house in Russian
     private String nameRU;
+    // The name of publishing house in English
     private String nameEN;
 
+    /**
+     * Constructor of a class by default
+     */
     public Publisher() {
     }
 
+    // getters and setters
     public int getId() {
         return id;
     }

@@ -1,7 +1,7 @@
 package com.epam.training.booklibrary.controllers.commands.implementations;
 
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
-import com.epam.training.booklibrary.controllers.utils.DataManager;
+import com.epam.training.booklibrary.datamodels.DataManager;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
 import com.epam.training.booklibrary.dao.implementations.DAOSearchBookCriteria;
 import com.epam.training.booklibrary.dao.implementations.DAOSearchOrderCriteria;
@@ -21,159 +21,179 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by URA on 22.10.2015.
+ * Class for processing of the main team
  */
-public class MainCommand  implements ICommand {
+public class MainCommand implements ICommand {
     private Logger logger = LogManager.getLogger(MainCommand.class.getName());
-    private static final String MAIN_PAGE = "/pages/main.jsp";
+    private static final String MAIN_PAGE = "/WEB-INF/pages/main.jsp";
 
-    // для подсчета кол-ва записей и страниц по умолчанию
+    // for calculation of number of records and pages by default
     private static final int COUNT_PAGE = 0;
     private static final int COUNT_RECORD_PAGE = 0;
-    // активная страница по умолчанию
+    // active page by default
     private static final String DEFAULT_PAGE = "1";
 
-    // кол-во записей на странице книг
+    // number of records on the page of books
     private static final int RECORD_BOOK_PAGE = Integer.valueOf(ApplicationConfigManager.getConfigValue("recordsBookPage", "3"));
-    // кол-во записей на странице заказов
+    // number of records on the page of orders
     private static final int RECORD_ORDER_PAGE = Integer.valueOf(ApplicationConfigManager.getConfigValue("recordsOrderPage", "4"));
-    // кол-во записей на странице пользователей
+    // number of records on the page of users
     private static final int RECORD_USER_PAGE = Integer.valueOf(ApplicationConfigManager.getConfigValue("recordsUserPage", "4"));
 
-    // вид поиска для книг
+    // type of search for books
     private static final String TYPE_SEARCH_BOOK_BY_NAME = "1";
     private static final String TYPE_SEARCH_BOOK_BY_AUTHOR = "2";
 
-    // вид поиска для заказов
+    // type of search for orders
     private static final String TYPE_SEARCH_ORDER_BY_USERID = "1";
     private static final String TYPE_SEARCH_ORDER_BY_NAME = "2";
     private static final String TYPE_SEARCH_ORDER_BY_AUTHOR = "3";
 
-    // вид поиска для пользователей
+    // type of search for users
     private static final String TYPE_SEARCH_USER_BY_LOGIN = "1";
     private static final String TYPE_SEARCH_USER_BY_USER_NAME = "2";
     private static final String TYPE_SEARCH_USER_BY_USER_EMAIL = "3";
 
-    // статус заказа
+    //  order status
     private static final String ORDER_STATUS_ALL = "0";
     private static final String ORDER_STATUS_EXPECTED = "1";
     private static final String ORDER_STATUS_WORK = "2";
     private static final String ORDER_STATUS_CLOSE = "3";
 
-    // статус пользователя
+    // status of the user
     private static final String STATUS_USER_UNBLOCKED = "0";
     private static final String STATUS_USER_BLOCKED = "1";
     private static final String STATUS_USER_ALL = "2";
 
-    // раздел литературы по умолчанию (все разделы)
+    // section of literature by default (all sections)
     private static final String DEFAULT_BOOK_SECTION = "0";
-    // жанр книг по умолчанию (все жанры)
+    // genre of books by default (all genres)
     private static final String DEFAULT_BOOK_GENRE = "0";
-    // тип заказа по умолчанию (все типы)
+    // order type by default (all types)
     private static final String DEFAULT_ORDER_TYPE = "0";
 
-    // табпанель Книги
+    // tabpanel Book
     private static final String TAB_BOOKS = "books";
-    // табпанель Работа с заказами
+    // tabpanel Work with orders
     private static final String TAB_ORDERS = "workOrders";
-    // табпанель Работа с пользователями
+    // tabpanel Work with users
     private static final String TAB_USERS = "workUsers";
 
+    /**
+     * Method handler of inquiry of the client
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @return returns a resource for formation of the answer to the client
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        //признак первого обращения к ресурсу
-        boolean isFirstExecuteCommand = false;
-        if (session.getAttribute("pageBookNumber") == null
-                || session.getAttribute("pageOrderNumber") == null
-                || session.getAttribute("pageUserNumber") == null
-                ) {
-            isFirstExecuteCommand = true;
-        }
-
-        //извлечение из запроса общих параметров
-        String paramСurrentTab = request.getParameter("currentTab");
-
-        String paramErrorClear = request.getParameter("errorClear");
-        if (paramErrorClear !=null && paramErrorClear.equalsIgnoreCase("true")) {
-            session.removeAttribute("currentError");
-            session.removeAttribute("autoShowModalForm");
-        }
-
-        //извлечение общих атрибутов из сессии
-        String attrСurrentTab = (String) session.getAttribute("currentTab");
-
-        //Активная табпанель
-        if (paramСurrentTab != null && !paramСurrentTab.isEmpty()) {
-            if (!paramСurrentTab.equalsIgnoreCase(TAB_BOOKS)
-                    && !paramСurrentTab.equalsIgnoreCase(TAB_ORDERS)
-                    && !paramСurrentTab.equalsIgnoreCase(TAB_USERS)) {
-
-                paramСurrentTab = TAB_BOOKS;
-            }
-
-            session.setAttribute("currentTab", paramСurrentTab);
-        } else {
-            if (attrСurrentTab == null) {
-                session.setAttribute("currentTab", TAB_BOOKS);
-            }
-        }
-        paramСurrentTab = (String) session.getAttribute("currentTab");
-
         try {
+            //sign of the first appeal to a resource
+            boolean isFirstExecuteCommand = false;
+            if (session.getAttribute("pageBookNumber") == null
+                    || session.getAttribute("pageOrderNumber") == null
+                    || session.getAttribute("pageUserNumber") == null
+                    ) {
+                isFirstExecuteCommand = true;
+            }
+
+            //extraction from inquiry of the general parameters
+            String paramСurrentTab = request.getParameter("currentTab");
+
+            String paramErrorClear = request.getParameter("errorClear");
+            if (paramErrorClear != null && paramErrorClear.equalsIgnoreCase("true")) {
+                session.removeAttribute("currentError");
+                session.removeAttribute("autoShowModalForm");
+            }
+
+            //extraction of the general attributes from session
+            String attrСurrentTab = (String) session.getAttribute("currentTab");
+
+            //Active tabpanel
+            if (paramСurrentTab != null && !paramСurrentTab.isEmpty()) {
+                if (!paramСurrentTab.equalsIgnoreCase(TAB_BOOKS)
+                        && !paramСurrentTab.equalsIgnoreCase(TAB_ORDERS)
+                        && !paramСurrentTab.equalsIgnoreCase(TAB_USERS)) {
+
+                    paramСurrentTab = TAB_BOOKS;
+                }
+
+                session.setAttribute("currentTab", paramСurrentTab);
+            } else {
+                if (attrСurrentTab == null) {
+                    session.setAttribute("currentTab", TAB_BOOKS);
+                }
+            }
+            paramСurrentTab = (String) session.getAttribute("currentTab");
+
             if (paramСurrentTab.equalsIgnoreCase(TAB_BOOKS) || isFirstExecuteCommand) {
-                // считывание и установка параметров для табпанели Книги
+                // reading and installation of parameters for Book tabpanel
                 getParameterTabBooks(session, request);
 
-                // получение списка разделов литературы
+                // obtaining list of sections of literature
                 List<BookSection> listBookSection = DataManager.getBookSections();
                 session.setAttribute("listBookSection", listBookSection);
 
-                // получение списка жанров книг
+                // obtaining list of genres of books
                 List<BookGenre> listBookGenre = DataManager.getBookGenres();
                 session.setAttribute("listBookGenre", listBookGenre);
             }
 
             if (paramСurrentTab.equalsIgnoreCase(TAB_ORDERS) || isFirstExecuteCommand) {
-                // считывание и установка параметров для табпанели Работа с заказами
+                // reading and installation of parameters for tabpanel Work with orders
                 getParameterTabWorkOrders(session, request);
 
-                // получение списка типов заказа
+                // obtaining list of types of the order
                 List<OrderType> listTypeOrder = DataManager.getOrderTypes();
                 session.setAttribute("listTypeOrder", listTypeOrder);
             }
 
             if (paramСurrentTab.equalsIgnoreCase(TAB_USERS) || isFirstExecuteCommand) {
-                // считывание и установка параметров для табпанели Работа с пользователями
+                // reading and installation of parameters for tabpanel Work with users
                 getParameterTabWorkUsers(session, request);
             }
 
-        } catch (SQLException ex) {
+            session.setAttribute("currentPage", "main");
+
+        } catch (Exception ex) {
             logger.error(ex.getMessage());
-        } catch (NamingException ex) {
-            logger.error(ex.getMessage());
+            throw new ServletException(ex);
         } finally {
         }
 
         return MAIN_PAGE;
     }
 
-    private void getParameterTabWorkUsers (HttpSession session, HttpServletRequest request)
+    /**
+     * Method of check of parameters of inquiry on work with users and
+     * preparation of data for formation of the answer to the client
+     * @param session HttpSession
+     * @param request HttpServletRequest
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException
+     * @throws NamingException
+     */
+    private void getParameterTabWorkUsers(HttpSession session, HttpServletRequest request)
             throws ServletException, IOException, SQLException, NamingException {
-        //извлечение из запроса параметров
+        //extraction from inquiry of parameters
         String paramTypeSearchUser = request.getParameter("typeSearchUser");
         String paramSearchTextUser = request.getParameter("searchTextUser");
         String paramStatusUser = request.getParameter("statusUser");
         String paramUserPageNumber = request.getParameter("pageUserNumber");
 
-        //извлечение атрибутов из сессии
+        //extraction of attributes from session
         String attrTypeSearchUser = (String) session.getAttribute("typeSearchUser");
         String attrSearchTextUser = (String) session.getAttribute("searchTextUser");
         String attrStatusUser = (String) session.getAttribute("statusUser");
         String attrUserPageNumber = (String) session.getAttribute("pageUserNumber");
 
-        //Номер страницы
+        //Number of the page
         if (paramUserPageNumber != null && !paramUserPageNumber.isEmpty()) {
             if (!RequestParamValidator.checkSymbolsNumbers(paramUserPageNumber)) {
                 paramUserPageNumber = DEFAULT_PAGE;
@@ -187,7 +207,7 @@ public class MainCommand  implements ICommand {
         }
         paramUserPageNumber = (String) session.getAttribute("pageUserNumber");
 
-        //Вид поиска
+        //Type of search
         if (paramTypeSearchUser != null && !paramTypeSearchUser.isEmpty()) {
             if (!paramTypeSearchUser.equals(TYPE_SEARCH_USER_BY_LOGIN)
                     && !paramTypeSearchUser.equals(TYPE_SEARCH_USER_BY_USER_NAME)
@@ -203,7 +223,7 @@ public class MainCommand  implements ICommand {
         }
         paramTypeSearchUser = (String) session.getAttribute("typeSearchUser");
 
-        //Текст поиска
+        //Text of search
         if (paramSearchTextUser != null) {
             session.setAttribute("searchTextUser", paramSearchTextUser);
         } else {
@@ -213,7 +233,7 @@ public class MainCommand  implements ICommand {
         }
         paramSearchTextUser = (String) session.getAttribute("searchTextUser");
 
-        //Статус пользователя
+        //Status of the user
         if (paramStatusUser != null && !paramStatusUser.isEmpty()) {
             if (!paramStatusUser.equals(STATUS_USER_UNBLOCKED)
                     && !paramStatusUser.equals(STATUS_USER_BLOCKED)
@@ -229,15 +249,16 @@ public class MainCommand  implements ICommand {
         }
         paramStatusUser = (String) session.getAttribute("statusUser");
 
+        //we receive object with criteria of search depending on the transferred inquiry parameters
         DAOSearchUserCriteria userSearchCriteriaByPager =
                 new DAOSearchUserCriteria(Integer.valueOf(paramTypeSearchUser), paramSearchTextUser,
                         Integer.valueOf(paramStatusUser), COUNT_RECORD_PAGE, COUNT_PAGE);
 
-        // получаем кол-во найденных пользователей
+        // we receive number of the found users
         int countUsers = DataManager.getCountUsers(userSearchCriteriaByPager);
         session.setAttribute("countUsers", countUsers);
 
-        // получаем кол-во страниц с найденными пользователями
+        // we receive number of pages with the found users
         int countUserPages = COUNT_PAGE;
         if (countUsers > 0) {
             userSearchCriteriaByPager.setRecordCountPage(RECORD_USER_PAGE);
@@ -255,7 +276,7 @@ public class MainCommand  implements ICommand {
             session.setAttribute("pageUserNumber", paramUserPageNumber);
         }
 
-        // получаем список пользователей для указанной страницы
+        // we receive the list of users for the specified page
         DAOSearchUserCriteria userSearchCriteriaByListUser =
                 new DAOSearchUserCriteria(Integer.valueOf(paramTypeSearchUser), paramSearchTextUser,
                         Integer.valueOf(paramStatusUser), RECORD_USER_PAGE, Integer.valueOf(paramUserPageNumber));
@@ -263,23 +284,33 @@ public class MainCommand  implements ICommand {
         session.setAttribute("listUserPage", listUserPage);
     }
 
-    private void getParameterTabWorkOrders (HttpSession session, HttpServletRequest request)
+    /**
+     * Method of check of parameters of inquiry on work with orders and
+     * preparation of data for formation of the answer to the client
+     * @param session HttpSession
+     * @param request HttpServletRequest
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException
+     * @throws NamingException
+     */
+    private void getParameterTabWorkOrders(HttpSession session, HttpServletRequest request)
             throws ServletException, IOException, SQLException, NamingException {
-        //извлечение из запроса параметров
+        //extraction from inquiry of parameters
         String paramTypeSearchOrder = request.getParameter("typeSearchOrder");
         String paramSearchTextOrder = request.getParameter("searchTextOrder");
         String paramTypeOrderID = request.getParameter("typeOrderID");
         String paramStatusOrder = request.getParameter("statusOrder");
         String paramOrderPageNumber = request.getParameter("pageOrderNumber");
 
-        //извлечение атрибутов из сессии
+        //extraction of attributes from session
         String attrTypeSearchOrder = (String) session.getAttribute("typeSearchOrder");
         String attrSearchTextOrder = (String) session.getAttribute("searchTextOrder");
         String attrTypeOrderID = (String) session.getAttribute("typeOrderID");
         String attrStatusOrder = (String) session.getAttribute("statusOrder");
         String attrOrderPageNumber = (String) session.getAttribute("pageOrderNumber");
 
-        //Номер страницы
+        //Number of the page
         if (paramOrderPageNumber != null && !paramOrderPageNumber.isEmpty()) {
             if (!RequestParamValidator.checkSymbolsNumbers(paramOrderPageNumber)) {
                 paramOrderPageNumber = DEFAULT_PAGE;
@@ -293,7 +324,7 @@ public class MainCommand  implements ICommand {
         }
         paramOrderPageNumber = (String) session.getAttribute("pageOrderNumber");
 
-        //Вид поиска
+        //Type of search
         if (paramTypeSearchOrder != null && !paramTypeSearchOrder.isEmpty()) {
             if (!paramTypeSearchOrder.equals(TYPE_SEARCH_ORDER_BY_NAME)
                     && !paramTypeSearchOrder.equals(TYPE_SEARCH_ORDER_BY_AUTHOR)
@@ -309,7 +340,7 @@ public class MainCommand  implements ICommand {
         }
         paramTypeSearchOrder = (String) session.getAttribute("typeSearchOrder");
 
-        //Текст поиска
+        //Text of search
         if (paramSearchTextOrder != null) {
             session.setAttribute("searchTextOrder", paramSearchTextOrder);
         } else {
@@ -319,7 +350,7 @@ public class MainCommand  implements ICommand {
         }
         paramSearchTextOrder = (String) session.getAttribute("searchTextOrder");
 
-        //Тип заказа
+        //order type
         if (paramTypeOrderID != null && !paramTypeOrderID.isEmpty()) {
             if (!RequestParamValidator.checkSymbolsNumbers(paramTypeOrderID)) {
                 paramTypeOrderID = DEFAULT_ORDER_TYPE;
@@ -333,6 +364,7 @@ public class MainCommand  implements ICommand {
         }
         paramTypeOrderID = (String) session.getAttribute("typeOrderID");
 
+        //order status
         if (paramStatusOrder != null && !paramStatusOrder.isEmpty()) {
             if (!paramStatusOrder.equals(ORDER_STATUS_ALL)
                     && !paramStatusOrder.equals(ORDER_STATUS_EXPECTED)
@@ -349,16 +381,17 @@ public class MainCommand  implements ICommand {
         }
         paramStatusOrder = (String) session.getAttribute("statusOrder");
 
+        //we receive object with criteria of search depending on the transferred inquiry parameters
         DAOSearchOrderCriteria orderSearchCriteriaByPager =
                 new DAOSearchOrderCriteria(Integer.valueOf(paramTypeSearchOrder), paramSearchTextOrder,
                         Integer.valueOf(paramStatusOrder), Integer.valueOf(paramTypeOrderID),
                         COUNT_RECORD_PAGE, COUNT_PAGE);
 
-        // получаем кол-во найденных заказов
+        // we receive number of the found orders
         int countOrders = DataManager.getCountOrders(orderSearchCriteriaByPager);
         session.setAttribute("countOrders", countOrders);
 
-        // получаем кол-во страниц с найденными заказами
+        // we receive number of pages with the found orders
         int countOrderPages = COUNT_PAGE;
         if (countOrders > 0) {
             orderSearchCriteriaByPager.setRecordCountPage(RECORD_ORDER_PAGE);
@@ -376,7 +409,7 @@ public class MainCommand  implements ICommand {
             session.setAttribute("pageOrderNumber", paramOrderPageNumber);
         }
 
-        // получаем список заказов для указанной страницы
+        // we receive the list of orders for the specified page
         DAOSearchOrderCriteria orderSearchCriteriaByListOrder =
                 new DAOSearchOrderCriteria(Integer.valueOf(paramTypeSearchOrder), paramSearchTextOrder,
                         Integer.valueOf(paramStatusOrder), Integer.valueOf(paramTypeOrderID),
@@ -385,23 +418,33 @@ public class MainCommand  implements ICommand {
         session.setAttribute("listOrderPage", listOrderPage);
     }
 
-    private void getParameterTabBooks (HttpSession session, HttpServletRequest request)
+    /**
+     * Method of check of parameters of inquiry on work with books and
+     * preparation of data for formation of the answer to the client
+     * @param session HttpSession
+     * @param request HttpServletRequest
+     * @throws ServletException
+     * @throws IOException
+     * @throws SQLException
+     * @throws NamingException
+     */
+    private void getParameterTabBooks(HttpSession session, HttpServletRequest request)
             throws ServletException, IOException, SQLException, NamingException {
-        //извлечение из запроса параметров
+        //extraction from inquiry of parameters
         String paramTypeSearchBook = request.getParameter("typeSearchBook");
         String paramSearchTextBook = request.getParameter("searchTextBook");
         String paramBookSectionID = request.getParameter("bookSectionID");
         String paramBookGenreID = request.getParameter("bookGenreID");
         String paramBookPageNumber = request.getParameter("pageBookNumber");
 
-        //извлечение атрибутов из сессии
+        //extraction of attributes from session
         String attrTypeSearchBook = (String) session.getAttribute("typeSearchBook");
         String attrSearchTextBook = (String) session.getAttribute("searchTextBook");
         String attrBookSectionID = (String) session.getAttribute("bookSectionID");
         String attrBookGenreID = (String) session.getAttribute("bookGenreID");
         String attrBookPageNumber = (String) session.getAttribute("pageBookNumber");
 
-        //Номер страницы
+        //Number of the page
         if (paramBookPageNumber != null && !paramBookPageNumber.isEmpty()) {
             if (!RequestParamValidator.checkSymbolsNumbers(paramBookPageNumber)) {
                 paramBookPageNumber = DEFAULT_PAGE;
@@ -415,7 +458,7 @@ public class MainCommand  implements ICommand {
         }
         paramBookPageNumber = (String) session.getAttribute("pageBookNumber");
 
-        //Вид поиска
+        //Type of search
         if (paramTypeSearchBook != null && !paramTypeSearchBook.isEmpty()) {
             if (!paramTypeSearchBook.equals(TYPE_SEARCH_BOOK_BY_NAME) && !paramTypeSearchBook.equals(TYPE_SEARCH_BOOK_BY_AUTHOR)) {
                 session.setAttribute("typeSearchBook", TYPE_SEARCH_BOOK_BY_NAME);
@@ -429,7 +472,7 @@ public class MainCommand  implements ICommand {
         }
         paramTypeSearchBook = (String) session.getAttribute("typeSearchBook");
 
-        //Текст поиска
+        //Text of search
         if (paramSearchTextBook != null) {
             session.setAttribute("searchTextBook", paramSearchTextBook);
         } else {
@@ -439,7 +482,7 @@ public class MainCommand  implements ICommand {
         }
         paramSearchTextBook = (String) session.getAttribute("searchTextBook");
 
-        //Жанр книги
+        //Book genre
         if (paramBookGenreID != null && !paramBookGenreID.isEmpty()) {
             if (!RequestParamValidator.checkSymbolsNumbers(paramBookGenreID)) {
                 paramBookGenreID = DEFAULT_BOOK_GENRE;
@@ -453,7 +496,7 @@ public class MainCommand  implements ICommand {
         }
         paramBookGenreID = (String) session.getAttribute("bookGenreID");
 
-        //Раздел литературы
+        //Section of literature
         if (paramBookSectionID != null && !paramBookSectionID.isEmpty()) {
             if (!RequestParamValidator.checkSymbolsNumbers(paramBookSectionID)) {
                 paramBookSectionID = DEFAULT_BOOK_SECTION;
@@ -467,16 +510,17 @@ public class MainCommand  implements ICommand {
         }
         paramBookSectionID = (String) session.getAttribute("bookSectionID");
 
+        //we receive object with criteria of search depending on the transferred inquiry parameters
         DAOSearchBookCriteria bookSearchCriteriaByPager =
                 new DAOSearchBookCriteria(Integer.valueOf(paramTypeSearchBook), paramSearchTextBook,
                         Integer.valueOf(paramBookSectionID), Integer.valueOf(paramBookGenreID),
                         COUNT_RECORD_PAGE, COUNT_PAGE);
 
-        // получаем кол-во найденных книг
+        // we receive number of the found books
         int countBooks = DataManager.getCountBooks(bookSearchCriteriaByPager);
         session.setAttribute("countBooks", countBooks);
 
-        // получаем кол-во страниц с найденными книгами
+        // we receive number of pages with the found books
         int countBookPages = COUNT_PAGE;
         if (countBooks > 0) {
             bookSearchCriteriaByPager.setRecordCountPage(RECORD_BOOK_PAGE);
@@ -494,7 +538,7 @@ public class MainCommand  implements ICommand {
             session.setAttribute("pageBookNumber", paramBookPageNumber);
         }
 
-        // получаем список книг для указанной страницы
+        // we receive the list of books for the specified page
         DAOSearchBookCriteria bookSearchCriteriaByListBook =
                 new DAOSearchBookCriteria(Integer.valueOf(paramTypeSearchBook), paramSearchTextBook,
                         Integer.valueOf(paramBookSectionID), Integer.valueOf(paramBookGenreID),

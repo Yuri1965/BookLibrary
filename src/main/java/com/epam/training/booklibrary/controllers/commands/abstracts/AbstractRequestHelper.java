@@ -1,19 +1,23 @@
 package com.epam.training.booklibrary.controllers.commands.abstracts;
 
-import com.epam.training.booklibrary.controllers.commands.implementations.EmptyCommand;
+//import com.epam.training.booklibrary.controllers.commands.implementations.EmptyCommand;
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 /**
- * Created by URA on 20.09.2015.
+ * Abstract class which comprises the list of teams for work with the application
  */
 public abstract class AbstractRequestHelper {
+    //the list of teams for work with the application
     protected HashMap<String, ICommand> commands = new HashMap<String, ICommand>();
 
+    /**
+     * Constructor of a class
+     */
     public AbstractRequestHelper() {
-        //заполнение таблицы командами
+        //filling of the list with teams
         commands.put("localeChange", null);
 
         commands.put("login", null);
@@ -34,31 +38,50 @@ public abstract class AbstractRequestHelper {
         commands.put("showCreateOrderForm", null);
         commands.put("createUserOrder", null);
         commands.put("showCloseOrderForm", null);
+        commands.put("closeUserOrder", null);
         commands.put("showSetWorkOrderForm", null);
+        commands.put("setWorkUserOrder", null);
 
         commands.put("showBlockUnBlockUserForm", null);
         commands.put("blockUnBlockUser", null);
+
+        commands.put("showErrorPage", null);
     }
 
+    /**
+     * The method returns the list of teams for work with the application
+     * @return The list of teams for work with the application (type of HashMap<String, ICommand>)
+     */
     public HashMap<String, ICommand> getCommands() {
         return commands;
     }
 
+    /**
+     * The method returns team for processing by the application controller which was transferred with inquiry
+     * @param request (type of HttpServletRequest)
+     * @return team for processing (type of ICommand)
+     */
     public ICommand getCommand(HttpServletRequest request) {
-        //извлечение команды из запроса
+        //extraction of team from inquiry
         String action = request.getServletPath().substring(1);
 
-        //получение объекта, соответствующего команде
+        //receiving the object corresponding to team
         ICommand command = commands.get(action);
 
-        //если команды не существует в текущем объекте
-        if (command == null) {
-            command = new EmptyCommand();
-        }
+        //if the team doesn't exist in the current object
+//        if (command == null) {
+//            command = new EmptyCommand();
+//        }
 
         return command;
     }
 
+    /**
+     * The method allows to establish realization of team for an element from the list of
+     * teams of the appendix on her name in the list
+     * @param commandName the key identifier of team in the list
+     * @param command object - team (type of ICommand) which contains realization of its processing in the application
+     */
     public void setCommandByCommandName(String commandName, ICommand command) {
         commands.replace(commandName, command);
     }

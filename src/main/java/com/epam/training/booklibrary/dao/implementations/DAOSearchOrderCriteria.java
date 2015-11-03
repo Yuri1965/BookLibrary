@@ -10,7 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by URA on 29.10.2015.
+ * The class contains methods on preparation of inquiries for a DB in the specified search parameters
+ * for work with the list of orders for books
  */
 public class DAOSearchOrderCriteria implements IDAOSearchCriteria {
     private static final int DEFAULT_RECORD_PAGE = 0;
@@ -37,6 +38,15 @@ public class DAOSearchOrderCriteria implements IDAOSearchCriteria {
     private int typeSearch;
     private String searchText;
 
+    /**
+     * Constructor of class
+     * @param typeSearch int search type (1-on the user's ID, 2-according to the name of the book, 3-on the author of the book)
+     * @param searchText the text for search
+     * @param statusOrder int the status of the order (everything, 1 expectation, 2-in work, 3-closed)
+     * @param typeOrder int order type (0-All, 1-Reading room, 2-On hands)
+     * @param recordCountPage int number of records on the page
+     * @param numberPage int number of the page
+     */
     public DAOSearchOrderCriteria(int typeSearch, String searchText, int statusOrder, int typeOrder,
                                   int recordCountPage, int numberPage) {
         if (typeSearch != TYPE_SEARCH_BY_USER_ID
@@ -78,6 +88,7 @@ public class DAOSearchOrderCriteria implements IDAOSearchCriteria {
         this.numberPage = numberPage;
     }
 
+    // getters and setters
     public int getRecordCountPage() {
         return recordCountPage;
     }
@@ -86,6 +97,16 @@ public class DAOSearchOrderCriteria implements IDAOSearchCriteria {
         this.recordCountPage = recordCountPage;
     }
 
+    /**
+     * Method of preparation of parameters of search and creation of inquiry to a DB
+     * @param conn Connection with a DB (type of Connection)
+     * @param stmt Inquiry to a DB (type of PreparedStatement)
+     * @param sqlText the text of inquiry to a DB
+     * @param orderBYText part of inquiry to a DB which is responsible for an order of sorting of data
+     * @return the inquiry (type of PreparedStatement) prepared for performance
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public PreparedStatement preparedStatement(Connection conn, PreparedStatement stmt, String sqlText, String orderBYText) throws SQLException, NamingException {
         StringBuilder whereText = new StringBuilder();
@@ -106,7 +127,6 @@ public class DAOSearchOrderCriteria implements IDAOSearchCriteria {
             } else
             if (statusOrder == STATUS_ORDER_CLOSED) {
                 whereText = whereText.append(" AND (userorders.preOrderDateTime IS NOT NULL" +
-                        " AND userorders.beginOrderDateTime IS NOT NULL" +
                         " AND userorders.endOrderDateTime IS NOT NULL AND userorders.isCloseOrder = 1)");
             }
 

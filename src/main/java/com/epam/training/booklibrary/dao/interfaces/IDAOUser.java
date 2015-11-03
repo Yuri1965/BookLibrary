@@ -10,58 +10,72 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by URA on 13.09.2015.
- * Интерфейс для реализации классов по работе с авторизованным пользователем
+ * The interface contains methods for realization in the class DAOUser
  */
 public interface IDAOUser {
-    // методы по работе с User
+
     /**
-     * Метод для реализации в классах по работе с авторизованным пользователем
-     * @return Пользователь авторизованный в системе
+     * Method of authorization of the user in system
+     * @return The user authorized in system (type of User)
+     * @throws SQLException
+     * @throws NamingException
+     * @throws MainExceptions.MainErrorException
      */
     User getAuthorization() throws SQLException, NamingException, MainExceptions.MainErrorException;
 
+    /**
+     * Whether the method is checked by the user was authorized in system
+     * @return if = true, the user is authorized
+     */
     boolean isAuthorized();
 
     /**
-     * Метод для реализации в классах по работе с авторизованным пользователем, который должен позволять изменять
-     * данные авторизованного пользователя
-     * @param pass_user Пароль пользователя
-     * @param email_user Email пользователя
-     * @param firstName_user Имя пользователя
-     * @param lastName_user Фамилия пользователя
-     * @return Авторизованный пользователь данные которого были изменены
+     * Method for realization in classes on work with the authorized user who has to allow to change data
+     * of the authorized user
+     * @param pass_user user password
+     * @param email_user User's E-mail
+     * @param firstName_user user name
+     * @param lastName_user Surname of the user
+     * @return The authorized user which data were changed (type of User)
+     * @throws SQLException
+     * @throws NamingException
+     * @throws MainExceptions.MainErrorException
      */
     User updateUser(String pass_user, String email_user, String firstName_user, String lastName_user)
             throws SQLException, NamingException, MainExceptions.MainErrorException;
 
     /**
-     * Метод для реализации в классах по работе с авторизованным пользователем, который должен позволять регистрацию
-     * нового пользователя
-     * @param name_user Login пользователя
-     * @param pass_user Пароль пользователя
-     * @param email_user Email пользователя
-     * @param firstName_user Имя пользователя
-     * @param lastName_user Фамилия пользователя
-     * @param roleName Роль пользователя
-     * @return Пользователь, который был зарегистрирован
+     * Method for realization in classes on work with the authorized user who has to allow
+     * registration of the new user
+     * @param name_user user login
+     * @param pass_user user password
+     * @param email_user User's E-mail
+     * @param firstName_user user name
+     * @param lastName_user Surname of the user
+     * @param roleName Role of the user
+     * @return The user who was registered (type of User)
+     * @throws SQLException
+     * @throws NamingException
+     * @throws MainExceptions.MainErrorException
      */
     User createUser(String name_user, String pass_user, String email_user, String firstName_user,
                     String lastName_user, String roleName)
             throws SQLException, NamingException, MainExceptions.MainErrorException;
 
-    // методы по работе с UserRole
     /**
-     * Метод для реализации в классах по работе с авторизованным пользователем, который должен получать из БД
-     * список ролей авторизованного пользователя
-     * @return Список ролей авторизованного пользователя
+     * Method for realization in classes on work with the authorized user who has to receive the list
+     * of roles of the authorized user from a DB
+     * @return The list of roles of the authorized user (type of List<UserRole>)
+     * @throws SQLException
+     * @throws NamingException
+     * @throws MainExceptions.MainErrorException
      */
     List<UserRole> getUserRoles() throws SQLException, NamingException, MainExceptions.MainErrorException;
 
     /**
-     * Метод ищет в списке ролей и возвращает роль пользователя по ее имени
-     * @param role
-     * @return Роль пользователя (если не найдена, то = null)
+     * The method looks for in the list of roles and returns a role of the user on her name
+     * @param role (type of Roles)
+     * @return Role of the user (type of UserRole)
      */
     UserRole getUserRoleByName(Roles role);
 }

@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by URA on 18.10.2015.
+ * The class contains methods on preparation of inquiries for a DB in the specified
+ * search parameters for work with the list of books
  */
 public class DAOSearchBookCriteria implements IDAOSearchCriteria {
     private static final int DEFAULT_RECORD_PAGE = 0;
@@ -31,6 +32,15 @@ public class DAOSearchBookCriteria implements IDAOSearchCriteria {
     private int bookSectionID;
     private int bookGenreID;
 
+    /**
+     * Constructor of class
+     * @param typeSearch int search type (1-according to the name of the book, 2-on the author of the book)
+     * @param searchText the text for search
+     * @param bookSectionID int identifier of the section of literature
+     * @param bookGenreID int book genre identifier
+     * @param recordCountPage int number of records on the page
+     * @param numberPage int number of the page
+     */
     public DAOSearchBookCriteria(int typeSearch, String searchText, int bookSectionID, int bookGenreID,
                                  int recordCountPage, int numberPage) {
         if (typeSearch != TYPE_SEARCH_BY_NAME && typeSearch != TYPE_SEARCH_BY_AUTHOR) {
@@ -64,6 +74,7 @@ public class DAOSearchBookCriteria implements IDAOSearchCriteria {
         this.numberPage = numberPage;
     }
 
+    // getters and setters
     public int getRecordCountPage() {
         return recordCountPage;
     }
@@ -72,6 +83,16 @@ public class DAOSearchBookCriteria implements IDAOSearchCriteria {
         this.recordCountPage = recordCountPage;
     }
 
+    /**
+     * Method of preparation of parameters of search and creation of inquiry to a DB
+     * @param conn Connection with a DB (type of Connection)
+     * @param stmt Inquiry to a DB (type of PreparedStatement)
+     * @param sqlText the text of inquiry to a DB
+     * @param orderBYText part of inquiry to a DB which is responsible for an order of sorting of data
+     * @return the inquiry (type of PreparedStatement) prepared for performance
+     * @throws SQLException
+     * @throws NamingException
+     */
     @Override
     public PreparedStatement preparedStatement(Connection conn, PreparedStatement stmt, String sqlText,
                                                String orderBYText) throws SQLException, NamingException {

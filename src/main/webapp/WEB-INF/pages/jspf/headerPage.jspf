@@ -51,7 +51,7 @@
                     <a class="btn btn-primary"
                        style="padding: 0 12px;  height: 24px; align-content:center; text-align:center;"
                     <c:choose>
-                        <c:when test="${currentUser.isAuthorized()}">
+                        <c:when test="${sessionUser.isAuthorized()}">
                             href="logout"
                         </c:when>
                         <c:otherwise>
@@ -62,7 +62,7 @@
                     </c:choose>
                     >
                     <c:choose>
-                        <c:when test="${currentUser.isAuthorized()}">
+                        <c:when test="${sessionUser.isAuthorized()}">
                             <fmt:message bundle="${rb}" key="logoutButton"/>
                         </c:when>
                         <c:otherwise>
@@ -75,7 +75,7 @@
                 </div>
 
                 <c:if test="${currentPage eq 'index'}">
-                    <c:if test="${!currentUser.isAuthorized()}">
+                    <c:if test="${!sessionUser.isAuthorized()}">
                         <div style="display: block; float: right; margin: 0px 10px;">
                             <a href="#formRegistration" class="btn btn-primary" data-toggle="modal"
                                style="padding: 0 12px; height: 24px; text-align:center">
@@ -98,8 +98,8 @@
                     <img id="img-user"  src="images/user.png" alt="x" width="24px" height="24px" />
                     <span id="user"><fmt:message bundle="${rb}" key="welcome"/>,
                         <c:choose>
-                            <c:when test="${currentUser.isAuthorized()}">
-                                          ${currentUser.getCurrentUser().getFirstName_user()}
+                            <c:when test="${sessionUser.isAuthorized()}">
+                                          ${sessionUser.getCurrentUser().getFirstName_user()}
                             </c:when>
                             <c:otherwise>
                                 <fmt:message bundle="${rb}" key="guestUserName"/>

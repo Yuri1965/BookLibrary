@@ -23,8 +23,6 @@ public class EmptyCommand implements ICommand {
         // очищаем предыдущие атрибуты запроса если они были
         session.removeAttribute("currentError");
         session.removeAttribute("autoShowModalForm");
-//        request.removeAttribute("currentError");
-//        request.removeAttribute("autoShowModalForm");
 
         return INDEX_PAGE;
     }

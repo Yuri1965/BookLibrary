@@ -4,10 +4,15 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
- * Created by URA on 29.10.2015.
+ * The class contains methods for data acquisition in the necessary localization
  */
 public class GeneralUtils {
-    // получает форматтер для даты в зависмости от локали
+    /**
+     * The method receives a date format mask in the necessary localization
+     * @param locale localization (type of Locale)
+     * @param useSecond flag of existence of seconds (if true, a format of date contains seconds)
+     * @return формат даты и времени (type of SimpleDateFormat)
+     */
     public static synchronized SimpleDateFormat getDateFormatterByLocale(Locale locale, boolean useSecond) {
         SimpleDateFormat dateFormatter;
 
@@ -20,7 +25,12 @@ public class GeneralUtils {
         return dateFormatter;
     }
 
-    // получает форматтер для даты в зависмости от локали, переданной в виде строки
+    /**
+     * The method receives a date format mask in the necessary localization
+     * @param locale String localization
+     * @param useSecond flag of existence of seconds (if true, a format of date contains seconds)
+     * @return format of date and time (type of SimpleDateFormat)
+     */
     public static synchronized SimpleDateFormat getDateFormatterByLocale(String locale, boolean useSecond) {
         SimpleDateFormat dateFormatter;
 
@@ -32,5 +42,6 @@ public class GeneralUtils {
 
         return dateFormatter;
     }
+
 
 }

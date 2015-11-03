@@ -66,11 +66,10 @@
                     <fieldset>
                         <c:choose>
                             <c:when test="${userSelected.isBlocked()}">
-                                <textarea  name="blockedDescription" style="height: 140px; width: 570px;
-                                max-width: 570px; min-width: 570px;" readonly>${userSelected.getBlockedDescription()}</textarea>
+                                <textarea  name="blockedDescription" style="height: 140px; width: 570px; resize: vertical;" readonly>${userSelected.getBlockedDescription()}</textarea>
                             </c:when>
                             <c:otherwise>
-                            <textarea name="blockedDescription" style="height: 140px; width: 570px; max-width: 570px; min-width: 570px;"
+                            <textarea name="blockedDescription" style="height: 140px; width: 570px; resize: vertical;"
                                       placeholder="<fmt:message bundle="${rb}" key="formBlockUnBlockUser.textBlockedDescription"/>"
                                     ></textarea>
                             </c:otherwise>

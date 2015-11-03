@@ -5,7 +5,7 @@ import com.epam.training.booklibrary.dao.implementations.DAOUser;
 import com.epam.training.booklibrary.datamodels.DataManager;
 import com.epam.training.booklibrary.controllers.utils.GeneralUtils;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
-import com.epam.training.booklibrary.entity.UserOrder;
+import com.epam.training.booklibrary.datamodels.entity.UserOrder;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 import com.epam.training.booklibrary.utils.LocaleMessageManager;
 import org.apache.logging.log4j.LogManager;

@@ -3,7 +3,7 @@ package com.epam.training.booklibrary.controllers.commands.implementations;
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
 import com.epam.training.booklibrary.datamodels.DataManager;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
-import com.epam.training.booklibrary.entity.UserExt;
+import com.epam.training.booklibrary.datamodels.entity.UserExt;
 import com.epam.training.booklibrary.utils.LocaleMessageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

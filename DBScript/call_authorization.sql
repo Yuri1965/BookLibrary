@@ -1,1 +1,0 @@
-call authorization('Ivan', '123')

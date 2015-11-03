@@ -18,16 +18,18 @@
                 </h4>
             </div>
 
-            <form class="form-horizontal" enctype="multipart/form-data" role="form"
+            <form class="form-horizontal" enctype="multipart/form-data" role="form" name="bookInputForm"
                   action="saveBook" method="post">
                 <div class="modal-body">
                     <input name="actionModeBookForm" type="hidden" value="${actionModeBookForm}"/>
                     <c:choose>
                         <c:when test="${actionModeBookForm eq 'addBook'}">
                             <input name="bookGenreID" type="hidden" value="${bookGenreID}"/>
+                            <input name="coverImageIsEmpty" type="hidden" value="true"/>
                         </c:when>
                         <c:otherwise>
                             <input name="bookGenreID" type="hidden" value="${bookSelected.getGenreID()}"/>
+                            <input name="coverImageIsEmpty" type="hidden" value="${coverImageIsEmpty}"/>
                         </c:otherwise>
                     </c:choose>
 

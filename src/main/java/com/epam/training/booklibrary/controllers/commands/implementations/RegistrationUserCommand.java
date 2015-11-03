@@ -2,9 +2,8 @@ package com.epam.training.booklibrary.controllers.commands.implementations;
 
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
-import com.epam.training.booklibrary.dao.implementations.DAOUser;
 import com.epam.training.booklibrary.dao.interfaces.IDAOUser;
-import com.epam.training.booklibrary.entity.User;
+import com.epam.training.booklibrary.datamodels.entity.User;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 import com.epam.training.booklibrary.utils.ApplicationConfigManager;
 import com.epam.training.booklibrary.utils.LocaleMessageManager;

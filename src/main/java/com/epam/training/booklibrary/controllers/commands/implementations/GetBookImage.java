@@ -1,7 +1,7 @@
 package com.epam.training.booklibrary.controllers.commands.implementations;
 
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
-import com.epam.training.booklibrary.entity.Book;
+import com.epam.training.booklibrary.datamodels.entity.Book;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

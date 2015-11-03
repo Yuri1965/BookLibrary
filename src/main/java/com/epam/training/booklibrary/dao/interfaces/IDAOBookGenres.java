@@ -1,6 +1,6 @@
 package com.epam.training.booklibrary.dao.interfaces;
 
-import com.epam.training.booklibrary.entity.BookGenre;
+import com.epam.training.booklibrary.datamodels.entity.BookGenre;
 
 import javax.naming.NamingException;
 import java.sql.SQLException;

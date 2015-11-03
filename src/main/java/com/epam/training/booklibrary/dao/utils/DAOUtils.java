@@ -1,6 +1,6 @@
 package com.epam.training.booklibrary.dao.utils;
 
-import com.epam.training.booklibrary.entity.*;
+import com.epam.training.booklibrary.datamodels.entity.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

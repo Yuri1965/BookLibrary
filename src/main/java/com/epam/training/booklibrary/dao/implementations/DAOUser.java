@@ -1,11 +1,11 @@
 package com.epam.training.booklibrary.dao.implementations;
 
 import com.epam.training.booklibrary.dao.dbconnection.DBConnectionPool;
-import com.epam.training.booklibrary.enums.Roles;
+import com.epam.training.booklibrary.datamodels.enums.Roles;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 import com.epam.training.booklibrary.dao.interfaces.IDAOUser;
-import com.epam.training.booklibrary.entity.User;
-import com.epam.training.booklibrary.entity.UserRole;
+import com.epam.training.booklibrary.datamodels.entity.User;
+import com.epam.training.booklibrary.datamodels.entity.UserRole;
 
 import javax.naming.NamingException;
 import java.sql.*;

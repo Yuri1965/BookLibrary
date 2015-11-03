@@ -1,6 +1,6 @@
 package com.epam.training.booklibrary.controllers.abstracts;
 
-import com.epam.training.booklibrary.controllers.commands.abstracts.AbstractRequestHelper;
+import com.epam.training.booklibrary.controllers.commands.abstracts.AbstractActionCommandFabric;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,13 +13,13 @@ import java.io.IOException;
  */
 public abstract class AbstractBaseServlet extends HttpServlet {
     //Object which contains teams for work with the application
-    private AbstractRequestHelper requestHelper;
+    private AbstractActionCommandFabric requestHelper;
 
     /**
      * Returns object which contains teams for work with the application
      * @return requestHelper (type of AbstractRequestHelper)
      */
-    protected AbstractRequestHelper getRequestHelper() {
+    protected AbstractActionCommandFabric getRequestHelper() {
         return requestHelper;
     }
 
@@ -28,7 +28,7 @@ public abstract class AbstractBaseServlet extends HttpServlet {
      * @param requestHelper (type of AbstractRequestHelper)
      *                      Object which contains teams for work with the application
      */
-    protected void setRequestHelper(AbstractRequestHelper requestHelper) {
+    protected void setRequestHelper(AbstractActionCommandFabric requestHelper) {
         this.requestHelper = requestHelper;
     }
 

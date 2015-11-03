@@ -4,7 +4,7 @@ import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
 import com.epam.training.booklibrary.dao.implementations.DAOUser;
 import com.epam.training.booklibrary.datamodels.DataManager;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
-import com.epam.training.booklibrary.entity.Book;
+import com.epam.training.booklibrary.datamodels.entity.Book;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 import com.epam.training.booklibrary.utils.ApplicationConfigManager;
 import com.epam.training.booklibrary.utils.LocaleMessageManager;
@@ -67,6 +67,7 @@ public class SaveBookCommand implements ICommand {
         String bookNumberCopies = "";
         String bookShortDescription = "";
         byte[] bookImage = null;
+        String coverImageIsEmpty = "";
 
         try {
             boolean isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -100,6 +101,8 @@ public class SaveBookCommand implements ICommand {
                         bookShortDescription = Streams.asString(item.openStream(), "UTF-8");
                     } else if (item.getFieldName().equalsIgnoreCase("bookImage")) {
                         bookImage = IOUtils.toByteArray(item.openStream());
+                    } else if (item.getFieldName().equalsIgnoreCase("coverImageIsEmpty")) {
+                        coverImageIsEmpty = Streams.asString(item.openStream(), "UTF-8");
                     }
                 }
             } else {
@@ -113,6 +116,7 @@ public class SaveBookCommand implements ICommand {
                 bookISBN = request.getParameter("bookISBN");
                 bookNumberCopies = request.getParameter("bookNumberCopies");
                 bookShortDescription = request.getParameter("bookShortDescription");
+                coverImageIsEmpty = request.getParameter("coverImageIsEmpty");
             }
 
             //check on obligation of filling of fields
@@ -138,6 +142,7 @@ public class SaveBookCommand implements ICommand {
             if (!RequestParamValidator.checkSymbolsNumbers(bookGenreID) || !RequestParamValidator.checkSymbolsNumbers(bookID)
                     || !RequestParamValidator.checkSymbolsNumbers(bookAuthorID) || !RequestParamValidator.checkSymbolsNumbers(bookPublisherID)
                     || (!actionModeBookForm.equalsIgnoreCase("addBook") && !actionModeBookForm.equalsIgnoreCase("editBook"))
+                    || (!coverImageIsEmpty.equalsIgnoreCase("true") && !coverImageIsEmpty.equalsIgnoreCase("false"))
                     ) {
                 errorString.append(LocaleMessageManager.getMessageValue("errorRequestParameter", locale));
                 errorCheckFound = true;
@@ -198,6 +203,12 @@ public class SaveBookCommand implements ICommand {
                 logger.info(fromIP + "\nThe user of " + userName + " added the new book " + book.getName());
             } else {
                 book = (Book) session.getAttribute("bookSelected");
+
+                boolean isEmptyCoverImage = Boolean.getBoolean(coverImageIsEmpty);
+                if (!isEmptyCoverImage && bookImage.length == 0) {
+                    bookImage = book.getCoverImage();
+                }
+
                 DataManager.updateBook(Integer.valueOf(bookID), Integer.valueOf(bookAuthorID),
                        Integer.valueOf(bookGenreID), Integer.valueOf(bookPublisherID), Integer.valueOf(bookPublishYear),
                        bookISBN, bookName, bookShortDescription, Integer.valueOf(bookNumberCopies), bookImage);

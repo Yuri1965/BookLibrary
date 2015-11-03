@@ -1,7 +1,7 @@
 package com.epam.training.booklibrary.controllers.filters;
 
 import com.epam.training.booklibrary.dao.implementations.DAOUser;
-import com.epam.training.booklibrary.enums.Roles;
+import com.epam.training.booklibrary.datamodels.enums.Roles;
 import com.epam.training.booklibrary.utils.LocaleMessageManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

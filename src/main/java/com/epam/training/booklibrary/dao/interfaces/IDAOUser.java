@@ -1,8 +1,8 @@
 package com.epam.training.booklibrary.dao.interfaces;
 
-import com.epam.training.booklibrary.entity.User;
-import com.epam.training.booklibrary.entity.UserRole;
-import com.epam.training.booklibrary.enums.Roles;
+import com.epam.training.booklibrary.datamodels.entity.User;
+import com.epam.training.booklibrary.datamodels.entity.UserRole;
+import com.epam.training.booklibrary.datamodels.enums.Roles;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 
 import javax.naming.NamingException;

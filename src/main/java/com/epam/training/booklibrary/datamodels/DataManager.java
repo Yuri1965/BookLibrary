@@ -1,13 +1,12 @@
 package com.epam.training.booklibrary.datamodels;
 
 import com.epam.training.booklibrary.dao.implementations.*;
-import com.epam.training.booklibrary.entity.*;
+import com.epam.training.booklibrary.datamodels.entity.*;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 
 import javax.naming.NamingException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

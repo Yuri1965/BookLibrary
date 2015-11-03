@@ -4,7 +4,7 @@ import com.epam.training.booklibrary.dao.dbconnection.DBConnectionPool;
 import com.epam.training.booklibrary.dao.interfaces.IDAOOrders;
 import com.epam.training.booklibrary.dao.interfaces.IDAOSearchCriteria;
 import com.epam.training.booklibrary.dao.utils.DAOUtils;
-import com.epam.training.booklibrary.entity.UserOrder;
+import com.epam.training.booklibrary.datamodels.entity.UserOrder;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 import com.epam.training.booklibrary.utils.ApplicationConfigManager;
 

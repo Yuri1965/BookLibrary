@@ -3,7 +3,7 @@ package com.epam.training.booklibrary.dao.implementations;
 import com.epam.training.booklibrary.dao.dbconnection.DBConnectionPool;
 import com.epam.training.booklibrary.dao.interfaces.IDAOAuthors;
 import com.epam.training.booklibrary.dao.utils.DAOUtils;
-import com.epam.training.booklibrary.entity.Author;
+import com.epam.training.booklibrary.datamodels.entity.Author;
 
 import javax.naming.NamingException;
 import java.sql.*;

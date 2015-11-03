@@ -6,7 +6,7 @@ import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
 import com.epam.training.booklibrary.dao.implementations.DAOSearchBookCriteria;
 import com.epam.training.booklibrary.dao.implementations.DAOSearchOrderCriteria;
 import com.epam.training.booklibrary.dao.implementations.DAOSearchUserCriteria;
-import com.epam.training.booklibrary.entity.*;
+import com.epam.training.booklibrary.datamodels.entity.*;
 import com.epam.training.booklibrary.utils.ApplicationConfigManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

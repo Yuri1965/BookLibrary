@@ -2,7 +2,7 @@ package com.epam.training.booklibrary.controllers.implementations;
 
 import com.epam.training.booklibrary.controllers.abstracts.AbstractBaseServlet;
 import com.epam.training.booklibrary.controllers.commands.interfaces.ICommand;
-import com.epam.training.booklibrary.controllers.commands.implementations.RequestHelper;
+import com.epam.training.booklibrary.controllers.commands.implementations.ActionCommandFabric;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ public class BaseServlet extends AbstractBaseServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        this.setRequestHelper(RequestHelper.getInstance());
+        this.setRequestHelper(ActionCommandFabric.getInstance());
     }
 
     /**

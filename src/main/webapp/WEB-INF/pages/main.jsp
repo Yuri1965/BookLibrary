@@ -206,6 +206,14 @@
         $(document).ready(function () {
             $("${autoShowModalForm}").modal('show');
         });
+
+        $('#book-image').on('filecleared', function(event) {
+            document.bookInputForm.coverImageIsEmpty.value = "true";
+        });
+
+        $('#book-image').on('fileloaded', function(event) {
+            document.bookInputForm.coverImageIsEmpty.value = "false";
+        });
     </script>
 </c:if>
 

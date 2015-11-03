@@ -1,0 +1,16 @@
+com.epam.training.booklibrary.controllers.abstracts
+com.epam.training.booklibrary.controllers.commands.abstracts
+com.epam.training.booklibrary.controllers.commands.implementations
+com.epam.training.booklibrary.controllers.commands.interfaces
+com.epam.training.booklibrary.controllers.filters
+com.epam.training.booklibrary.controllers.implementations
+com.epam.training.booklibrary.controllers.utils
+com.epam.training.booklibrary.dao.dbconnection
+com.epam.training.booklibrary.dao.implementations
+com.epam.training.booklibrary.dao.interfaces
+com.epam.training.booklibrary.dao.utils
+com.epam.training.booklibrary.datamodels
+com.epam.training.booklibrary.datamodels.entity
+com.epam.training.booklibrary.datamodels.enums
+com.epam.training.booklibrary.exceptions
+com.epam.training.booklibrary.utils

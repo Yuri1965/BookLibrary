@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * The filter for check of access to pages according to the rights of the user
+ * The filter for check of access to pages according to the rights of the user1
  */
 @WebFilter(filterName = "AccessPagesFilter",
         urlPatterns = { "/WEB-INF/pages/main.jsp", "/saveUserProfile", "/showCreateOrderForm", "/createUserOrder" },

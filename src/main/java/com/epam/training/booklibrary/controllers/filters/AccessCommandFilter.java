@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 /**
- * The filter for check of the rights for performance of teams by the user depending on his role
+ * The filter for check of the rights for performance of teams by the user depending on his role1
  */
 @WebFilter(filterName = "AccessCommandFilter",
         urlPatterns = { "/deleteBook", "/showEditBookForm", "/showAddBookForm", "/saveBook",

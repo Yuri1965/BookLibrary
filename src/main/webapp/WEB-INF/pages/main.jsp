@@ -208,14 +208,11 @@
         });
 
         $('#book-image').on('filecleared', function(event) {
-            document.bookInputForm.coverImageIsEmpty.value = "true";
+            $('#coverImageIsEmpty').val('true');
         });
 
         $('#book-image').on('fileloaded', function(event) {
-            document.bookInputForm.coverImageIsEmpty.value = "false";
-//            $('#inputID').val('true');
-//            $('#inputID').get().value = "true";
-//            $('#inputID')[0].value = "true";
+            $('#coverImageIsEmpty').val('false');
         });
     </script>
 </c:if>

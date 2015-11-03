@@ -25,11 +25,11 @@
                     <c:choose>
                         <c:when test="${actionModeBookForm eq 'addBook'}">
                             <input name="bookGenreID" type="hidden" value="${bookGenreID}"/>
-                            <input name="coverImageIsEmpty" type="hidden" value="true"/>
+                            <input name="coverImageIsEmpty" type="hidden" value="true" id="coverImageIsEmpty"/>
                         </c:when>
                         <c:otherwise>
                             <input name="bookGenreID" type="hidden" value="${bookSelected.getGenreID()}"/>
-                            <input name="coverImageIsEmpty" type="hidden" value="${coverImageIsEmpty}"/>
+                            <input name="coverImageIsEmpty"  id="coverImageIsEmpty" type="hidden" value="${coverImageIsEmpty}"/>
                         </c:otherwise>
                     </c:choose>
 

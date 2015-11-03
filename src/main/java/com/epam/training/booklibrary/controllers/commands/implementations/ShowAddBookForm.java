@@ -81,7 +81,6 @@ public class ShowAddBookForm implements ICommand {
             }
             session.setAttribute("bookGenreName", bookGenreName);
 
-
             Date currentDate = new Date();
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentDate);

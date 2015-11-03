@@ -46,8 +46,8 @@
                     EN
                     </a>
                 </div>
-                <c:if test="${pageContext.errorData.statusCode == 0}">
 
+                <c:if test="${pageContext.errorData.statusCode == 0}">
                     <div style="display: block; float: right; margin: 0 10px;">
                         <a class="btn btn-primary"
                            style="padding: 0 12px;  height: 24px; align-content:center; text-align:center;"
@@ -109,8 +109,8 @@
                         </span>
                     </div>
                 </c:if>
-            </div>
 
+            </div>
             <div class="clear">&nbsp;</div>
         </div>
     </div>

@@ -34,13 +34,12 @@ body
     height: 38px;
 }
 
-.panel-form .navbar-form{
+.panel-form .navbar-form {
     margin-top: -3px;
     width: 100%;
 }
 
-.aga-body
-{
+.aga-body {
     margin: 0;
     font-family: "PT Sans",sans-serif;
     font-size: 11pt; /* размер шрифта */
@@ -221,6 +220,10 @@ a.background_button:hover {
 
 #formCreateOrder select {
     width: 100%;
+}
+
+#errorInfo {
+    text-align: left;
 }
 
 /*ЦВЕТА*/

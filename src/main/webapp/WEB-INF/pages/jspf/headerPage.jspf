@@ -6,8 +6,8 @@
 
             <div class="aflat" style="padding: 8px 10px; height: 40px; color:#dee4eb; background-color: #475a70">
 
-                <div style="display: block; float: left; margin: 0px">
-                    <img src="images/library_png.png" width="24px" height="24px"/>
+                <div style="display: block; float: left; margin: 0">
+                    <img src="<c:url value="/images/library_png.png"/>" width="24px" height="24px"/>
 
                     <span id="appTitle">
                         <fmt:message bundle="${rb}" key="welcome_title"/>
@@ -19,11 +19,11 @@
                     <a class="up_button"
                     <c:choose>
                         <c:when test="${currentLocale == 'ru_ru'}">
-                            style="margin-left: 10px; margin-right: 0px; color: #27c4fd;"
+                            style="margin-left: 10px; margin-right: 0; color: #27c4fd;"
                             href="#"
                         </c:when>
                         <c:otherwise>
-                            style="margin-left: 10px; margin-right: 0px"
+                            style="margin-left: 10px; margin-right: 0"
                             href="<c:url value="/localeChange?currentPage=${currentPage}&locale=ru_ru"/>"
                         </c:otherwise>
                     </c:choose>
@@ -34,11 +34,11 @@
                     <a class="up_button"
                     <c:choose>
                         <c:when test="${currentLocale == 'en_us'}">
-                            style="margin-left: 10px; margin-right: 0px; color: #27c4fd;"
+                            style="margin-left: 10px; margin-right: 0; color: #27c4fd;"
                             href="#"
                         </c:when>
                         <c:otherwise>
-                            style="margin-left: 10px; margin-right: 0px"
+                            style="margin-left: 10px; margin-right: 0"
                             href="<c:url value="/localeChange?currentPage=${currentPage}&locale=en_us"/>"
                         </c:otherwise>
                     </c:choose>
@@ -46,67 +46,69 @@
                     EN
                     </a>
                 </div>
+                <c:if test="${pageContext.errorData.statusCode == 0}">
 
-                <div style="display: block; float: right; margin: 0px 10px;">
-                    <a class="btn btn-primary"
-                       style="padding: 0 12px;  height: 24px; align-content:center; text-align:center;"
-                    <c:choose>
-                        <c:when test="${sessionUser.isAuthorized()}">
-                            href="logout"
-                        </c:when>
-                        <c:otherwise>
-                            <c:if test="${currentPage eq 'index'}">
-                                href="#formLogin" data-toggle="modal"
-                            </c:if>
-                        </c:otherwise>
-                    </c:choose>
-                    >
-                    <c:choose>
-                        <c:when test="${sessionUser.isAuthorized()}">
-                            <fmt:message bundle="${rb}" key="logoutButton"/>
-                        </c:when>
-                        <c:otherwise>
-                            <c:if test="${currentPage eq 'index'}">
-                                <fmt:message bundle="${rb}" key="loginButton"/>
-                            </c:if>
-                        </c:otherwise>
-                    </c:choose>
-                    </a>
-                </div>
+                    <div style="display: block; float: right; margin: 0 10px;">
+                        <a class="btn btn-primary"
+                           style="padding: 0 12px;  height: 24px; align-content:center; text-align:center;"
+                        <c:choose>
+                            <c:when test="${sessionUser.isAuthorized()}">
+                                href="logout"
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${currentPage eq 'index'}">
+                                    href="#formLogin" data-toggle="modal"
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                        >
+                        <c:choose>
+                            <c:when test="${sessionUser.isAuthorized()}">
+                                <fmt:message bundle="${rb}" key="logoutButton"/>
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${currentPage eq 'index'}">
+                                    <fmt:message bundle="${rb}" key="loginButton"/>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                        </a>
+                    </div>
 
-                <c:if test="${currentPage eq 'index'}">
-                    <c:if test="${!sessionUser.isAuthorized()}">
-                        <div style="display: block; float: right; margin: 0px 10px;">
-                            <a href="#formRegistration" class="btn btn-primary" data-toggle="modal"
+                    <c:if test="${currentPage eq 'index'}">
+                        <c:if test="${!sessionUser.isAuthorized()}">
+                            <div style="display: block; float: right; margin: 0 10px;">
+                                <a href="#formRegistration" class="btn btn-primary" data-toggle="modal"
+                                   style="padding: 0 12px; height: 24px; text-align:center">
+                                    <fmt:message bundle="${rb}" key="registrationButton"/>
+                                </a>
+                            </div>
+                        </c:if>
+                    </c:if>
+
+                    <c:if test="${currentPage eq 'main'}">
+                        <div style="display: block; float: right; margin: 0 10px;">
+                            <a href="#formUserProfile" class="btn btn-primary" data-toggle="modal"
                                style="padding: 0 12px; height: 24px; text-align:center">
-                                <fmt:message bundle="${rb}" key="registrationButton"/>
+                                <fmt:message bundle="${rb}" key="profileButton"/>
                             </a>
                         </div>
                     </c:if>
-                </c:if>
 
-                <c:if test="${currentPage eq 'main'}">
-                    <div style="display: block; float: right; margin: 0px 10px;">
-                        <a href="#formUserProfile" class="btn btn-primary" data-toggle="modal"
-                           style="padding: 0 12px; height: 24px; text-align:center">
-                            <fmt:message bundle="${rb}" key="profileButton"/>
-                        </a>
+                    <div style="display: block; float: right; margin: 0 10px;">
+                        <img id="img-user"  src="images/user.png" alt="x" width="24px" height="24px" />
+                        <span id="user"><fmt:message bundle="${rb}" key="welcome"/>,
+                            <c:choose>
+                                <c:when test="${sessionUser.isAuthorized()}">
+                                              ${sessionUser.getCurrentUser().getFirstName_user()}
+                                </c:when>
+                                <c:otherwise>
+                                    <fmt:message bundle="${rb}" key="guestUserName"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </span>
                     </div>
                 </c:if>
-
-                <div style="display: block; float: right; margin: 0 10px;">
-                    <img id="img-user"  src="images/user.png" alt="x" width="24px" height="24px" />
-                    <span id="user"><fmt:message bundle="${rb}" key="welcome"/>,
-                        <c:choose>
-                            <c:when test="${sessionUser.isAuthorized()}">
-                                          ${sessionUser.getCurrentUser().getFirstName_user()}
-                            </c:when>
-                            <c:otherwise>
-                                <fmt:message bundle="${rb}" key="guestUserName"/>
-                            </c:otherwise>
-                        </c:choose>
-                    </span>
-                </div>
             </div>
 
             <div class="clear">&nbsp;</div>

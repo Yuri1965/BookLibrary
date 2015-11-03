@@ -213,6 +213,9 @@
 
         $('#book-image').on('fileloaded', function(event) {
             document.bookInputForm.coverImageIsEmpty.value = "false";
+//            $('#inputID').val('true');
+//            $('#inputID').get().value = "true";
+//            $('#inputID')[0].value = "true";
         });
     </script>
 </c:if>

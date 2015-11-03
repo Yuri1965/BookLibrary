@@ -204,7 +204,7 @@ public class SaveBookCommand implements ICommand {
             } else {
                 book = (Book) session.getAttribute("bookSelected");
 
-                boolean isEmptyCoverImage = Boolean.getBoolean(coverImageIsEmpty);
+                boolean isEmptyCoverImage = coverImageIsEmpty.equals("true");
                 if (!isEmptyCoverImage && bookImage.length == 0) {
                     bookImage = book.getCoverImage();
                 }

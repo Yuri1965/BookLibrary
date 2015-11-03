@@ -109,6 +109,13 @@ public class ShowEditBookForm implements ICommand {
 
             session.setAttribute("bookSelected", book);
             session.setAttribute("actionModeBookForm", "editBook");
+
+            if (book.getCoverImage() != null && book.getCoverImage().length > 0) {
+                session.setAttribute("coverImageIsEmpty", "false");
+            } else {
+                session.setAttribute("coverImageIsEmpty", "true");
+            }
+
             session.setAttribute("autoShowModalForm", "#formBook");
 
             redirectPage = redirectPage + MAIN_PAGE;

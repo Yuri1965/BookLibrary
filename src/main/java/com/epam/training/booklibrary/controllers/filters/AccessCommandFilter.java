@@ -67,12 +67,15 @@ public class AccessCommandFilter implements Filter {
                 daoUser.getUserRoleByName(Roles.EMPLOYEE_LIBRARY) == null) {
 
             String fromIP = "Client IP: " + ((HttpServletRequest) req).getRemoteAddr();
+
+            if (daoUser == null) {
+                daoUser = new DAOUser("Guest", "Guest");
+                session.setAttribute("sessionUser", daoUser);
+            }
             String userName = ((DAOUser) session.getAttribute("sessionUser")).getUserName();
+
             logger.info(fromIP + "\nThe user of " + userName + " has no rights for command " +
                     ((HttpServletRequest) req).getServletPath() + " execution");
-
-            daoUser = new DAOUser("Guest", "Guest");
-            session.setAttribute("sessionUser", daoUser);
 
             session.setAttribute("currentError", LocaleMessageManager.getMessageValue("errorAccessToPagesError", locale));
             session.setAttribute("autoShowModalForm", "#formLogin");

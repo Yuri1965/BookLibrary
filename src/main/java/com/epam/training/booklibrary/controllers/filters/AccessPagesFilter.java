@@ -65,7 +65,13 @@ public class AccessPagesFilter implements Filter {
             (daoUser.getUserRoleByName(Roles.READER_LIBRARY) == null))) {
 
             String fromIP = "Client IP: " + ((HttpServletRequest) req).getRemoteAddr();
+
+            if (daoUser == null) {
+                daoUser = new DAOUser("Guest", "Guest");
+                session.setAttribute("sessionUser", daoUser);
+            }
             String userName = ((DAOUser) session.getAttribute("sessionUser")).getUserName();
+
             logger.info(fromIP + "\nThe user of " + userName + " has no rights for access to the main page");
 
             session.setAttribute("currentError", LocaleMessageManager.getMessageValue("errorAccessToPagesError", locale));

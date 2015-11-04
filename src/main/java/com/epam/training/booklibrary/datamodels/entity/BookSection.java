@@ -6,7 +6,7 @@ import java.io.Serializable;
  * The class contains realization for objects the Section of literature
  */
 public class BookSection implements Serializable {
-    private static final long serialVersionUID = 07L;
+    private static final long serialVersionUID = 1L;
 
     // identifier of the section of literature
     private int id;

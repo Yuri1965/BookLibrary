@@ -6,7 +6,7 @@ import java.io.Serializable;
  * The class contains realization for objects a book Genre
  */
 public class BookGenre implements Serializable {
-    private static final long serialVersionUID = 011L;
+    private static final long serialVersionUID = 1L;
 
     // record identifier
     private int id;

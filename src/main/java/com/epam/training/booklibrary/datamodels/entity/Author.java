@@ -7,7 +7,7 @@ import java.util.Date;
  * Class the Author of the book contains realization for objects
  */
 public class Author implements Serializable {
-    private static final long serialVersionUID = 04L;
+    private static final long serialVersionUID = 1L;
 
     // record identifier
     private int id;

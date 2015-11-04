@@ -6,7 +6,7 @@ import java.io.Serializable;
  * The class contains realization for object Publishing house
  */
 public class Publisher implements Serializable {
-    private static final long serialVersionUID = 05L;
+    private static final long serialVersionUID = 1L;
 
     // Identifier of publishing house
     private int id;

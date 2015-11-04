@@ -10,7 +10,7 @@ import java.util.Locale;
  * Class which contains expansion of the class User for work in the Work with Users mode
  */
 public class UserExt extends User implements Serializable {
-    private static final long serialVersionUID = 14L;
+    private static final long serialVersionUID = 1L;
 
     // role of the user
     private UserRole userRole;

@@ -10,7 +10,7 @@ import java.util.Locale;
  * Class which contains realization of object - the Order of the user for the book
  */
 public class UserOrder implements Serializable {
-    private static final long serialVersionUID = 013L;
+    private static final long serialVersionUID = 1L;
 
     // Order ID
     private int id;

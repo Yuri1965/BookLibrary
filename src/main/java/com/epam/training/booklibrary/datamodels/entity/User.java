@@ -7,7 +7,7 @@ import java.util.Date;
  * Class User of System
  */
 public class User implements Serializable {
-    private static final long serialVersionUID = 02L;
+    private static final long serialVersionUID = 1L;
 
     // user ID
     private int id;

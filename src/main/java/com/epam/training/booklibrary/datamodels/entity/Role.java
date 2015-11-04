@@ -8,7 +8,7 @@ import java.io.Serializable;
  * The class Role in system
  */
 public class Role implements Serializable {
-    private static final long serialVersionUID = 01L;
+    private static final long serialVersionUID = 1L;
 
     // Role identifier
     private int id;

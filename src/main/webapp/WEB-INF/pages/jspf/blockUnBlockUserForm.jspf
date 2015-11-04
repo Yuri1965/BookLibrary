@@ -6,7 +6,6 @@
         <div class="modal-content" style="background-color: #f8f7f5">
 
             <form method="post" role="form" action="blockUnBlockUser">
-                <input name="userID" type="hidden" value="${userSelected.getId()}"/>
                 <input name="actionMode" type="hidden"
                         <c:choose>
                             <c:when test="${userSelected.isBlocked()}">

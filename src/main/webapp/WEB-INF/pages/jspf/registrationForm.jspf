@@ -1,10 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: URA
-  Date: 08.10.2015
-  Time: 21:35
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!-- Форма регистрации нового пользователя-->
 <div id="formRegistration" class="modal fade" style="text-align: left">
     <div class="modal-dialog">

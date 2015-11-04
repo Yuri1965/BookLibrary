@@ -6,7 +6,6 @@
         <div class="modal-content" style="background-color: #f8f7f5">
 
             <form action="deleteBook" method="post" role="form">
-                <input name="bookID" type="hidden" value="${bookSelected.getId()}"/>
                 <input name="currentPage" type="hidden" value="${currentPage}"/>
 
                 <div class="modal-header">

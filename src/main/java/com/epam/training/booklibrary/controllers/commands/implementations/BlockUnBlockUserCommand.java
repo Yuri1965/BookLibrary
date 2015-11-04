@@ -48,18 +48,12 @@ public class BlockUnBlockUserCommand implements ICommand {
         session.removeAttribute("autoShowModalForm");
 
         //extraction from inquiry of parameters
-        String userID = request.getParameter("userID");
         String actionMode = request.getParameter("actionMode");
         String blockedDescription = request.getParameter("blockedDescription");
 
         //validation of parameters of inquiry
         boolean errorCheckFound = false;
         StringBuilder errorString = new StringBuilder();
-
-        if (!RequestParamValidator.checkSymbolsNumbers(userID)) {
-            errorString.append(LocaleMessageManager.getMessageValue("errorRequestParameter", locale));
-            errorCheckFound = true;
-        }
 
         if (blockedDescription == null || blockedDescription.isEmpty()) {
             errorString.append(LocaleMessageManager.getMessageValue("errorIsEmptyBlockedDescription", locale));
@@ -87,13 +81,14 @@ public class BlockUnBlockUserCommand implements ICommand {
             UserExt userExt;
             String fromIP = "Client IP: " + request.getRemoteAddr();
             String userName = ((DAOUser) session.getAttribute("sessionUser")).getUserName();
+            int userID = ((UserExt) session.getAttribute("userSelected")).getId();
 
             if (actionMode.equalsIgnoreCase("setBlock")) {
-                userExt = DataManager.blockUser(Integer.valueOf(userID), blockedDescription);
+                userExt = DataManager.blockUser(userID, blockedDescription);
                 //we log action of the user
                 logger.info(fromIP + "\nThe user of " + userName + " blocked the user of " + userExt.getName_user());
             } else {
-                userExt = DataManager.unBlockUser(Integer.valueOf(userID));
+                userExt = DataManager.unBlockUser(userID);
                 //we log action of the user
                 logger.info(fromIP + "\nThe user of " + userName + " unblocked the user of " + userExt.getName_user());
             }

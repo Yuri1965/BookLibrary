@@ -46,33 +46,12 @@ public class DeleteBookCommand implements ICommand {
         session.removeAttribute("currentError");
         session.removeAttribute("autoShowModalForm");
 
-        //extraction from inquiry of parameters
-        String bookID = request.getParameter("bookID");
-
-        //validation of parameters of inquiry
-        boolean errorCheckFound = false;
-        StringBuilder errorString = new StringBuilder();
-
-        if (!RequestParamValidator.checkSymbolsNumbers(bookID)) {
-            errorString.append(LocaleMessageManager.getMessageValue("errorRequestParameter", locale));
-            errorCheckFound = true;
-        }
-
-        //if there are mistakes that show them
-        if (errorCheckFound) {
-            session.setAttribute("autoShowModalForm", "#formInfo");
-            session.setAttribute("messageFormInfo", errorString.toString());
-
-            redirectPage = redirectPage + MAIN_PAGE;
-            response.sendRedirect(redirectPage);
-            return null;
-        }
-
         try {
             //processing of inquiry and preparation of data for the user
             Book book = (Book) session.getAttribute("bookSelected");
+            int bookID = book.getId();
 
-            DataManager.deleteBook(Integer.valueOf(bookID));
+            DataManager.deleteBook(bookID);
 
             //we log action of the user
             String fromIP = "Client IP: " + request.getRemoteAddr();

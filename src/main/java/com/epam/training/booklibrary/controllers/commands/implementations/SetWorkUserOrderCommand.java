@@ -51,17 +51,11 @@ public class SetWorkUserOrderCommand implements ICommand {
         session.removeAttribute("autoShowModalForm");
 
         //extraction from inquiry of parameters
-        String orderID = request.getParameter("orderID");
         String dateBeginOrder = request.getParameter("dateBeginOrder");
 
         //validation of parameters of inquiry
         boolean errorCheckFound = false;
         StringBuilder errorString = new StringBuilder();
-
-        if (!RequestParamValidator.checkSymbolsNumbers(orderID)) {
-            errorString.append(LocaleMessageManager.getMessageValue("errorRequestParameter", locale));
-            errorCheckFound = true;
-        }
 
         if (dateBeginOrder == null || dateBeginOrder.isEmpty()) {
             errorString.append(LocaleMessageManager.getMessageValue("errorIsEmptyDateBeginOrder", locale));
@@ -83,6 +77,7 @@ public class SetWorkUserOrderCommand implements ICommand {
             Date dateBeginToDate = GeneralUtils.getDateFormatterByLocale(locale, false).parse(dateBeginOrder);
 
             UserOrder userOrder = (UserOrder) session.getAttribute("orderSelected");
+            int orderID = userOrder.getId();
 
             Date dateCheckOrder = userOrder.getPreOrderDateTime();
 
@@ -91,7 +86,7 @@ public class SetWorkUserOrderCommand implements ICommand {
             }
 
             //we transfer the order for the book to a state = In work
-            userOrder = DataManager.setWorkOrder(Integer.valueOf(orderID), dateBeginToDate);
+            userOrder = DataManager.setWorkOrder(orderID, dateBeginToDate);
 
             //we log action of the user
             String fromIP = "Client IP: " + request.getRemoteAddr();

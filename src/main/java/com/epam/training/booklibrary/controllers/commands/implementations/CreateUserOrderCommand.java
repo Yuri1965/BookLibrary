@@ -5,6 +5,7 @@ import com.epam.training.booklibrary.datamodels.DataManager;
 import com.epam.training.booklibrary.controllers.utils.GeneralUtils;
 import com.epam.training.booklibrary.controllers.utils.RequestParamValidator;
 import com.epam.training.booklibrary.dao.implementations.DAOUser;
+import com.epam.training.booklibrary.datamodels.entity.Book;
 import com.epam.training.booklibrary.datamodels.entity.UserOrder;
 import com.epam.training.booklibrary.exceptions.MainExceptions;
 import com.epam.training.booklibrary.utils.LocaleMessageManager;
@@ -51,16 +52,14 @@ public class CreateUserOrderCommand implements ICommand {
         session.removeAttribute("autoShowModalForm");
 
         //extraction from inquiry of parameters
-        String bookID = request.getParameter("bookID");
         String typeOrderID = request.getParameter("typeOrderID");
         String datePrev = request.getParameter("datePrev");
-        int userID = ((DAOUser) session.getAttribute("sessionUser")).getCurrentUser().getId();
 
         //validation of parameters of inquiry
         boolean errorCheckFound = false;
         StringBuilder errorString = new StringBuilder();
 
-        if (!RequestParamValidator.checkSymbolsNumbers(bookID) || !RequestParamValidator.checkSymbolsNumbers(typeOrderID)) {
+        if (!RequestParamValidator.checkSymbolsNumbers(typeOrderID)) {
             errorString.append(LocaleMessageManager.getMessageValue("errorRequestParameter", locale));
             errorCheckFound = true;
         }
@@ -89,8 +88,11 @@ public class CreateUserOrderCommand implements ICommand {
                 throw MainExceptions.getMainErrorException("errorBeforeDate");
             }
 
+            int bookID = ((Book) session.getAttribute("bookSelected")).getId();
+            int userID = ((DAOUser) session.getAttribute("sessionUser")).getCurrentUser().getId();
+
             //we keep the order for the book
-            UserOrder userOrder = DataManager.createOrder(Integer.valueOf(bookID), Integer.valueOf(userID), Integer.valueOf(typeOrderID), datePrevToDate);
+            UserOrder userOrder = DataManager.createOrder(bookID, userID, Integer.valueOf(typeOrderID), datePrevToDate);
 
             //we log action of the user
             String fromIP = "Client IP: " + request.getRemoteAddr();

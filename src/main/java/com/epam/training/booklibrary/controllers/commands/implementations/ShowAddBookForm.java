@@ -56,7 +56,7 @@ public class ShowAddBookForm implements ICommand {
         boolean errorCheckFound = false;
         StringBuilder errorString = new StringBuilder();
 
-        if (!RequestParamValidator.checkSymbolsNumbers(bookGenreID) || Integer.valueOf(bookGenreID) == 0) {
+        if (!RequestParamValidator.checkSymbolsNumbers(bookGenreID) || Integer.valueOf(bookGenreID) <= 0) {
             errorString.append(LocaleMessageManager.getMessageValue("errorRequestParameter", locale));
             errorCheckFound = true;
         }

@@ -13,7 +13,6 @@
             </div>
 
             <form class="form-horizontal" action="createUserOrder" method="post" role="form">
-                <input name="bookID" type="hidden" value="${bookSelected.getId()}"/>
                 <input name="currentPage" type="hidden" value="${currentPage}"/>
 
                 <div class="modal-body">

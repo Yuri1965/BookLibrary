@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!-- Форма добавления или редактирования книги-->
 <div id="formBook" class="modal fade" style="text-align: left; width: auto;">
     <div class="modal-dialog">
@@ -24,21 +26,10 @@
                     <input name="actionModeBookForm" type="hidden" value="${actionModeBookForm}"/>
                     <c:choose>
                         <c:when test="${actionModeBookForm eq 'addBook'}">
-                            <input name="bookGenreID" type="hidden" value="${bookGenreID}"/>
                             <input name="coverImageIsEmpty" type="hidden" value="true" id="coverImageIsEmpty"/>
                         </c:when>
                         <c:otherwise>
-                            <input name="bookGenreID" type="hidden" value="${bookSelected.getGenreID()}"/>
                             <input name="coverImageIsEmpty"  id="coverImageIsEmpty" type="hidden" value="${coverImageIsEmpty}"/>
-                        </c:otherwise>
-                    </c:choose>
-
-                    <c:choose>
-                        <c:when test="${actionModeBookForm eq 'addBook'}">
-                            <input name="bookID" type="hidden" value="0"/>
-                        </c:when>
-                        <c:otherwise>
-                            <input name="bookID" type="hidden" value="${bookSelected.getId()}"/>
                         </c:otherwise>
                     </c:choose>
 

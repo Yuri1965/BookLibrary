@@ -57,8 +57,6 @@ public class SaveBookCommand implements ICommand {
         String redirectPage = request.getContextPath();
 
         String actionModeBookForm = "";
-        String bookGenreID = "";
-        String bookID = "";
         String bookName = "";
         String bookAuthorID = "";
         String bookPublisherID = "";
@@ -81,10 +79,6 @@ public class SaveBookCommand implements ICommand {
 
                     if (item.getFieldName().equalsIgnoreCase("actionModeBookForm")) {
                         actionModeBookForm = Streams.asString(item.openStream(), "UTF-8");
-                    } else if (item.getFieldName().equalsIgnoreCase("bookGenreID")) {
-                        bookGenreID = Streams.asString(item.openStream(), "UTF-8");
-                    } else if (item.getFieldName().equalsIgnoreCase("bookID")) {
-                        bookID = Streams.asString(item.openStream(), "UTF-8");
                     } else if (item.getFieldName().equalsIgnoreCase("bookName")) {
                         bookName = Streams.asString(item.openStream(), "UTF-8");
                     } else if (item.getFieldName().equalsIgnoreCase("bookAuthorID")) {
@@ -107,8 +101,6 @@ public class SaveBookCommand implements ICommand {
                 }
             } else {
                 actionModeBookForm = request.getParameter("actionModeBookForm");
-                bookGenreID = request.getParameter("bookGenreID");
-                bookID = request.getParameter("bookID");
                 bookName = request.getParameter("bookName");
                 bookAuthorID = request.getParameter("bookAuthorID");
                 bookPublisherID = request.getParameter("bookPublisherID");
@@ -120,8 +112,8 @@ public class SaveBookCommand implements ICommand {
             }
 
             //check on obligation of filling of fields
-            if (actionModeBookForm == null || actionModeBookForm.isEmpty() || bookGenreID == null || bookGenreID.isEmpty()
-                    || bookID == null || bookID.isEmpty() || bookName == null || bookName.isEmpty()
+            if (actionModeBookForm == null || actionModeBookForm.isEmpty()
+                    || bookName == null || bookName.isEmpty()
                     || bookAuthorID == null || bookAuthorID.isEmpty() || bookPublisherID == null || bookPublisherID.isEmpty()
                     || bookPublishYear == null || bookPublishYear.isEmpty() || bookPublishYear == null || bookPublishYear.isEmpty()
                     || bookISBN == null || bookISBN.isEmpty() || bookNumberCopies == null || bookNumberCopies.isEmpty()
@@ -139,8 +131,7 @@ public class SaveBookCommand implements ICommand {
             boolean errorCheckFound = false;
             StringBuilder errorString = new StringBuilder();
 
-            if (!RequestParamValidator.checkSymbolsNumbers(bookGenreID) || !RequestParamValidator.checkSymbolsNumbers(bookID)
-                    || !RequestParamValidator.checkSymbolsNumbers(bookAuthorID) || !RequestParamValidator.checkSymbolsNumbers(bookPublisherID)
+            if (!RequestParamValidator.checkSymbolsNumbers(bookAuthorID) || !RequestParamValidator.checkSymbolsNumbers(bookPublisherID)
                     || (!actionModeBookForm.equalsIgnoreCase("addBook") && !actionModeBookForm.equalsIgnoreCase("editBook"))
                     || (!coverImageIsEmpty.equalsIgnoreCase("true") && !coverImageIsEmpty.equalsIgnoreCase("false"))
                     ) {
@@ -195,22 +186,28 @@ public class SaveBookCommand implements ICommand {
             String fromIP = "Client IP: " + request.getRemoteAddr();
             String userName = ((DAOUser) session.getAttribute("sessionUser")).getUserName();
 
+            int bookGenreID;
             Book book;
             if (actionModeBookForm.equalsIgnoreCase("addBook")) {
-                book = DataManager.createBook(Integer.valueOf(bookAuthorID), Integer.valueOf(bookGenreID),
+                bookGenreID = Integer.valueOf((String) session.getAttribute("bookGenreID"));
+
+                book = DataManager.createBook(Integer.valueOf(bookAuthorID), bookGenreID,
                        Integer.valueOf(bookPublisherID), Integer.valueOf(bookPublishYear),
                        bookISBN, bookName, bookShortDescription, Integer.valueOf(bookNumberCopies), bookImage);
+
                 logger.info(fromIP + "\nThe user of " + userName + " added the new book " + book.getName());
             } else {
                 book = (Book) session.getAttribute("bookSelected");
+                int bookID = book.getId();
+                bookGenreID = book.getGenreID();
 
                 boolean isEmptyCoverImage = coverImageIsEmpty.equals("true");
                 if (!isEmptyCoverImage && bookImage.length == 0) {
                     bookImage = book.getCoverImage();
                 }
 
-                DataManager.updateBook(Integer.valueOf(bookID), Integer.valueOf(bookAuthorID),
-                       Integer.valueOf(bookGenreID), Integer.valueOf(bookPublisherID), Integer.valueOf(bookPublishYear),
+                DataManager.updateBook(bookID, Integer.valueOf(bookAuthorID),
+                       bookGenreID, Integer.valueOf(bookPublisherID), Integer.valueOf(bookPublishYear),
                        bookISBN, bookName, bookShortDescription, Integer.valueOf(bookNumberCopies), bookImage);
                 logger.info(fromIP + "\nThe user of " + userName + " changed these books " + book.getName());
             }

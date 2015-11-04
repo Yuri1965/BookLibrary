@@ -51,17 +51,11 @@ public class CloseUserOrderCommand implements ICommand {
         session.removeAttribute("autoShowModalForm");
 
         //extraction from inquiry of parameters
-        String orderID = request.getParameter("orderID");
         String dateEndOrder = request.getParameter("dateEndOrder");
 
         //validation of parameters of inquiry
         boolean errorCheckFound = false;
         StringBuilder errorString = new StringBuilder();
-
-        if (!RequestParamValidator.checkSymbolsNumbers(orderID)) {
-            errorString.append(LocaleMessageManager.getMessageValue("errorRequestParameter", locale));
-            errorCheckFound = true;
-        }
 
         if (dateEndOrder == null || dateEndOrder.isEmpty()) {
             errorString.append(LocaleMessageManager.getMessageValue("errorIsEmptyDateEndOrder", locale));
@@ -83,6 +77,7 @@ public class CloseUserOrderCommand implements ICommand {
             Date dateEndToDate = GeneralUtils.getDateFormatterByLocale(locale, false).parse(dateEndOrder);
 
             UserOrder userOrder = (UserOrder) session.getAttribute("orderSelected");
+            int orderID = ((UserOrder) session.getAttribute("orderSelected")).getId();
 
             Date dateCheckOrder;
             if (userOrder.getBeginOrderDateTime() != null) {
@@ -96,7 +91,7 @@ public class CloseUserOrderCommand implements ICommand {
             }
 
             //we close the order for the book
-            userOrder = DataManager.closeOrder(Integer.valueOf(orderID), dateEndToDate);
+            userOrder = DataManager.closeOrder(orderID, dateEndToDate);
 
             //we log action of the user
             String fromIP = "Client IP: " + request.getRemoteAddr();

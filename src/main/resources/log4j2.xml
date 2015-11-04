@@ -15,39 +15,9 @@
             </Policies>
             <DefaultRolloverStrategy max="4"/>
         </RollingFile>
-
-        <!--<RollingFile name="logUserAction" fileName="${log-path}/LibraryUserAction_log.log"-->
-                     <!--filePattern="${log-path}/LibraryUserAction_log-%d{yyyy-MM-dd}-%i.log" >-->
-            <!--<PatternLayout>-->
-                <!--<pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS} [%t] %-5level %logger{36} - %msg%n</pattern>-->
-            <!--</PatternLayout>-->
-            <!--<Policies>-->
-                <!--<SizeBasedTriggeringPolicy size="3 MB" />-->
-            <!--</Policies>-->
-            <!--<DefaultRolloverStrategy max="4"/>-->
-        <!--</RollingFile>-->
-
-        <!--<RollingFile name="logError" fileName="${log-path}/LibraryError_log.log"-->
-                     <!--filePattern="${log-path}/LibraryError_log-%d{yyyy-MM-dd}-%i.log" >-->
-            <!--<PatternLayout>-->
-                <!--<pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS} [%t] %-5level %logger{36} - %msg%n</pattern>-->
-            <!--</PatternLayout>-->
-            <!--<Policies>-->
-                <!--<SizeBasedTriggeringPolicy size="3 MB" />-->
-            <!--</Policies>-->
-            <!--<DefaultRolloverStrategy max="4"/>-->
-        <!--</RollingFile>-->
     </Appenders>
 
     <Loggers>
-        <!--<logger name="userActionInfo" level="info" additivity="false">-->
-            <!--<appender-ref ref="logUserAction"/>-->
-        <!--</logger>-->
-
-        <!--<logger name="errorLog" level="error" additivity="false">-->
-            <!--<appender-ref ref="logError"/>-->
-        <!--</logger>-->
-
         <Logger name="root" level="debug" additivity="false">
             <appender-ref ref="RollingFile"/>
         </Logger>
@@ -55,14 +25,6 @@
         <Root level="debug" additivity="false">
             <appender-ref ref="RollingFile"/>
         </Root>
-
-        <!--<Root level="info" additivity="false">-->
-            <!--<appender-ref ref="logUserAction"/>-->
-        <!--</Root>-->
-
-        <!--<Root level="error" additivity="false">-->
-            <!--<appender-ref ref="logError"/>-->
-        <!--</Root>-->
     </Loggers>
 
 </Configuration>
